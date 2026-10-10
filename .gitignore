@@ -1,0 +1,20 @@
+# Ambiente e segredos
+.env
+.env.dev
+.env.prod
+*.env
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.iml
+
+# Java / Maven / Gradle (Build)
+apps/backend/target/
+apps/backend/build/
+apps/backend/.gradle/
+
+# Logs e sistema
+*.log
+.DS_Store
