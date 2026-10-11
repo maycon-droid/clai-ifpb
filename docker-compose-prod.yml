@@ -1,0 +1,34 @@
+services:
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    container_name: clai_backend_prod
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/clai_db_prod
+    depends_on:
+      - mongodb
+    networks:
+      - clai-net
+
+  mongodb:
+    image: mongo:latest
+    container_name: clai_mongodb_prod
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=clai_db_prod
+    volumes:
+      - mongo_prod_data:/data/db
+    networks:
+      - clai-net
+
+volumes:
+  mongo_prod_data:
+
+networks:
+  clai-net:
+    driver: bridge
