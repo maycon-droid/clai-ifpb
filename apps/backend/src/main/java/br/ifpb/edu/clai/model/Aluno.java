@@ -41,7 +41,7 @@ public class Aluno {
     public static class DadosMatricula {
         @Indexed(unique = true)
         @NotBlank(message = "A matrícula do aluno é obrigatória")
-        private String matricula;
+        private String numeroMatricula; // renomeado pra evitar erro com AlunoRepository
 
         @NotBlank(message = "O período de ingresso do aluno é obrigatório")
         private String periodoIngresso;
