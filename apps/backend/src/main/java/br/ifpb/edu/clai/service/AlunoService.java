@@ -48,7 +48,7 @@ public class AlunoService {
         String novaMatricula = dadosAtualizados.getMatricula() != null ? dadosAtualizados.getMatricula().getNumeroMatricula() : null;
 
         //Correção da validação da matrícula para verificar se é nula ou em branco(change request)
-        if(novaMatricula != null || novaMatricula.isBlank()) {
+        if(novaMatricula == null || novaMatricula.isBlank()) {
             throw new IllegalArgumentException("A nova matrícula informada é inválida.");
         }
             String matriculaAtual = alunoExistente.getMatricula() != null ? alunoExistente.getMatricula().getNumeroMatricula() : null;
