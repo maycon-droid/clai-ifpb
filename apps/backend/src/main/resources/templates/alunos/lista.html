@@ -14,6 +14,16 @@
         Cadastrar novo aluno
     </a>
 
+    <div>
+    <label for="busca">Buscar aluno:</label>
+
+    <input
+        type="text"
+        id="busca"
+        placeholder="Digite o nome ou a matrícula"
+    >
+</div>
+
     <table>
         <thead>
             <tr>
@@ -24,7 +34,7 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody id="tabela-alunos">
             <tr th:each="aluno : ${alunos}">
                 <td th:text="${aluno.nome}">Nome do aluno</td>
 
@@ -42,8 +52,31 @@
                     Tipo
                 </td>
             </tr>
+
         </tbody>
     </table>
+
+    <script>
+    const campoBusca = document.getElementById("busca");
+    const tabelaAlunos = document.getElementById("tabela-alunos");
+
+    campoBusca.addEventListener("input", function () {
+        const termo = campoBusca.value.toLowerCase();
+
+        const linhas = tabelaAlunos.querySelectorAll("tr");
+
+        linhas.forEach(function (linha) {
+            const nome = linha.children[0].textContent.toLowerCase();
+            const matricula = linha.children[1].textContent.toLowerCase();
+
+            const encontrou =
+                nome.includes(termo) ||
+                matricula.includes(termo);
+
+            linha.style.display = encontrou ? "" : "none";
+        });
+    });
+</script>
 
 </body>
 </html>
