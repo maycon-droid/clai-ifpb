@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/alunos")
@@ -27,5 +29,11 @@ public class AlunoController {
     public String exibirFormularioNovoAluno(Model model) {
         model.addAttribute("aluno", new Aluno());
         return "alunos/form";
+    }
+
+    @PostMapping
+    public String cadastrarAluno(@ModelAttribute Aluno aluno) {
+        alunoService.salvar(aluno);
+        return "redirect:/alunos";
     }
 }
