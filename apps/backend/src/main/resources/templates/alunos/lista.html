@@ -4,6 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alunos</title>
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    .acoes-topo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .busca {
+        margin-bottom: 20px;
+    }
+
+    .busca input {
+        padding: 8px;
+        width: 300px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    button,
+    a {
+        cursor: pointer;
+    }
+
+    td button {
+        margin-right: 5px;
+    }
+</style>
+
 </head>
 
 <body>
@@ -14,7 +67,7 @@
         Cadastrar novo aluno
     </a>
 
-    <div>
+    <div class="busca">
     <label for="busca">Buscar aluno:</label>
 
     <input
@@ -22,6 +75,7 @@
         id="busca"
         placeholder="Digite o nome ou a matrícula"
     >
+</div>
 </div>
 
     <table>
@@ -31,6 +85,7 @@
                 <th>Matrícula</th>
                 <th>E-mail</th>
                 <th>Tipo</th>
+                <th>Ações</th>
             </tr>
         </thead>
 
@@ -51,6 +106,13 @@
                 <td th:text="${aluno.tipoAluno}">
                     Tipo
                 </td>
+                
+                <td>
+                    <button type="button">Visualizar</button>
+                    <button type="button">Editar</button>
+                    <button type="button">Excluir</button>
+                </td>
+
             </tr>
 
         </tbody>
