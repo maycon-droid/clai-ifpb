@@ -46,7 +46,12 @@ public class AlunoService {
 
         // pra valida se a nova matrícula já está em uso por outro aluno
         String novaMatricula = dadosAtualizados.getMatricula() != null ? dadosAtualizados.getMatricula().getNumeroMatricula() : null;
-        String matriculaAtual = alunoExistente.getMatricula() != null ? alunoExistente.getMatricula().getNumeroMatricula() : null;
+
+        //Correção da validação da matrícula para verificar se é nula ou em branco(change request)
+        if(novaMatricula != null || novaMatricula.isBlank()) {
+            throw new IllegalArgumentException("A nova matrícula informada é inválida.");
+        }
+            String matriculaAtual = alunoExistente.getMatricula() != null ? alunoExistente.getMatricula().getNumeroMatricula() : null;
 
         if (novaMatricula != null && !novaMatricula.equals(matriculaAtual)) {
             if (alunoRepository.existsByMatriculaNumeroMatricula(novaMatricula)) {
