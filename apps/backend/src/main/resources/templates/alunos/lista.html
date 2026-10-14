@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alunos</title>
+</head>
+
+<body>
+
+    <h1>Alunos matriculados</h1>
+
+    <a th:href="@{/alunos/novo}">
+        Cadastrar novo aluno
+    </a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Matrícula</th>
+                <th>E-mail</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="aluno : ${alunos}">
+                <td th:text="${aluno.nome}">Nome do aluno</td>
+
+                <td th:text="${aluno.matricula != null
+                    ? aluno.matricula.numeroMatricula
+                    : '-'}">
+                    Matrícula
+                </td>
+
+                <td th:text="${aluno.email}">
+                    E-mail
+                </td>
+
+                <td th:text="${aluno.tipoAluno}">
+                    Tipo
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
