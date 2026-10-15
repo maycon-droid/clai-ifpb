@@ -109,7 +109,11 @@
                 
                 <td>
                     <button type="button">Visualizar</button>
-                    <button type="button">Editar</button>
+                    
+                    <a th:href="@{/alunos/{id}/editar(id=${aluno.id})}">
+                        Editar
+                    </a>
+
                     <button type="button">Excluir</button>
                 </td>
 
