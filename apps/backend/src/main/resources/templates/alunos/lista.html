@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alunos</title>
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    .acoes-topo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .busca {
+        margin-bottom: 20px;
+    }
+
+    .busca input {
+        padding: 8px;
+        width: 300px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    button,
+    a {
+        cursor: pointer;
+    }
+
+    td button {
+        margin-right: 5px;
+    }
+</style>
+
+</head>
+
+<body>
+
+    <h1>Alunos matriculados</h1>
+
+    <a th:href="@{/alunos/novo}">
+        Cadastrar novo aluno
+    </a>
+
+    <div class="busca">
+    <label for="busca">Buscar aluno:</label>
+
+    <input
+        type="text"
+        id="busca"
+        placeholder="Digite o nome ou a matrícula"
+    >
+</div>
+</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Matrícula</th>
+                <th>E-mail</th>
+                <th>Tipo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabela-alunos">
+            <tr th:each="aluno : ${alunos}">
+                <td th:text="${aluno.nome}">Nome do aluno</td>
+
+                <td th:text="${aluno.matricula != null
+                    ? aluno.matricula.numeroMatricula
+                    : '-'}">
+                    Matrícula
+                </td>
+
+                <td th:text="${aluno.email}">
+                    E-mail
+                </td>
+
+                <td th:text="${aluno.tipoAluno}">
+                    Tipo
+                </td>
+                
+                <td>
+                    <button type="button">Visualizar</button>
+                    <button type="button">Editar</button>
+                    <button type="button">Excluir</button>
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+    <script>
+    const campoBusca = document.getElementById("busca");
+    const tabelaAlunos = document.getElementById("tabela-alunos");
+
+    campoBusca.addEventListener("input", function () {
+        const termo = campoBusca.value.toLowerCase();
+
+        const linhas = tabelaAlunos.querySelectorAll("tr");
+
+        linhas.forEach(function (linha) {
+            const nome = linha.children[0].textContent.toLowerCase();
+            const matricula = linha.children[1].textContent.toLowerCase();
+
+            const encontrou =
+                nome.includes(termo) ||
+                matricula.includes(termo);
+
+            linha.style.display = encontrou ? "" : "none";
+        });
+    });
+</script>
+
+</body>
+</html>
