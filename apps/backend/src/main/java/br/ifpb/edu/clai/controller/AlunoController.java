@@ -32,6 +32,23 @@ public class AlunoController {
         return "alunos/form";
     }
 
+    @GetMapping("/{id}/editar")
+    public String exibirFormularioEdicao(
+        @PathVariable String id,
+        Model model) {
+
+    Aluno aluno = alunoService.buscarPorId(id)
+        .orElseThrow(() ->
+            new IllegalArgumentException(
+                "Aluno não encontrado para o ID: " + id
+            )
+        );
+
+    model.addAttribute("aluno", aluno);
+
+    return "alunos/form";
+}
+
     @PostMapping
     public String cadastrarAluno(@ModelAttribute Aluno aluno) {
         alunoService.salvar(aluno);
