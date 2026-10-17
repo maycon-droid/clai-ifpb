@@ -17,7 +17,7 @@
     .container {
         max-width: 600px;
         margin: 0 auto;
-        background-color: #ffffff;
+        background-color: #ffffff;  
         padding: 30px;
         border-radius: 8px;
     }
@@ -76,13 +76,13 @@
             Cadastrar aluno
         </h1>
 
-        <form
+        <form 
             th:object="${aluno}"
             th:action="${aluno.id == null}
-                ? @{/alunos}
-                : @{/alunos/{id}/editar(id=${aluno.id})}"
-            method="post"
-        >
+                ? @{/alunos/salvar} 
+                : @{/alunos/{id}/editar(id=${aluno.id})}"  
+                method="post"
+                >
 
             <input type="hidden" th:field="*{id}">
 
@@ -115,13 +115,12 @@
                 >
             </div>
 
-            <div class="campo">
+<div class="campo">
                 <label for="matricula">Matrícula:</label>
                 <input
                     type="text"
                     id="matricula"
-                    name="matricula.numeroMatricula"
-                    th:value="${aluno.matricula != null ? aluno.matricula.numeroMatricula : ''}"
+                    th:field="*{matricula.numeroMatricula}"
                     required
                 >
             </div>
@@ -131,8 +130,7 @@
                 <input
                     type="text"
                     id="periodoIngresso"
-                    name="matricula.periodoIngresso"
-                    th:value="${aluno.matricula != null ? aluno.matricula.periodoIngresso : ''}"
+                    th:field="*{matricula.periodoIngresso}"
                     placeholder="Ex.: 2026.1"
                     required
                 >
