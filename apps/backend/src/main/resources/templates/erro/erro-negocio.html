@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Não foi possível concluir a operação</title>
+</head>
+<body>
+    <h1>Não foi possível concluir a operação</h1>
+
+    <p th:text="${mensagemErro}">
+        Ocorreu um problema ao processar a solicitação.
+    </p>
+
+    <a th:href="@{/alunos}">Voltar para a lista de alunos</a>
+</body>
+</html>

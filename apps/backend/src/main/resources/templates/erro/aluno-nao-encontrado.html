@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluno não encontrado</title>
+</head>
+<body>
+    <h1>Aluno não encontrado</h1>
+
+    <p th:text="${mensagemErro}">
+        Não foi possível encontrar o aluno solicitado.
+    </p>
+
+    <a th:href="@{/alunos}">Voltar para a lista de alunos</a>
+</body>
+</html>
