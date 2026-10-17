@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import lombok.*;
 
@@ -23,12 +24,15 @@ public class Aluno {
     private String nome;
 
     @NotBlank(message = "O CPF do aluno é obrigatório")
+    @Pattern(regexp = "[0-9]{11}", message = "O CPF deve conter exatamente 11 dígitos")
     private String cpf;
 
     @Email(message = "O email do aluno deve ser válido")
+    @Pattern(regexp = "^[^@\\s]+@[^@.\\s]+(\\.[^@.\\s]+)+$", message = "O email deve possuir um domínio válido, como aluno@email.com")
     private String email;
 
-    @NotNull (message = "A matrícula do aluno é obrigatória")
+    @NotNull(message = "A matrícula do aluno é obrigatória")
+    @Valid
     private DadosMatricula matricula;
 
     @NotBlank(message = "O tipo do aluno é obrigatório")

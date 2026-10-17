@@ -1,9 +1,12 @@
 package br.ifpb.edu.clai.controller;
 
+import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
 import br.ifpb.edu.clai.model.Aluno;
 import br.ifpb.edu.clai.service.AlunoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +42,7 @@ public class AlunoController {
 
     Aluno aluno = alunoService.buscarPorId(id)
         .orElseThrow(() ->
-            new IllegalArgumentException(
+            new AlunoNaoEncontradoException(
                 "Aluno não encontrado para o ID: " + id
             )
         );
@@ -50,16 +53,28 @@ public class AlunoController {
 }
 
     @PostMapping
-    public String cadastrarAluno(@ModelAttribute Aluno aluno) {
-        alunoService.salvar(aluno);
-        return "redirect:/alunos";
+public String cadastrarAluno(
+        @Valid @ModelAttribute("aluno") Aluno aluno,
+        BindingResult resultado) {
+
+    if (resultado.hasErrors()) {
+        return "alunos/form";
     }
+
+    alunoService.salvar(aluno);
+    return "redirect:/alunos";
+}
     @PostMapping("/{id}/editar")
-    public String editarAluno(
+public String editarAluno(
         @PathVariable String id,
-        @ModelAttribute Aluno aluno) {
+        @Valid @ModelAttribute("aluno") Aluno aluno,
+        BindingResult resultado) {
+
+    if (resultado.hasErrors()) {
+        return "alunos/form";
+    }
 
     alunoService.atualizar(id, aluno);
     return "redirect:/alunos";
-    }
+}
 }

@@ -75,7 +75,6 @@
         <h1 th:text="${aluno.id == null ? 'Cadastrar aluno' : 'Editar aluno'}">
             Cadastrar aluno
         </h1>
-
         <form
             th:object="${aluno}"
             th:action="${aluno.id == null}
@@ -83,6 +82,13 @@
                 : @{/alunos/{id}/editar(id=${aluno.id})}"
             method="post"
         >
+            <div th:if="${#fields.hasErrors('*')}" style="color: #b00020; margin-bottom: 16px;">
+                <p>Não foi possível salvar o aluno. Verifique os campos abaixo:</p>
+                <ul>
+                    <li th:each="erro : ${#fields.errors('*')}" th:text="${erro}"></li>
+                </ul>
+            </div>
+
 
             <input type="hidden" th:field="*{id}">
 
