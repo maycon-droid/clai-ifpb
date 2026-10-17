@@ -63,6 +63,7 @@ public class AlunoService {
         alunoExistente.setCpf(dadosAtualizados.getCpf());
         alunoExistente.setEmail(dadosAtualizados.getEmail());
         alunoExistente.setMatricula(dadosAtualizados.getMatricula());
+        alunoExistente.setTipoAluno(dadosAtualizados.getTipoAluno());
 
         return alunoRepository.save(alunoExistente);
     }

@@ -49,17 +49,15 @@ public class AlunoController {
     return "alunos/form";
 }
 
-    @PostMapping
-    public String cadastrarAluno(@ModelAttribute Aluno aluno) {
-        alunoService.salvar(aluno);
+    @PostMapping("/salvar")
+    public String salvarAluno(@ModelAttribute Aluno aluno) {
+        alunoService.salvar(aluno); 
         return "redirect:/alunos";
     }
+    
     @PostMapping("/{id}/editar")
-    public String editarAluno(
-        @PathVariable String id,
-        @ModelAttribute Aluno aluno) {
-
-    alunoService.atualizar(id, aluno);
-    return "redirect:/alunos";
-    }
+    public String atualizarAluno(@PathVariable String id, @ModelAttribute Aluno aluno) {
+        alunoService.atualizar(id, aluno);
+        return "redirect:/alunos";
+}
 }
