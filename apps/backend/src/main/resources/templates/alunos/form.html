@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 
@@ -7,67 +8,120 @@
     <title>Formulário de Aluno</title>
 
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 40px;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 8px;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #263244;
+            margin: 0;
+            padding: 40px 20px;
+        }
 
-    h1 {
-        margin-top: 0;
-        margin-bottom: 25px;
-    }
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 32px;
+            background-color: #ffffff;
+            border: 1px solid #e5eaf0;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+        }
 
-    .campo {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 16px;
-    }
+        h1 {
+            font-size: 25px;
+            color: #1e293b;
+            margin: 0 0 28px;
+            font-weight: 600;
+        }
 
-    .campo label {
-        margin-bottom: 6px;
-        font-weight: bold;
-    }
+        .campo {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
 
-    .campo input {
-        padding: 10px;
-        border: 1px solid #cccccc;
-        border-radius: 4px;
-        font-size: 14px;
-    }
+        .campo label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+        }
 
-    .acoes {
-        display: flex;
-        gap: 10px;
-        margin-top: 24px;
-    }
+        .campo input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d8e0e9;
+            border-radius: 7px;
+            font-size: 14px;
+            color: #263244;
+            background-color: #ffffff;
+            transition: border-color 0.2s;
+        }
 
-    button {
-        padding: 10px 18px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+        .campo input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
 
-    .cancelar {
-        display: inline-block;
-        padding: 10px 18px;
-        text-decoration: none;
-        border: 1px solid #cccccc;
-        border-radius: 4px;
-        color: #333333;
-    }
-</style>
+        .campo input::placeholder {
+            color: #94a3b8;
+        }
 
+        .acoes {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .acoes button {
+            background-color: #2563eb;
+            color: #ffffff;
+            padding: 11px 24px;
+            border: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .acoes button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .acoes .cancelar {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #475569;
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .acoes .cancelar:hover {
+            background-color: #e2e8f0;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -83,6 +137,18 @@
                 : @{/alunos/{id}/editar(id=${aluno.id})}"
             method="post"
         >
+            <div
+                th:if="${#fields.hasErrors('*')}"
+                style="color: #b00020; margin-bottom: 16px;"
+            >
+                <p>Não foi possível salvar o aluno. Verifique os campos abaixo:</p>
+                <ul>
+                    <li
+                        th:each="erro : ${#fields.errors('*')}"
+                        th:text="${erro}"
+                    ></li>
+                </ul>
+            </div>
 
             <input type="hidden" th:field="*{id}">
 
@@ -147,16 +213,14 @@
                     required
                 >
             </div>
-            <div class="acoes">
-                <button type="submit">
-                    Salvar
-                </button>
 
-                <a th:href="@{/alunos}">
+            <div class="acoes">
+                <button type="submit">Salvar</button>
+
+                <a class="cancelar" th:href="@{/alunos}">
                     Cancelar
                 </a>
             </div>
-
         </form>
     </div>
 </body>
