@@ -47,13 +47,15 @@ public class AlunoController {
     model.addAttribute("aluno", aluno);
 
     return "alunos/form";
-}
+    }
 
     @PostMapping
     public String cadastrarAluno(@ModelAttribute Aluno aluno) {
+        aluno.setId(null);
         alunoService.salvar(aluno);
         return "redirect:/alunos";
     }
+
     @PostMapping("/{id}/editar")
     public String editarAluno(
         @PathVariable String id,
