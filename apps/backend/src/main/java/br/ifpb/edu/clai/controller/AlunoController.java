@@ -77,4 +77,11 @@ public String editarAluno(
     alunoService.atualizar(id, aluno);
     return "redirect:/alunos";
 }
+
+    @PostMapping("/{id}/excluir")
+    public String excluirAluno(@PathVariable String id) {
+        alunoService.remover(id);
+        return "redirect:/alunos";
+    }
+
 }
