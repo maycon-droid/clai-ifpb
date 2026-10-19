@@ -133,7 +133,7 @@
         <form
             th:object="${aluno}"
             th:action="${aluno.id == null}
-                ? @{/alunos}
+                ? @{/alunos/salvar}
                 : @{/alunos/{id}/editar(id=${aluno.id})}"
             method="post"
         >

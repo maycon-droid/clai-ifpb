@@ -59,5 +59,11 @@ public class AlunoController {
     public String atualizarAluno(@PathVariable String id, @ModelAttribute Aluno aluno) {
         alunoService.atualizar(id, aluno);
         return "redirect:/alunos";
-}
+    }
+
+    @PostMapping("/{id}/excluir")
+    public String excluirAluno(@PathVariable String id) {
+        alunoService.remover(id);
+        return "redirect:/alunos";
+    }
 }
