@@ -1,9 +1,12 @@
 package br.ifpb.edu.clai.controller;
 
+import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
 import br.ifpb.edu.clai.model.Aluno;
 import br.ifpb.edu.clai.service.AlunoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +42,7 @@ public class AlunoController {
 
     Aluno aluno = alunoService.buscarPorId(id)
         .orElseThrow(() ->
-            new IllegalArgumentException(
+            new AlunoNaoEncontradoException(
                 "Aluno não encontrado para o ID: " + id
             )
         );
@@ -47,7 +50,7 @@ public class AlunoController {
     model.addAttribute("aluno", aluno);
 
     return "alunos/form";
-}
+    }
 
     @PostMapping("/salvar")
     public String salvarAluno(@ModelAttribute Aluno aluno) {

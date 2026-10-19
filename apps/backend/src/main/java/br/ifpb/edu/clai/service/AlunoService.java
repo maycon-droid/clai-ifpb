@@ -1,5 +1,7 @@
 package br.ifpb.edu.clai.service;
 
+import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
+import br.ifpb.edu.clai.exception.MatriculaDuplicadaException;
 import br.ifpb.edu.clai.model.Aluno;
 import br.ifpb.edu.clai.repository.AlunoRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class AlunoService {
         }
 
         if (alunoRepository.existsByMatriculaNumeroMatricula(aluno.getMatricula().getNumeroMatricula())) {
-            throw new IllegalStateException("Já existe um aluno cadastrado com esta matrícula.");
+            throw new MatriculaDuplicadaException("Já existe um aluno cadastrado com esta matrícula.");
         }
 
         return alunoRepository.save(aluno);
@@ -42,7 +44,7 @@ public class AlunoService {
 
     public Aluno atualizar(String id, Aluno dadosAtualizados) {
         Aluno alunoExistente = alunoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado para o ID: " + id));
+                .orElseThrow(() -> new AlunoNaoEncontradoException("Aluno não encontrado para o ID: " + id));
 
         // pra valida se a nova matrícula já está em uso por outro aluno
         String novaMatricula = dadosAtualizados.getMatricula() != null ? dadosAtualizados.getMatricula().getNumeroMatricula() : null;
@@ -55,7 +57,7 @@ public class AlunoService {
 
         if (novaMatricula != null && !novaMatricula.equals(matriculaAtual)) {
             if (alunoRepository.existsByMatriculaNumeroMatricula(novaMatricula)) {
-                throw new IllegalStateException("A nova matrícula informada já está em uso.");
+                throw new MatriculaDuplicadaException("A nova matrícula informada já está em uso.");
             }
         }
 
@@ -70,7 +72,7 @@ public class AlunoService {
 
     public void remover(String id) {
         if (!alunoRepository.existsById(id)) {
-            throw new IllegalArgumentException("Aluno não encontrado para o ID: " + id);
+            throw new AlunoNaoEncontradoException("Aluno não encontrado para o ID: " + id);
         }
         alunoRepository.deleteById(id);
     }
