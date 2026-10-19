@@ -80,4 +80,12 @@ public class AlunoController {
         return "redirect:/alunos";
     }
 
+    @GetMapping("/alunos/{id}/excluir")
+    public String excluirAluno(@PathVariable String id) {
+        alunoService.remover(id); 
+        
+
+        return "redirect:/alunos";
+    }
+
 }
