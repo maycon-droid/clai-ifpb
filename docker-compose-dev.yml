@@ -1,14 +1,37 @@
+name: clai-dev
+
 services:
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    image: clai-backend:latest
+    container_name: clai_backend
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8081}:8080"
+    environment:
+      SPRING_MONGODB_URI: mongodb://mongodb:27017/clai_db
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
   mongodb:
     image: mongo:latest
     container_name: clai_mongodb
-    restart: always
+    restart: unless-stopped
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_DATABASE: clai_db
     volumes:
       - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mongo_data:
+    name: projeto-clai_mongo_data
