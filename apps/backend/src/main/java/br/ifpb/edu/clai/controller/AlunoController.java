@@ -50,31 +50,34 @@ public class AlunoController {
     model.addAttribute("aluno", aluno);
 
     return "alunos/form";
-}
-
-    @PostMapping
-public String cadastrarAluno(
-        @Valid @ModelAttribute("aluno") Aluno aluno,
-        BindingResult resultado) {
-
-    if (resultado.hasErrors()) {
-        return "alunos/form";
     }
 
-    alunoService.salvar(aluno);
-    return "redirect:/alunos";
-}
+    @PostMapping
+    public String cadastrarAluno(
+        @Valid @ModelAttribute("aluno") Aluno aluno,
+        BindingResult resultado) {
+        aluno.setId(null);
+        if (resultado.hasErrors()) {
+        return "alunos/form";
+        }
+        alunoService.salvar(aluno);
+        return "redirect:/alunos";
+    }
+
+
     @PostMapping("/{id}/editar")
-public String editarAluno(
+    public String editarAluno(
         @PathVariable String id,
         @Valid @ModelAttribute("aluno") Aluno aluno,
         BindingResult resultado) {
+        aluno.setId(id);
 
-    if (resultado.hasErrors()) {
-        return "alunos/form";
+        if (resultado.hasErrors()) {
+            return "alunos/form";
+        }
+
+        alunoService.atualizar(id, aluno);
+        return "redirect:/alunos";
     }
 
-    alunoService.atualizar(id, aluno);
-    return "redirect:/alunos";
-}
 }
