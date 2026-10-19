@@ -1,5 +1,7 @@
 package br.ifpb.edu.clai.controller;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
 import br.ifpb.edu.clai.model.Aluno;
 import br.ifpb.edu.clai.service.AlunoService;
