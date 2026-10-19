@@ -47,7 +47,7 @@ public class AlunoController {
     model.addAttribute("aluno", aluno);
 
     return "alunos/form";
-}
+    }
 
     @PostMapping("/salvar")
     public String salvarAluno(@ModelAttribute Aluno aluno) {
@@ -57,7 +57,15 @@ public class AlunoController {
     
     @PostMapping("/{id}/editar")
     public String atualizarAluno(@PathVariable String id, @ModelAttribute Aluno aluno) {
-        alunoService.atualizar(id, aluno);
+    @PostMapping
+    public String cadastrarAluno(
+        @Valid @ModelAttribute("aluno") Aluno aluno,
+        BindingResult resultado) {
+        aluno.setId(null);
+        if (resultado.hasErrors()) {
+        return "alunos/form";
+        }
+        alunoService.salvar(aluno);
         return "redirect:/alunos";
     }
 
