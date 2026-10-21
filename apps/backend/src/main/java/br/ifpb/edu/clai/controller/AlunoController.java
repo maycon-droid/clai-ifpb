@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
 
 @Controller
 @RequestMapping("/alunos")
@@ -39,35 +42,48 @@ public class AlunoController {
 
     Aluno aluno = alunoService.buscarPorId(id)
         .orElseThrow(() ->
-            new IllegalArgumentException(
-                "Aluno não encontrado para o ID: " + id
-            )
+            new AlunoNaoEncontradoException(
+        "Aluno não encontrado para o ID: " + id)
         );
 
     model.addAttribute("aluno", aluno);
 
     return "alunos/form";
-    }
+}
 
     @PostMapping("/salvar")
-    public String salvarAluno(@ModelAttribute Aluno aluno) {
-        alunoService.salvar(aluno); 
-        return "redirect:/alunos";
-    }
-    
-    @PostMapping("/{id}/editar")
-    public String atualizarAluno(@PathVariable String id, @ModelAttribute Aluno aluno) {
-    @PostMapping
-    public String cadastrarAluno(
+    public String salvarAluno(
         @Valid @ModelAttribute("aluno") Aluno aluno,
         BindingResult resultado) {
-        aluno.setId(null);
-        if (resultado.hasErrors()) {
+
+    aluno.setId(null);
+
+    if (resultado.hasErrors()) {
         return "alunos/form";
-        }
-        alunoService.salvar(aluno);
-        return "redirect:/alunos";
     }
+
+    alunoService.salvar(aluno);
+    return "redirect:/alunos";
+    }
+
+
+
+    @PostMapping("/{id}/editar")
+    public String atualizarAluno(
+        @PathVariable String id,
+        @Valid @ModelAttribute("aluno") Aluno aluno,
+        BindingResult resultado) {
+
+    aluno.setId(id);
+
+    if (resultado.hasErrors()) {
+        return "alunos/form";
+    }
+
+    alunoService.atualizar(id, aluno);
+    return "redirect:/alunos";
+}
+
 
     @PostMapping("/{id}/excluir")
     public String excluirAluno(@PathVariable String id) {
