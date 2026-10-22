@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Aluno</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #263244;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 32px;
+            background-color: #ffffff;
+            border: 1px solid #e5eaf0;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+        }
+
+        h1 {
+            font-size: 25px;
+            color: #1e293b;
+            margin: 0 0 28px;
+            font-weight: 600;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d8e0e9;
+            border-radius: 7px;
+            font-size: 14px;
+            color: #263244;
+            background-color: #ffffff;
+            transition: border-color 0.2s;
+        }
+
+        .campo input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .campo input::placeholder {
+            color: #94a3b8;
+        }
+
+        .acoes {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .acoes button {
+            background-color: #2563eb;
+            color: #ffffff;
+            padding: 11px 24px;
+            border: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .acoes button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .acoes .cancelar {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #475569;
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .acoes .cancelar:hover {
+            background-color: #e2e8f0;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 th:text="${aluno.id == null ? 'Cadastrar aluno' : 'Editar aluno'}">
+            Cadastrar aluno
+        </h1>
+
+        <form
+            th:object="${aluno}"
+            th:action="${aluno.id == null}
+                ? @{/alunos/salvar}
+                : @{/alunos/{id}/editar(id=${aluno.id})}"
+            method="post"
+        >
+            <div
+                th:if="${#fields.hasErrors('*')}"
+                style="color: #b00020; margin-bottom: 16px;"
+            >
+                <p>Não foi possível salvar o aluno. Verifique os campos abaixo:</p>
+                <ul>
+                    <li
+                        th:each="erro : ${#fields.errors('*')}"
+                        th:text="${erro}"
+                    ></li>
+                </ul>
+            </div>
+
+            <div class="campo">
+                <label for="nome">Nome:</label>
+                <input
+                    type="text"
+                    id="nome"
+                    th:field="*{nome}"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="cpf">CPF:</label>
+                <input
+                    type="text"
+                    id="cpf"
+                    th:field="*{cpf}"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="email">E-mail:</label>
+                <input
+                    type="email"
+                    id="email"
+                    th:field="*{email}"
+                >
+            </div>
+
+            <div class="campo">
+                <label for="matricula">Matrícula:</label>
+                <input
+                    type="text"
+                    id="matricula"
+                    name="matricula.numeroMatricula"
+                    th:value="${aluno.matricula != null ? aluno.matricula.numeroMatricula : ''}"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="periodoIngresso">Período de ingresso:</label>
+                <input
+                    type="text"
+                    id="periodoIngresso"
+                    name="matricula.periodoIngresso"
+                    th:value="${aluno.matricula != null ? aluno.matricula.periodoIngresso : ''}"
+                    placeholder="Ex.: 2026.1"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="tipoAluno">Tipo do aluno:</label>
+                <input
+                    type="text"
+                    id="tipoAluno"
+                    th:field="*{tipoAluno}"
+                    required
+                >
+            </div>
+
+            <div class="acoes">
+                <button type="submit">Salvar</button>
+
+                <a class="cancelar" th:href="@{/alunos}">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
