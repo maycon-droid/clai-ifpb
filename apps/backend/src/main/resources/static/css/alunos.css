@@ -1,0 +1,290 @@
+* {
+  box-sizing: border-box;
+}
+
+.app-layout {
+  display: flex;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px 0 10px;
+}
+.sidebar-header h2 {
+  color: white;
+  margin: 0;
+}
+nav {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 10px;
+  font-size: 16px;
+  transition: background 0.3s ease;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background-color: #28558a;
+}
+
+.sidebar {
+  background: #1e293b;
+  width: 250px;
+  height: 100vh;
+}
+body {
+  font-family: Arial, sans-serif;
+  background: #e5eaf4;
+  color: #334155;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 26px;
+  color: #1e293b;
+  margin: 0 0 22px;
+}
+
+.resumo {
+  background: #ffffff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.listagem {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.listagem-toolbar {
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 7px;
+}
+
+@media (max-width: 768px) {
+  .listagem-toolbar {
+    flex-direction: column;
+  }
+  .listagem-toolbar > a:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.busca {
+  flex: 1;
+}
+.listagem-toolbar > a {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  padding: 11px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 550;
+  transition: transform 0.3s ease;
+  backface-visibility: hidden;
+  will-change: transform;
+  text-align: center;
+}
+
+.listagem-toolbar a:hover {
+  background: #1d4ed8;
+  transform: scale(1.03);
+}
+
+.resumo strong {
+  font-size: 28px;
+  color: #1e293b;
+}
+
+.resumo p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 8px;
+}
+
+.page-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 30px;
+}
+
+.page-header {
+  margin-bottom: 30px;
+}
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  flex: 1;
+}
+
+.busca input {
+  width: 100%;
+  max-width: 100%;
+  padding: 11px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+}
+
+.busca input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th {
+  background: #f1f5f9;
+  color: #475569;
+  text-align: left;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+td {
+  padding: 15px;
+  font-size: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Manter as três ações na mesma linha */
+th:last-child,
+td:last-child {
+  white-space: nowrap;
+}
+
+td:last-child button,
+td:last-child a {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+/* Visualizar */
+td:last-child > button:first-of-type {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+/* Editar */
+td:last-child a {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+/* Excluir */
+td:last-child .botao-excluir {
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+}
+
+td:last-child button:hover,
+td:last-child a:hover {
+  filter: brightness(0.96);
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px 15px;
+    overflow-x: auto;
+  }
+
+  .busca {
+    flex-wrap: wrap;
+  }
+
+  .busca input {
+    width: 100%;
+  }
+
+  table {
+    min-width: 760px;
+  }
+}
+
+.aluno-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+  padding: 16px 8px;
+}
+
+.aluno-item p {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.aluno-info h4 {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.aluno-acoes button {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.aluno-acoes a {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+.alunos-lista {
+  padding: 0;
+  list-style: none;
+}
+
+.aluno-acoes button,
+.aluno-acoes a {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-right: 5px;
+}
