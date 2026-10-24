@@ -25,9 +25,18 @@
           </button>
         </div>
         <nav>
-          <a href="#">Início</a>
-          <a href="#">Alunos</a>
-          <a href="#">Estudos de caso</a>
+          <a href="#">
+            <span class="menu-icone">🏚️</span>
+            <span class="menu-texto">Início</span>
+          </a>
+          <a href="#">
+            <span class="menu-icone">👥</span>
+            <span class="menu-texto">Alunos</span>
+          </a>
+          <a href="#">
+            <span class="menu-icone">📕️</span>
+            <span class="menu-texto">Estudos de caso</span>
+            </a>
         </nav>
       </aside>
       <main class="container">
@@ -38,7 +47,7 @@
 
         <section class="resumo">
           <p>Total de alunos</p>
-          <strong>24</strong>
+          <strong th:text="${#lists.size(alunos)}">24</strong>
         </section>
 
         <section class="listagem">
@@ -53,87 +62,53 @@
             <a th:href="@{/alunos/novo}"> Cadastrar aluno </a>
           </div>
           <ul class="alunos-lista">
-            <li class="aluno-item">
+            <li class="aluno-item" th:each="aluno : ${alunos}">
               <div class="aluno-info">
-                <h4>Maria Eduarda Silva</h4>
-                <p>Matrícula: 202610023</p>
+                <h4 th:text="${aluno.nome}">Maria</h4>
+                <p>
+                  Matrícula:
+                  <span
+                    th:text="${aluno.matricula != null ? aluno.matricula.numeroMatricula : '-'}"
+                    >202610023</span
+                  >
+                </p>
               </div>
               <div class="aluno-acoes">
                 <button type="button">Visualizar</button>
-                <a href="#"> Editar </a>
+                <a th:href="@{/alunos/{id}/editar(id=${aluno.id})}"> Editar </a>
               </div>
             </li>
+            
           </ul>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Matrícula</th>
-                <th>E-mail</th>
-                <th>Tipo</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-
-            <tbody id="tabela-alunos">
-              <tr th:each="aluno : ${alunos}">
-                <td th:text="${aluno.nome}">Nome do aluno</td>
-                <td
-                  th:text="${aluno.matricula != null
-                        ? aluno.matricula.numeroMatricula
-                        : '-'}"
-                >
-                  Matrícula
-                </td>
-
-                <td th:text="${aluno.email}">E-mail</td>
-
-                <td th:text="${aluno.tipoAluno}">Tipo</td>
-
-                <td>
-                  <button type="button">Visualizar</button>
-
-                  <a th:href="@{/alunos/{id}/editar(id=${aluno.id})}">
-                    Editar
-                  </a>
-
-                  <form
-                    th:action="@{/alunos/{id}/excluir(id=${aluno.id})}"
-                    method="post"
-                    style="display: inline"
-                    onsubmit="
-                      return confirm(
-                        'Tem certeza que deseja excluir este aluno? Esta ação não poderá ser desfeita.',
-                      );
-                    "
-                  >
-                    <button type="submit" class="botao-excluir">Excluir</button>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </section>
       </main>
     </div>
     <script>
       const campoBusca = document.getElementById("busca");
-      const tabelaAlunos = document.getElementById("tabela-alunos");
+      const campoAlunos = document.querySelector(".alunos-lista");
 
       campoBusca.addEventListener("input", function () {
         const termo = campoBusca.value.toLowerCase();
 
-        const linhas = tabelaAlunos.querySelectorAll("tr");
+        const linhas = campoAlunos.querySelectorAll("li");
 
         linhas.forEach(function (linha) {
-          const nome = linha.children[0].textContent.toLowerCase();
-          const matricula = linha.children[1].textContent.toLowerCase();
+          const nome = linha.querySelector("h4").textContent.toLowerCase();
+          const matricula = linha
+            .querySelector(".aluno-info p span")
+            .textContent.toLowerCase();
 
           const encontrou = nome.includes(termo) || matricula.includes(termo);
 
           linha.style.display = encontrou ? "" : "none";
         });
+      });
+
+      const sideBar = document.querySelector(".sidebar");
+      const toggleButton = document.querySelector(".sidebar-toggle");
+
+      toggleButton.addEventListener("click", function () {
+        sideBar.classList.toggle("recolhida");
       });
     </script>
   </body>
