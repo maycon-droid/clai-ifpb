@@ -80,9 +80,13 @@ public class EstudoDeCaso {
 
         private String dataProfissionalDocumentos;
 
-        private String comorbidades;
+        private Boolean possuiComorbidades;
 
-        private String medicacaoUsoContinuo;
+        private String descricaoComorbidades;
+
+        private Boolean utilizaMedicacaoContinua;
+
+        private String descricaoMedicacaoContinua;
 
         private String encaminhamentosAnteriores;
 
@@ -173,12 +177,23 @@ public class EstudoDeCaso {
         BAIXA
     }
 
+    public enum DimensaoBarreira {
+        ACESSO_FISICO_AMBIENTAL,
+        COMUNICACAO,
+        CURRICULO_METODOLOGIA,
+        AVALIACAO,
+        ORGANIZACAO_TEMPORALIDADE,
+        INTERACAO_PARTICIPACAO,
+        TECNOLOGIA_ASSISTIVA_RECURSOS,
+        OUTRA
+    }
+
     @Getter
     @Setter
     @NoArgsConstructor
     public static class BarreiraEducacional {
 
-        private String dimensao;
+        private DimensaoBarreira dimensao;
 
         private String barreiraNecessidadeIdentificada;
 

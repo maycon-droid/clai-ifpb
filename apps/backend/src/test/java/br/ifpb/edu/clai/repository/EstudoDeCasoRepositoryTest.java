@@ -23,11 +23,12 @@ class EstudoDeCasoRepositoryTest {
     @Test
     void deveSalvarEConsultarEstudoPorAluno() {
 
-        String alunoId = "aluno-" + UUID.randomUUID();
-
+        String alunoId = "aluno-" + UUID.randomUUID();        
         EstudoDeCaso estudo = new EstudoDeCaso();
+
         estudo.setAlunoId(alunoId);
         estudo.setProfissionalResponsavel("Profissional ficticio");
+
         estudo.setDatasAtendimentoAnamnese(
             List.of(LocalDate.of(2026, 10, 23))
         );
@@ -36,7 +37,29 @@ class EstudoDeCasoRepositoryTest {
             new EstudoDeCaso.EncaminhamentoDemanda();
 
         encaminhamento.setMotivoPrincipal("Teste de persistencia");
+
         estudo.setEncaminhamento(encaminhamento);
+
+        EstudoDeCaso.NecessidadeDocumentacao documentacao =
+            new EstudoDeCaso.NecessidadeDocumentacao();
+        documentacao.setPossuiComorbidades(true);
+        documentacao.setDescricaoComorbidades("Informacao ficticia");
+        documentacao.setUtilizaMedicacaoContinua(false);
+
+        estudo.setNecessidadeDocumentacao(documentacao);
+
+        EstudoDeCaso.BarreiraEducacional barreira =
+            new EstudoDeCaso.BarreiraEducacional();
+
+        barreira.setDimensao(
+            EstudoDeCaso.DimensaoBarreira.COMUNICACAO
+        );
+
+        barreira.setPrioridade(
+            EstudoDeCaso.PrioridadeBarreira.ALTA
+        );
+
+        estudo.setBarreirasEducacionais(List.of(barreira));
 
         EstudoDeCaso salvo = repository.save(estudo);
 
@@ -59,6 +82,20 @@ class EstudoDeCasoRepositoryTest {
             assertEquals(1, encontrados.size());
             assertEquals(salvo.getId(), encontrados.get(0).getId());
 
+            assertEquals(
+                true,
+                recuperado.getNecessidadeDocumentacao().getPossuiComorbidades()
+            );
+
+            assertEquals(
+                false,
+                recuperado.getNecessidadeDocumentacao().getUtilizaMedicacaoContinua()
+            );
+
+            assertEquals(
+                EstudoDeCaso.DimensaoBarreira.COMUNICACAO,
+                recuperado.getBarreirasEducacionais().get(0).getDimensao()
+            );
         } finally {
             repository.deleteById(salvo.getId());
         }
