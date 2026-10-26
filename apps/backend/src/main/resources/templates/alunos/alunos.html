@@ -77,9 +77,9 @@
                 placeholder="Buscar aluno pelo nome ou matrícula"
               />
             </div>
-            <button type="button" id="cadastrar-aluno-btn">
+            <a th:href="@{/alunos/novo}" id="cadastrar-aluno-btn">
               Cadastrar aluno
-            </button>
+            </a>
           </div>
           <ul class="alunos-lista">
             <li class="aluno-item" th:each="aluno : ${alunos}">
@@ -101,49 +101,7 @@
           </ul>
         </section>
       </main>
-      <dialog id="modal-aluno">
-        <div th:replace="~{alunos/form :: formularioAluno}"></div>
-      </dialog>
     </div>
-    <script>
-      const campoBusca = document.getElementById("busca");
-      const campoAlunos = document.querySelector(".alunos-lista");
-
-      campoBusca.addEventListener("input", function () {
-        const termo = campoBusca.value.toLowerCase();
-
-        const linhas = campoAlunos.querySelectorAll("li");
-
-        linhas.forEach(function (linha) {
-          const nome = linha.querySelector("h4").textContent.toLowerCase();
-          const matricula = linha
-            .querySelector(".aluno-info p span")
-            .textContent.toLowerCase();
-
-          const encontrou = nome.includes(termo) || matricula.includes(termo);
-
-          linha.style.display = encontrou ? "" : "none";
-        });
-      });
-
-      const sideBar = document.querySelector(".sidebar");
-      const toggleButton = document.querySelector(".sidebar-toggle");
-
-      toggleButton.addEventListener("click", function () {
-        sideBar.classList.toggle("recolhida");
-      });
-
-      const modalAluno = document.querySelector("#modal-aluno");
-      const addAlunoBtn = document.getElementById("cadastrar-aluno-btn");
-      const btnFecharModal = document.getElementById("fechar-modal");
-
-      addAlunoBtn.addEventListener("click", function () {
-        modalAluno.showModal();
-      });
-
-      btnFecharModal.addEventListener("click", function () {
-        modalAluno.close();
-      });
-    </script>
+    <script th:src="@{/js/alunos.js}" defer></script>
   </body>
 </html>

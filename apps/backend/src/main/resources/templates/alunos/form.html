@@ -1,149 +1,177 @@
-<form
-  th:fragment="formularioAluno"
-  th:object="${aluno}"
-  th:action="${aluno.id == null}
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulário de aluno — CLAI</title>
+    <link rel="stylesheet" th:href="@{/css/alunos.css}" />
+  </head>
+
+  <body class="pagina-formulario-body">
+    <main class="pagina-formulario">
+      <h1 th:text="${aluno.id == null ? 'Cadastrar aluno' : 'Editar aluno'}">
+        Formulário de aluno
+      </h1>
+      <form
+        th:object="${aluno}"
+        th:action="${aluno.id == null}
         ? @{/alunos/salvar}
         : @{/alunos/{id}/editar(id=${aluno.id})}"
-  method="post"
->
-  <div th:if="${#fields.hasErrors('*')}" class="erros-formulario" role="alert">
-    <p>Não foi possível salvar o aluno. Verifique os campos abaixo:</p>
-    <ul>
-      <li th:each="erro : ${#fields.errors('*')}" th:text="${erro}"></li>
-    </ul>
-  </div>
+        method="post"
+      >
+        <div
+          th:if="${#fields.hasErrors('*')}"
+          class="erros-formulario"
+          role="alert"
+        >
+          <p>Não foi possível salvar o aluno. Verifique os campos abaixo:</p>
+          <ul>
+            <li th:each="erro : ${#fields.errors('*')}" th:text="${erro}"></li>
+          </ul>
+        </div>
 
-  <fieldset class="secao-formulario">
-    <legend>Dados pessoais</legend>
+        <fieldset class="secao-formulario">
+          <legend>Dados pessoais</legend>
 
-    <div class="campo">
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" th:field="*{nome}" required />
-    </div>
+          <div class="campo">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" th:field="*{nome}" required />
+          </div>
 
-    <div class="campo">
-      <label for="cpf">CPF:</label>
-      <input
-        type="text"
-        id="cpf"
-        th:field="*{cpf}"
-        maxlength="11"
-        inputmode="numeric"
-        required
-      />
-    </div>
+          <div class="campo">
+            <label for="cpf">CPF:</label>
+            <input
+              type="text"
+              id="cpf"
+              th:field="*{cpf}"
+              maxlength="11"
+              inputmode="numeric"
+              required
+            />
+          </div>
 
-    <div class="campo">
-      <label for="dataNascimento">Data de nascimento:</label>
-      <input type="date" id="dataNascimento" th:field="*{dataNascimento}" />
-    </div>
-  </fieldset>
+          <div class="campo">
+            <label for="dataNascimento">Data de nascimento:</label>
+            <input
+              type="date"
+              id="dataNascimento"
+              th:field="*{dataNascimento}"
+            />
+          </div>
+        </fieldset>
 
-  <fieldset class="secao-formulario">
-    <legend>Dados acadêmicos</legend>
+        <fieldset class="secao-formulario">
+          <legend>Dados acadêmicos</legend>
 
-    <div class="campo">
-      <label for="matricula">Matrícula:</label>
-      <input
-        type="text"
-        id="matricula"
-        th:field="*{matricula.numeroMatricula}"
-        required
-      />
-    </div>
+          <div class="campo">
+            <label for="matricula">Matrícula:</label>
+            <input
+              type="text"
+              id="matricula"
+              th:field="*{matricula.numeroMatricula}"
+              required
+            />
+          </div>
 
-    <div class="campo">
-      <label for="curso">Curso:</label>
-      <input type="text" id="curso" th:field="*{matricula.curso}" />
-    </div>
+          <div class="campo">
+            <label for="curso">Curso:</label>
+            <input type="text" id="curso" th:field="*{matricula.curso}" />
+          </div>
 
-    <div class="campo">
-      <label for="periodoIngresso">Período de ingresso:</label>
-      <input
-        type="text"
-        id="periodoIngresso"
-        th:field="*{matricula.periodoIngresso}"
-        placeholder="Ex.: 2026.1"
-        required
-      />
-    </div>
+          <div class="campo">
+            <label for="periodoIngresso">Período de ingresso:</label>
+            <input
+              type="text"
+              id="periodoIngresso"
+              th:field="*{matricula.periodoIngresso}"
+              placeholder="Ex.: 2026.1"
+              required
+            />
+          </div>
 
-    <div class="campo">
-      <label for="periodoLetivo">Período letivo:</label>
-      <input
-        type="text"
-        id="periodoLetivo"
-        th:field="*{matricula.periodoLetivo}"
-        placeholder="Ex.: 2026.2"
-        required
-      />
-    </div>
-  </fieldset>
+          <div class="campo">
+            <label for="periodoLetivo">Período letivo:</label>
+            <input
+              type="text"
+              id="periodoLetivo"
+              th:field="*{matricula.periodoLetivo}"
+              placeholder="Ex.: 2026.2"
+              required
+            />
+          </div>
+        </fieldset>
 
-  <fieldset class="secao-formulario">
-    <legend>Contato do aluno</legend>
+        <fieldset class="secao-formulario">
+          <legend>Contato do aluno</legend>
 
-    <div class="campo">
-      <label for="telefoneAluno">Telefone:</label>
-      <input
-        type="tel"
-        id="telefoneAluno"
-        th:field="*{contatoAluno.telefone}"
-        required
-      />
-    </div>
+          <div class="campo">
+            <label for="telefoneAluno">Telefone:</label>
+            <input
+              type="tel"
+              id="telefoneAluno"
+              th:field="*{contatoAluno.telefone}"
+              required
+            />
+          </div>
 
-    <div class="campo">
-      <label for="emailAluno">E-mail:</label>
-      <input type="email" id="emailAluno" th:field="*{contatoAluno.email}" />
-    </div>
-  </fieldset>
+          <div class="campo">
+            <label for="emailAluno">E-mail:</label>
+            <input
+              type="email"
+              id="emailAluno"
+              th:field="*{contatoAluno.email}"
+            />
+          </div>
+        </fieldset>
 
-  <fieldset class="secao-formulario">
-    <legend>Dados do responsável</legend>
+        <fieldset class="secao-formulario">
+          <legend>Dados do responsável</legend>
 
-    <div class="campo">
-      <label for="nomeResponsavel">Nome do responsável:</label>
-      <input
-        type="text"
-        id="nomeResponsavel"
-        th:field="*{dadosResponsavel.nome}"
-        required
-      />
-    </div>
+          <div class="campo">
+            <label for="nomeResponsavel">Nome do responsável:</label>
+            <input
+              type="text"
+              id="nomeResponsavel"
+              th:field="*{dadosResponsavel.nome}"
+              required
+            />
+          </div>
 
-    <div class="campo">
-      <label for="parentesco">Parentesco:</label>
-      <input
-        type="text"
-        id="parentesco"
-        th:field="*{dadosResponsavel.parentesco}"
-        required
-      />
-    </div>
+          <div class="campo">
+            <label for="parentesco">Parentesco:</label>
+            <input
+              type="text"
+              id="parentesco"
+              th:field="*{dadosResponsavel.parentesco}"
+              required
+            />
+          </div>
 
-    <div class="campo">
-      <label for="telefoneResponsavel">Telefone:</label>
-      <input
-        type="tel"
-        id="telefoneResponsavel"
-        th:field="*{dadosResponsavel.contatoDoResponsavel.telefone}"
-        required
-      />
-    </div>
+          <div class="campo">
+            <label for="telefoneResponsavel">Telefone:</label>
+            <input
+              type="tel"
+              id="telefoneResponsavel"
+              th:field="*{dadosResponsavel.contatoDoResponsavel.telefone}"
+              required
+            />
+          </div>
 
-    <div class="campo">
-      <label for="emailResponsavel">E-mail:</label>
-      <input
-        type="email"
-        id="emailResponsavel"
-        th:field="*{dadosResponsavel.contatoDoResponsavel.email}"
-      />
-    </div>
-  </fieldset>
+          <div class="campo">
+            <label for="emailResponsavel">E-mail:</label>
+            <input
+              type="email"
+              id="emailResponsavel"
+              th:field="*{dadosResponsavel.contatoDoResponsavel.email}"
+            />
+          </div>
+        </fieldset>
 
-  <div class="acoes">
-    <button type="submit" class="salvar-btn">Salvar</button>
-    <button type="button" id="fechar-modal">Cancelar</button>
-  </div>
-</form>
+        <div class="acoes">
+          <button type="submit" class="salvar-btn">Salvar</button>
+          <a th:href="@{/alunos}" class="cancelar-btn">Cancelar</a>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

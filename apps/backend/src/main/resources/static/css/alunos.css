@@ -172,46 +172,46 @@ h1 {
   margin-bottom: 15px;
 }
 
-#modal-aluno {
-  width: 90%;
+body.pagina-formulario-body {
+  overflow: auto;
+}
+
+.pagina-formulario {
+  width: calc(100% - 32px);
   max-width: 650px;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 32px;
-  border: none;
+  margin: 32px auto;
+  padding: 24px;
+  background: white;
   border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-#modal-aluno::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-#modal-aluno .secao-formulario {
+.pagina-formulario .secao-formulario {
   border: 1px solid #d8e0e9;
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
 }
 
-#modal-aluno .secao-formulario legend {
+.pagina-formulario .secao-formulario legend {
   font-size: 16px;
   font-weight: 600;
   color: #263244;
   padding: 0 8px;
 }
 
-#modal-aluno .campo {
+.pagina-formulario .campo {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
 
-#modal-aluno .campo input:focus {
+.pagina-formulario .campo input:focus {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
-#modal-aluno .acoes .salvar-btn {
+.pagina-formulario .acoes .salvar-btn {
   background-color: #bed1fa;
   color: #0738a3;
   padding: 11px 24px;
@@ -223,11 +223,11 @@ h1 {
   transition: 0.3s ease;
 }
 
-#modal-aluno .acoes .salvar-btn:hover{
+.pagina-formulario .acoes .salvar-btn:hover{
   transform: scale(1.05);
 }
 
-#fechar-modal {
+.cancelar-btn{
   background-color: #f3cece;
   color: #ff0000;
   padding: 11px 24px;
@@ -237,19 +237,18 @@ h1 {
   font-weight: 500;
   transition: 0.3s ease;
 }
-
-#fechar-modal:hover{
+.cancelar-btn:hover{
   transform: scale(1.05);
 }
 
-#modal-aluno .campo label {
+.pagina-formulario .campo label {
   font-size: 14px;
   font-weight: 600;
   color: #475569;
   margin-bottom: 8px;
 }
 
-#modal-aluno .campo input {
+.pagina-formulario .campo input {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid #d8e0e9;
@@ -259,7 +258,7 @@ h1 {
   color: #263244;
 }
 
-.modal-aluno .acoes {
+.pagina-formulario .acoes {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -427,4 +426,27 @@ td:last-child a:hover {
   text-decoration: none;
   cursor: pointer;
   margin-right: 5px;
+}
+
+.pagina-formulario .acoes {
+  flex-wrap: wrap;
+}
+
+.pagina-formulario .acoes .salvar-btn,
+.pagina-formulario .acoes .cancelar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.pagina-formulario .erros-formulario {
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
 }
