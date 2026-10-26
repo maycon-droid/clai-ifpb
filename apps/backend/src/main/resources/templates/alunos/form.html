@@ -158,7 +158,7 @@
 
         <div class="campo">
           <label for="email">E-mail:</label>
-          <input type="email" id="email" th:field="*{email}" />
+          <input type="email" id="email" th:field="*{contatoAluno.email}" />
         </div>
 
         <div class="campo">
@@ -182,11 +182,6 @@
             placeholder="Ex.: 2026.1"
             required
           />
-        </div>
-
-        <div class="campo">
-          <label for="tipoAluno">Tipo do aluno:</label>
-          <input type="text" id="tipoAluno" th:field="*{tipoAluno}" required />
         </div>
 
         <div class="acoes">
