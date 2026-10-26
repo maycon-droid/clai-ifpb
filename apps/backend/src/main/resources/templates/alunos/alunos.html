@@ -77,7 +77,9 @@
                 placeholder="Buscar aluno pelo nome ou matrícula"
               />
             </div>
-            <a th:href="@{/alunos/novo}"> Cadastrar aluno </a>
+            <button type="button" id="cadastrar-aluno-btn">
+              Cadastrar aluno
+            </button>
           </div>
           <ul class="alunos-lista">
             <li class="aluno-item" th:each="aluno : ${alunos}">
@@ -99,6 +101,10 @@
           </ul>
         </section>
       </main>
+      <dialog id="modal-aluno">
+        <div th:replace="~{alunos/form :: formularioAluno}"></div>
+        <button type="button" id="fechar-modal">Cancelar</button>
+      </dialog>
     </div>
     <script>
       const campoBusca = document.getElementById("busca");
@@ -126,6 +132,18 @@
 
       toggleButton.addEventListener("click", function () {
         sideBar.classList.toggle("recolhida");
+      });
+
+      const modalAluno = document.querySelector("#modal-aluno");
+      const addAlunoBtn = document.getElementById("cadastrar-aluno-btn");
+      const btnFecharModal = document.getElementById("fechar-modal");
+
+      addAlunoBtn.addEventListener("click", function () {
+        modalAluno.showModal();
+      });
+
+      btnFecharModal.addEventListener("click", function () {
+        modalAluno.close();
       });
     </script>
   </body>

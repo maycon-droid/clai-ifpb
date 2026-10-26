@@ -26,6 +26,7 @@ public class AlunoController {
     @GetMapping
     public String listarAlunos(Model model) {
         model.addAttribute("alunos", alunoService.listarTodos());
+        model.addAttribute("aluno", new Aluno());docker
         return "alunos/alunos";
     }
 

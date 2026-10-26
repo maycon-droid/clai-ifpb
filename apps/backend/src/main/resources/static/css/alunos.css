@@ -89,13 +89,6 @@ h1 {
   margin: 0 0 22px;
 }
 
-.resumo {
-  background: #ffffff;
-  padding: 15px 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  margin-bottom: 30px;
-}
 
 .listagem {
   background: #ffffff;
@@ -106,7 +99,9 @@ h1 {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  border-left: solid 4px #1d4ed8;
 }
+
 .listagem-toolbar {
   display: flex;
   align-items: stretch;
@@ -148,6 +143,15 @@ h1 {
   transform: scale(1.03);
 }
 
+.resumo {
+  background: #ffffff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+  border-left: solid 4px #1d4ed8;
+}
+
 .resumo strong {
   font-size: 28px;
   color: #1e293b;
@@ -170,8 +174,6 @@ h1 {
 }
 
 .page-header h1{
-  border-left: solid 4px #1d4ed8;
-  border-radius: 4px;
   padding-left: 5px;
 }
 .container {
@@ -270,9 +272,9 @@ td:last-child a:hover {
   filter: brightness(0.96);
 }
 
+
 @media (max-width: 768px) {
   body {
-    padding: 20px 15px;
     overflow-x: auto;
   }
 
@@ -284,9 +286,6 @@ td:last-child a:hover {
     width: 100%;
   }
 
-  table {
-    min-width: 760px;
-  }
 }
 
 .aluno-item {
