@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alunos</title>
+    <link
+      rel="stylesheet"
+      href="../../static/css/alunos.css"
+      th:href="@{/css/alunos.css}"
+    />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>CLAI</h2>
+          <button
+            type="button"
+            class="sidebar-toggle"
+            aria-label="Recolher menu"
+          >
+            ☰
+          </button>
+        </div>
+        <nav>
+          <a href="#">
+            <img
+              src="../../static/icons/house.svg"
+              th:src="@{/icons/house.svg}"
+              alt="house icon"
+              width="24"
+              height="24"
+            />
+            <span class="menu-texto">Início</span>
+          </a>
+          <a href="/alunos" th:href="@{/alunos}">
+            <img
+              src="../../static/icons/users.svg"
+              th:src="@{/icons/users.svg}"
+              alt="users icon"
+              width="24"
+              height="24"
+            />
+            <span class="menu-texto">Alunos</span>
+          </a>
+          <a href="#">
+            <img
+              src="../../static/icons/clipboard-list.svg"
+              th:src="@{/icons/clipboard-list.svg}"
+              alt="clipboard-list icon"
+              width="24"
+              height="24"
+            />
+            <span class="menu-texto">Estudos de caso</span>
+          </a>
+        </nav>
+      </aside>
+      <main class="container">
+        <section class="page-header">
+          <h1>Alunos cadastrados</h1>
+          <p>Gerencie e consulte os alunos registrados no sistema.</p>
+        </section>
+
+        <section class="resumo">
+          <p>Total de alunos</p>
+          <strong th:text="${#lists.size(alunos)}">24</strong>
+        </section>
+
+        <section class="listagem">
+          <div class="listagem-toolbar">
+            <div class="busca">
+              <input
+                type="text"
+                id="busca"
+                placeholder="Buscar aluno pelo nome ou matrícula"
+              />
+            </div>
+            <button type="button" id="cadastrar-aluno-btn">
+              Cadastrar aluno
+            </button>
+          </div>
+          <ul class="alunos-lista">
+            <li class="aluno-item" th:each="aluno : ${alunos}">
+              <div class="aluno-info">
+                <h4 th:text="${aluno.nome}">Maria</h4>
+                <p>
+                  Matrícula:
+                  <span
+                    th:text="${aluno.matricula != null ? aluno.matricula.numeroMatricula : '-'}"
+                    >202610023</span
+                  >
+                </p>
+              </div>
+              <div class="aluno-acoes">
+                <button type="button">Visualizar</button>
+                <a th:href="@{/alunos/{id}/editar(id=${aluno.id})}"> Editar </a>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+      <dialog id="modal-aluno">
+        <div th:replace="~{alunos/form :: formularioAluno}"></div>
+        <button type="button" id="fechar-modal">Cancelar</button>
+      </dialog>
+    </div>
+    <script>
+      const campoBusca = document.getElementById("busca");
+      const campoAlunos = document.querySelector(".alunos-lista");
+
+      campoBusca.addEventListener("input", function () {
+        const termo = campoBusca.value.toLowerCase();
+
+        const linhas = campoAlunos.querySelectorAll("li");
+
+        linhas.forEach(function (linha) {
+          const nome = linha.querySelector("h4").textContent.toLowerCase();
+          const matricula = linha
+            .querySelector(".aluno-info p span")
+            .textContent.toLowerCase();
+
+          const encontrou = nome.includes(termo) || matricula.includes(termo);
+
+          linha.style.display = encontrou ? "" : "none";
+        });
+      });
+
+      const sideBar = document.querySelector(".sidebar");
+      const toggleButton = document.querySelector(".sidebar-toggle");
+
+      toggleButton.addEventListener("click", function () {
+        sideBar.classList.toggle("recolhida");
+      });
+
+      const modalAluno = document.querySelector("#modal-aluno");
+      const addAlunoBtn = document.getElementById("cadastrar-aluno-btn");
+      const btnFecharModal = document.getElementById("fechar-modal");
+
+      addAlunoBtn.addEventListener("click", function () {
+        modalAluno.showModal();
+      });
+
+      btnFecharModal.addEventListener("click", function () {
+        modalAluno.close();
+      });
+    </script>
+  </body>
+</html>
