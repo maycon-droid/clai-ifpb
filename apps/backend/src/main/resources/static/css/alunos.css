@@ -89,7 +89,6 @@ h1 {
   margin: 0 0 22px;
 }
 
-
 .listagem {
   background: #ffffff;
   padding: 20px;
@@ -123,7 +122,7 @@ h1 {
 .busca {
   flex: 1;
 }
-.listagem-toolbar > a {
+.listagem-toolbar > #cadastrar-aluno-btn {
   display: inline-block;
   background: #2563eb;
   color: white;
@@ -138,7 +137,7 @@ h1 {
   text-align: center;
 }
 
-.listagem-toolbar a:hover {
+.listagem-toolbar #cadastrar-aluno-btn:hover {
   background: #1d4ed8;
   transform: scale(1.03);
 }
@@ -173,7 +172,99 @@ h1 {
   margin-bottom: 15px;
 }
 
-.page-header h1{
+body.pagina-formulario-body {
+  overflow: auto;
+}
+
+.pagina-formulario {
+  width: calc(100% - 32px);
+  max-width: 650px;
+  margin: 32px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.pagina-formulario .secao-formulario {
+  border: 1px solid #d8e0e9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.pagina-formulario .secao-formulario legend {
+  font-size: 16px;
+  font-weight: 600;
+  color: #263244;
+  padding: 0 8px;
+}
+
+.pagina-formulario .campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.pagina-formulario .campo input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.pagina-formulario .acoes .salvar-btn {
+  background-color: #bed1fa;
+  color: #0738a3;
+  padding: 11px 24px;
+  border: none;
+  border-radius: 7px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #2563eb;
+  transition: 0.3s ease;
+}
+
+.pagina-formulario .acoes .salvar-btn:hover{
+  transform: scale(1.05);
+}
+
+.cancelar-btn{
+  background-color: #f3cece;
+  color: #ff0000;
+  padding: 11px 24px;
+  border: 1px solid rgb(255, 0, 0);
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+.cancelar-btn:hover{
+  transform: scale(1.05);
+}
+
+.pagina-formulario .campo label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.pagina-formulario .campo input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d8e0e9;
+  border-radius: 7px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #263244;
+}
+
+.pagina-formulario .acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+.page-header h1 {
   padding-left: 5px;
 }
 .container {
@@ -272,7 +363,6 @@ td:last-child a:hover {
   filter: brightness(0.96);
 }
 
-
 @media (max-width: 768px) {
   body {
     overflow-x: auto;
@@ -285,7 +375,6 @@ td:last-child a:hover {
   .busca input {
     width: 100%;
   }
-
 }
 
 .aluno-item {
@@ -337,4 +426,27 @@ td:last-child a:hover {
   text-decoration: none;
   cursor: pointer;
   margin-right: 5px;
+}
+
+.pagina-formulario .acoes {
+  flex-wrap: wrap;
+}
+
+.pagina-formulario .acoes .salvar-btn,
+.pagina-formulario .acoes .cancelar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.pagina-formulario .erros-formulario {
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
 }

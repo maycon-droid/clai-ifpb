@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 
 import lombok.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 @Getter
@@ -32,6 +34,7 @@ public class Aluno {
     @Valid
     private DadosMatricula matricula;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Past(message = "A data de nascimento deve ser anterior à data atual")
     private LocalDate dataNascimento;
 
