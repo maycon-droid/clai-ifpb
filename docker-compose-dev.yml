@@ -5,19 +5,19 @@ services:
     build:
       context: ./apps/backend
       dockerfile: Dockerfile
-    image: clai-backend:latest
+    image: clai-backend:0.0.1-dev
     container_name: clai_backend
     restart: unless-stopped
     ports:
       - "${APP_PORT:-8081}:8080"
     environment:
-      SPRING_MONGODB_URI: mongodb://mongodb:27017/clai_db
+      SPRING_PROFILES_ACTIVE: dev
     depends_on:
       mongodb:
         condition: service_healthy
 
   mongodb:
-    image: mongo:latest
+    image: mongo:9.0.2
     container_name: clai_mongodb
     restart: unless-stopped
     ports:
