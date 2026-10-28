@@ -12,6 +12,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Getter
 @Setter
@@ -27,7 +28,11 @@ public class Aluno {
     private String nome;
 
     @NotBlank(message = "O CPF do aluno é obrigatório")
-    @Pattern(regexp = "[0-9]{11}", message = "O CPF deve conter exatamente 11 dígitos")
+    @Pattern(
+    regexp = "[0-9]{11}",
+    message = "O CPF deve conter exatamente 11 dígitos"
+    )
+    @CPF(message = "O CPF informado é inválido")
     private String cpf;
 
     @NotNull(message = "A matrícula do aluno é obrigatória")
@@ -58,7 +63,7 @@ public class Aluno {
         private String numeroMatricula; // renomeado pra evitar erro com AlunoRepository
 
         private String curso;
-        
+
 
         @NotBlank(message = "O período de ingresso do aluno é obrigatório")
         private String periodoIngresso;
@@ -73,8 +78,12 @@ public class Aluno {
     @AllArgsConstructor
     public static class Contato {
 
-        @NotBlank(message = "O telefone é obrigatório")
-        private String telefone;
+    @NotBlank(message = "O telefone é obrigatório")
+    @Pattern(
+        regexp = "\\d{10,11}",
+        message = "O telefone deve conter 10 ou 11 dígitos, incluindo o DDD"
+    )
+    private String telefone;
 
         @Email(message = "O email deve ser válido")
         @Pattern(
@@ -92,7 +101,7 @@ public class Aluno {
 
         @NotBlank(message = "O nome do responsável é obrigatório")
         private String nome;
-        
+
         @NotBlank(message = "O parentesco é obrigatório")
         private String parentesco;
 
