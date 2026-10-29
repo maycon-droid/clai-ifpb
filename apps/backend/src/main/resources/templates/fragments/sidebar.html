@@ -1,0 +1,40 @@
+<aside class="sidebar" th:fragment="sidebar">
+  <div class="sidebar-header">
+    <h2>CLAI</h2>
+    <button type="button" class="sidebar-toggle" aria-label="Recolher menu">
+      ☰
+    </button>
+  </div>
+  <nav>
+    <a href="#">
+      <img
+        src="../../static/icons/house.svg"
+        th:src="@{/icons/house.svg}"
+        alt="house icon"
+        width="24"
+        height="24"
+      />
+      <span class="menu-texto">Início</span>
+    </a>
+    <a href="/alunos" th:href="@{/alunos}">
+      <img
+        src="../../static/icons/users.svg"
+        th:src="@{/icons/users.svg}"
+        alt="users icon"
+        width="24"
+        height="24"
+      />
+      <span class="menu-texto">Alunos</span>
+    </a>
+    <a href="#">
+      <img
+        src="../../static/icons/clipboard-list.svg"
+        th:src="@{/icons/clipboard-list.svg}"
+        alt="clipboard-list icon"
+        width="24"
+        height="24"
+      />
+      <span class="menu-texto">Estudos de caso</span>
+    </a>
+  </nav>
+</aside>
