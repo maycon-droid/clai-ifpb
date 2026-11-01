@@ -1,0 +1,115 @@
+.container {
+  overflow-y: auto;
+}
+
+.container .campo label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.container .campo input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d8e0e9;
+  border-radius: 7px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #263244;
+}
+
+.container .acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.container .acoes .salvar-btn,
+.container .acoes .cancelar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.container .erros-formulario {
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.container h1 {
+  font-size: 26px;
+  color: #1e293b;
+  margin: 0 0 22px;
+}
+.container .campo input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.container .acoes .salvar-btn {
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 11px 24px;
+  border: none;
+  border-radius: 7px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #2563eb;
+  transition: 0.3s ease;
+}
+
+.container .acoes .salvar-btn:hover {
+  transform: scale(1.03);
+  background-color: #1f58d3;
+}
+
+.container .secao-formulario {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: solid 4px #1d4ed8;
+}
+
+.container .secao-formulario legend {
+  font-size: 16px;
+  font-weight: 600;
+  color: #263244;
+  padding: 0 8px;
+}
+
+.container .campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+body.container-body {
+  overflow: hidden;
+}
+
+.cancelar-btn {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  padding: 11px 24px;
+  border: 1px solid #9ca3af;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+.cancelar-btn:hover {
+  transform: scale(1.03);
+  background-color: #e8e8e9;
+}
