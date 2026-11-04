@@ -79,6 +79,10 @@ public class EstudoDeCasoController {
             Model model) {
 
         if (resultado.hasErrors()) {
+            // sem aluno vinculado não há como reexibir o formulário
+            if (estudo.getAlunoId() == null || estudo.getAlunoId().isBlank()) {
+                return "redirect:/alunos";
+            }
             inicializarAninhados(estudo);
             model.addAttribute("aluno", buscarAluno(estudo.getAlunoId()));
             return "estudos-de-caso/form";
@@ -108,8 +112,10 @@ public class EstudoDeCasoController {
         estudo.setId(id);
 
         if (resultado.hasErrors()) {
+            String alunoIdOriginal = estudoService.buscarPorId(id).getAlunoId();
+            estudo.setAlunoId(alunoIdOriginal);
             inicializarAninhados(estudo);
-            model.addAttribute("aluno", buscarAluno(estudo.getAlunoId()));
+            model.addAttribute("aluno", buscarAluno(alunoIdOriginal));
             return "estudos-de-caso/form";
         }
 
