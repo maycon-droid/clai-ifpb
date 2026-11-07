@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${estudo.id == null ? 'Cadastrar estudo de caso | CLAI' : 'Editar estudo de caso | CLAI'}">
+        Estudo de Caso | CLAI
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/formulario_estudo_de_caso.css}">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+
+        <header class="page-header">
+            <div>
+                <h1 th:text="${estudo.id == null ? 'Cadastrar estudo de caso' : 'Editar estudo de caso'}">
+                    Estudo de caso
+                </h1>
+
+                <p>
+                    Registro e acompanhamento psicopedagógico do estudante.
+                </p>
+            </div>
+
+            <a th:href="@{/estudos-de-caso}" class="btn-voltar">
+                Voltar
+            </a>
+        </header>
+
+        <form id="formulario-estudo"
+              th:object="${estudo}"
+              th:action="${estudo.id == null}
+                  ? @{/estudos-de-caso/salvar}
+                  : @{/estudos-de-caso/{id}/editar(id=${estudo.id})}"
+              method="post">
+
+            <!-- IDENTIFICAÇÃO DO ALUNO -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>1. Identificação</h2>
+                    <p>Selecione o aluno vinculado ao estudo de caso.</p>
+                </div>
+
+                <div th:if="${estudo.id == null}" class="campo campo-aluno">
+
+                    <label for="busca-aluno">Buscar aluno</label>
+
+                    <input type="text"
+                           id="busca-aluno"
+                           placeholder="Digite o nome ou número de matrícula..."
+                           autocomplete="off">
+
+                    <div id="sugestoes-alunos" class="sugestoes-alunos"></div>
+
+                    <input type="hidden" th:field="*{alunoId}" id="aluno-id">
+
+                    <p class="mensagem-erro"
+                       th:if="${#fields.hasErrors('alunoId')}"
+                       th:errors="*{alunoId}">
+                    </p>
+
+                </div>
+
+                <div th:if="${estudo.id != null}" class="campo">
+                    <label>Aluno vinculado</label>
+                    <input type="hidden" th:field="*{alunoId}">
+                </div>
+
+                <div id="dados-aluno"
+                     class="dados-aluno"
+                     th:classappend="${aluno != null} ? ' selecionado' : ''"
+                     th:if="${estudo.id != null or not #lists.isEmpty(alunos)}">
+
+                    <div th:if="${aluno != null}" id="aluno-edicao">
+                        <h3>Dados do aluno</h3>
+
+                        <div class="dados-grid">
+                            <div class="campo">
+                                <label>Nome completo</label>
+                                <input type="text" th:value="${aluno.nome}" readonly>
+                            </div>
+
+                            <div class="campo">
+                                <label>CPF</label>
+                                <input type="text" th:value="${aluno.cpf}" readonly>
+                            </div>
+
+                            <div class="campo">
+                                <label>Matrícula</label>
+                                <input type="text"
+                                       th:value="${aluno.matricula.numeroMatricula}"
+                                       readonly>
+                            </div>
+
+                            <div class="campo">
+                                <label>Curso</label>
+                                <input type="text" th:value="${aluno.matricula.curso}" readonly>
+                            </div>
+
+                            <div class="campo">
+                                <label>Período de ingresso</label>
+                                <input type="text"
+                                       th:value="${aluno.matricula.periodoIngresso}"
+                                       readonly>
+                            </div>
+
+                            <div class="campo">
+                                <label>Período letivo</label>
+                                <input type="text"
+                                       th:value="${aluno.matricula.periodoLetivo}"
+                                       readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${aluno == null}" id="aluno-selecionado" hidden>
+                        <h3>Dados do aluno</h3>
+                        <div class="dados-grid">
+                            <div class="campo">
+                                <label>Nome completo</label>
+                                <input type="text" id="aluno-nome" readonly>
+                            </div>
+                            <div class="campo">
+                                <label>CPF</label>
+                                <input type="text" id="aluno-cpf" readonly>
+                            </div>
+                            <div class="campo">
+                                <label>Matrícula</label>
+                                <input type="text" id="aluno-matricula" readonly>
+                            </div>
+                            <div class="campo">
+                                <label>Curso</label>
+                                <input type="text" id="aluno-curso" readonly>
+                            </div>
+                            <div class="campo">
+                                <label>Período de ingresso</label>
+                                <input type="text" id="aluno-ingresso" readonly>
+                            </div>
+                            <div class="campo">
+                                <label>Período letivo</label>
+                                <input type="text" id="aluno-periodo" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label>Profissional responsável</label>
+                    <input type="text"
+                           th:field="*{profissionalResponsavel}"
+                           maxlength="255">
+                </div>
+
+                <div class="campo">
+                    <label>Datas de atendimento / anamnese</label>
+
+                    <div id="lista-datas" class="lista-dinamica">
+
+                        <div class="item-dinamico"
+                             th:each="data, stat : *{datasAtendimentoAnamnese}">
+
+                            <input type="date"
+                                   th:field="*{datasAtendimentoAnamnese[__${stat.index}__]}">
+
+                            <button type="button" class="btn-remover">Remover</button>
+                        </div>
+
+                    </div>
+
+                    <button type="button" id="adicionar-data" class="btn-adicionar">
+                        + Adicionar data
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- ENCAMINHAMENTO -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>2. Encaminhamento da demanda</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Origem do encaminhamento</label>
+                    <input type="text" th:field="*{encaminhamento.origemEncaminhamento}">
+                </div>
+
+                <div class="campo">
+                    <label>Outra origem</label>
+                    <textarea th:field="*{encaminhamento.outraOrigem}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Motivo principal</label>
+                    <textarea th:field="*{encaminhamento.motivoPrincipal}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Demanda apresentada pelo estudante</label>
+                    <textarea th:field="*{encaminhamento.demandaEstudante}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Demanda apresentada pela família</label>
+                    <textarea th:field="*{encaminhamento.demandaFamilia}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Demanda apresentada pela equipe escolar</label>
+                    <textarea th:field="*{encaminhamento.demandaEquipeEscolar}"></textarea>
+                </div>
+
+            </section>
+
+            <!-- NECESSIDADE E DOCUMENTAÇÃO -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>3. Necessidade e documentação</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Necessidade específica informada</label>
+                    <textarea th:field="*{necessidadeDocumentacao.necessidadeEspecificaInformada}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Diagnósticos</label>
+                    <textarea th:field="*{necessidadeDocumentacao.diagnosticos}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Documentos comprobatórios apresentados?</label>
+                    <select th:field="*{necessidadeDocumentacao.documentosComprobatoriosApresentados}">
+                        <option value="">Não informado</option>
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Descrição dos documentos</label>
+                    <textarea th:field="*{necessidadeDocumentacao.descricaoDocumentos}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Data / profissional dos documentos</label>
+                    <input type="text"
+                           th:field="*{necessidadeDocumentacao.dataProfissionalDocumentos}">
+                </div>
+
+                <div class="campo">
+                    <label>Possui comorbidades?</label>
+                    <select th:field="*{necessidadeDocumentacao.possuiComorbidades}">
+                        <option value="">Não informado</option>
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Descrição das comorbidades</label>
+                    <textarea th:field="*{necessidadeDocumentacao.descricaoComorbidades}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Utiliza medicação contínua?</label>
+                    <select th:field="*{necessidadeDocumentacao.utilizaMedicacaoContinua}">
+                        <option value="">Não informado</option>
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Descrição da medicação</label>
+                    <textarea th:field="*{necessidadeDocumentacao.descricaoMedicacaoContinua}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Encaminhamentos anteriores</label>
+                    <textarea th:field="*{necessidadeDocumentacao.encaminhamentosAnteriores}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Serviços de apoio anteriores</label>
+                    <textarea th:field="*{necessidadeDocumentacao.servicosApoioAnteriores}"></textarea>
+                </div>
+
+            </section>
+
+            <!-- HISTÓRICO ESCOLAR -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>4. Histórico de vida escolar</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Histórico escolar</label>
+                    <textarea th:field="*{historicoVidaEscolar.historicoEscolar}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Experiências escolares positivas</label>
+                    <textarea th:field="*{historicoVidaEscolar.experienciasEscolaresPositivas}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Experiências escolares negativas</label>
+                    <textarea th:field="*{historicoVidaEscolar.experienciasEscolaresNegativas}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Adaptações e recursos utilizados</label>
+                    <textarea th:field="*{historicoVidaEscolar.adaptacoesRecursosUtilizados}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Objetivos e conhecimentos consolidados</label>
+                    <textarea th:field="*{historicoVidaEscolar.objetivosConhecimentosConsolidados}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Áreas de maior facilidade</label>
+                    <textarea th:field="*{historicoVidaEscolar.areasMaiorFacilidade}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Áreas de maior dificuldade</label>
+                    <textarea th:field="*{historicoVidaEscolar.areasMaiorDificuldade}"></textarea>
+                </div>
+
+            </section>
+
+            <!-- PERFIL DE APRENDIZAGEM -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>5. Perfil de aprendizagem</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Comunicação e compreensão de orientações</label>
+                    <textarea th:field="*{perfilAprendizagem.comunicacaoOrientacoes}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Leitura, escrita e linguagem</label>
+                    <textarea th:field="*{perfilAprendizagem.leituraEscritaLinguagem}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Raciocínio lógico-matemático</label>
+                    <textarea th:field="*{perfilAprendizagem.raciocinioLogicoMatematico}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Atenção, memória e funções executivas</label>
+                    <textarea th:field="*{perfilAprendizagem.atencaoMemoriaFuncoesExecutivas}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Organização, planejamento e tarefas</label>
+                    <textarea th:field="*{perfilAprendizagem.organizacaoPlanejamentoTarefas}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Interação social e participação</label>
+                    <textarea th:field="*{perfilAprendizagem.interacaoSocialParticipacao}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Aspectos sensoriais</label>
+                    <textarea th:field="*{perfilAprendizagem.aspectosSensoriais}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Mobilidade e acesso a tecnologias</label>
+                    <textarea th:field="*{perfilAprendizagem.mobilidadeAcessoTecnologias}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Autonomia familiar</label>
+                    <textarea th:field="*{perfilAprendizagem.autonomiaFamiliar}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Autonomia escolar</label>
+                    <textarea th:field="*{perfilAprendizagem.autonomiaEscolar}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Estratégias favoráveis à aprendizagem</label>
+                    <textarea th:field="*{perfilAprendizagem.estrategiasFavoraveisAprendizagem}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Situações que dificultam a aprendizagem</label>
+                    <textarea th:field="*{perfilAprendizagem.situacoesQueDificultamAprendizagem}"></textarea>
+                </div>
+
+            </section>
+
+            <!-- CONTEXTO PSICOSSOCIAL -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>6. Contexto psicossocial</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Relação com o curso e expectativas</label>
+                    <textarea th:field="*{contextoPsicossocial.relacaoCursoExpectativas}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Rede de apoio familiar e social</label>
+                    <textarea th:field="*{contextoPsicossocial.redeApoioFamiliarSocial}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Fatores psicossociais</label>
+                    <textarea th:field="*{contextoPsicossocial.fatoresPsicossociais}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Frequência, rotina e permanência</label>
+                    <textarea th:field="*{contextoPsicossocial.frequenciaRotinaPermanencia}"></textarea>
+                </div>
+
+            </section>
+
+            <!-- POTENCIALIDADES -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>7. Potencialidades e interesses</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Potencialidades acadêmicas</label>
+                    <textarea th:field="*{potencialidadesInteresses.potencialidadesAcademicas}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Interesses e habilidades</label>
+                    <textarea th:field="*{potencialidadesInteresses.interessesHabilidades}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Formas preferenciais de aprendizagem</label>
+                    <textarea th:field="*{potencialidadesInteresses.formasPreferenciaisAprendizagem}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Recursos que favorecem o desempenho</label>
+                    <textarea th:field="*{potencialidadesInteresses.recursosQueFavorecemDesempenho}"></textarea>
+                </div>
+
+            </section>
+
+            <!-- BARREIRAS EDUCACIONAIS -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>8. Barreiras educacionais</h2>
+                    <p>Identifique as barreiras que impactam a aprendizagem.</p>
+                </div>
+
+                <div id="lista-barreiras" class="lista-dinamica">
+
+                    <div class="barreira-item"
+                         th:each="barreira, stat : *{barreirasEducacionais}">
+
+                        <h3>Barreira educacional</h3>
+
+                        <div class="campo">
+                            <label>Dimensão da barreira</label>
+                            <select th:field="*{barreirasEducacionais[__${stat.index}__].dimensao}">
+                                <option value="">Selecione</option>
+                                <option value="ACESSO_FISICO_AMBIENTAL">Acesso físico e ambiental</option>
+                                <option value="COMUNICACAO">Comunicação</option>
+                                <option value="CURRICULO_METODOLOGIA">Currículo e metodologia</option>
+                                <option value="AVALIACAO">Avaliação</option>
+                                <option value="ORGANIZACAO_TEMPORALIDADE">Organização e temporalidade</option>
+                                <option value="INTERACAO_PARTICIPACAO">Interação e participação</option>
+                                <option value="TECNOLOGIA_ASSISTIVA_RECURSOS">Tecnologia assistiva e recursos</option>
+                                <option value="OUTRA">Outra</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label>Barreira ou necessidade identificada</label>
+                            <textarea th:field="*{barreirasEducacionais[__${stat.index}__].barreiraNecessidadeIdentificada}"></textarea>
+                        </div>
+
+                        <div class="campo">
+                            <label>Evidências e impactos na aprendizagem</label>
+                            <textarea th:field="*{barreirasEducacionais[__${stat.index}__].evidenciasImpactosAprendizagem}"></textarea>
+                        </div>
+
+                        <div class="campo">
+                            <label>Prioridade</label>
+                            <select th:field="*{barreirasEducacionais[__${stat.index}__].prioridade}">
+                                <option value="">Selecione</option>
+                                <option value="ALTA">Alta</option>
+                                <option value="MEDIA">Média</option>
+                                <option value="BAIXA">Baixa</option>
+                            </select>
+                        </div>
+
+                        <button type="button" class="btn-remover">Remover barreira</button>
+
+                    </div>
+
+                </div>
+
+                <button type="button" id="adicionar-barreira" class="btn-adicionar">
+                    + Adicionar barreira
+                </button>
+
+            </section>
+
+            <!-- SÍNTESE PSICOPEDAGÓGICA -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>9. Síntese psicopedagógica</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Necessidades específicas</label>
+                    <textarea th:field="*{sintesePsicopedagogica.necessidadesEspecificas}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Avanços e objetivos alcançados</label>
+                    <textarea th:field="*{sintesePsicopedagogica.avancosObjetivosAlcancados}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Dificuldades e barreiras educacionais</label>
+                    <textarea th:field="*{sintesePsicopedagogica.dificuldadesBarreirasEducacionais}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Potencialidades e condições facilitadoras</label>
+                    <textarea th:field="*{sintesePsicopedagogica.potencialidadesCondicoesFacilitadoras}"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Principais demandas</label>
+                    <textarea th:field="*{sintesePsicopedagogica.principaisDemandas}"></textarea>
+                </div>
+
+            </section>
+
+            <!-- APOIOS E ADAPTAÇÕES -->
+
+            <section class="form-section">
+
+                <div class="section-header">
+                    <h2>10. Apoios e adaptações</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Acessibilidade do ambiente</label>
+                    <div class="lista-textos" data-name="apoiosAdaptacoes.acessibilidadeAmbiente"></div>
+                </div>
+
+                <div class="campo">
+                    <label>Comunicação e materiais</label>
+                    <div class="lista-textos" data-name="apoiosAdaptacoes.comunicacaoMateriais"></div>
+                </div>
+
+                <div class="campo">
+                    <label>Metodologia</label>
+                    <div class="lista-textos" data-name="apoiosAdaptacoes.metodologia"></div>
+                </div>
+
+                <div class="campo">
+                    <label>Avaliação</label>
+                    <div class="lista-textos" data-name="apoiosAdaptacoes.avaliacao"></div>
+                </div>
+
+                <div class="campo">
+                    <label>Currículo</label>
+                    <div class="lista-textos" data-name="apoiosAdaptacoes.curriculo"></div>
+                </div>
+
+                <div class="campo">
+                    <label>Apoios institucionais</label>
+                    <div class="lista-textos" data-name="apoiosAdaptacoes.apoiosInstitucionais"></div>
+                </div>
+
+                <div class="campo">
+                    <label>Apoios externos e encaminhamentos</label>
+                    <textarea th:field="*{apoiosAdaptacoes.apoiosExternosEncaminhamentos}"></textarea>
+                </div>
+
+            </section>
+
+            <!-- AÇÕES -->
+
+            <div class="form-actions">
+                <a th:href="@{/estudos-de-caso}" class="btn-cancelar">
+                    Cancelar
+                </a>
+
+                <button type="submit" class="btn-salvar">
+                    Salvar estudo de caso
+                </button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+<script th:inline="javascript">
+    window.alunosDisponiveis = /*[[${alunos}]]*/ [];
+    window.estudoAtual = /*[[${estudo}]]*/ {};
+</script>
+
+<script th:src="@{/js/formulario_estudo_de_caso.js}"></script>
+
+</body>
+</html>

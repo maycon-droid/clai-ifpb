@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
 import br.ifpb.edu.clai.model.Aluno;
@@ -60,9 +62,9 @@ public String exibirFormularioNovo(Model model) {
     inicializarAninhados(estudo);
 
     model.addAttribute("estudo", estudo);
-    model.addAttribute("alunos", alunoService.listarTodos());
+    model.addAttribute("alunos", listarAlunosParaFormulario());
 
-    return "estudos-de-caso/form";
+    return "estudos-de-caso/formulario_estudo_de_caso";
 }
 
     @PostMapping("/salvar")
@@ -73,8 +75,8 @@ public String salvar(
 
     if (resultado.hasErrors()) {
         inicializarAninhados(estudo);
-        model.addAttribute("alunos", alunoService.listarTodos());
-        return "estudos-de-caso/form";
+        model.addAttribute("alunos", listarAlunosParaFormulario());
+        return "estudos-de-caso/formulario_estudo_de_caso";
     }
 
     estudoService.criar(estudo.getAlunoId(), estudo);
@@ -94,7 +96,7 @@ public String exibirFormularioEdicao(
     model.addAttribute("estudo", estudo);
     model.addAttribute("aluno", aluno);
 
-    return "estudos-de-caso/form";
+    return "estudos-de-caso/formulario_estudo_de_caso";
 }
 
     @PostMapping("/{id}/editar")
@@ -114,11 +116,38 @@ public String atualizar(
 
         model.addAttribute("aluno", buscarAluno(alunoIdOriginal));
 
-        return "estudos-de-caso/form";
+        return "estudos-de-caso/formulario_estudo_de_caso";
     }
 
     estudoService.atualizar(id, estudo);
     return "redirect:/estudos-de-caso";
+}
+   private List<Map<String, Object>> listarAlunosParaFormulario() {
+    List<Map<String, Object>> resultado = new ArrayList<>();
+
+    for (Aluno aluno : alunoService.listarTodos()) {
+        Map<String, Object> matricula = new HashMap<>();
+
+        if (aluno.getMatricula() != null) {
+            matricula.put("numeroMatricula",
+                    aluno.getMatricula().getNumeroMatricula());
+            matricula.put("curso", aluno.getMatricula().getCurso());
+            matricula.put("periodoIngresso",
+                    aluno.getMatricula().getPeriodoIngresso());
+            matricula.put("periodoLetivo",
+                    aluno.getMatricula().getPeriodoLetivo());
+        }
+
+        Map<String, Object> dados = new HashMap<>();
+        dados.put("id", aluno.getId());
+        dados.put("nome", aluno.getNome());
+        dados.put("cpf", aluno.getCpf());
+        dados.put("matricula", matricula);
+
+        resultado.add(dados);
+    }
+
+    return resultado;
 }
 
     private Aluno buscarAluno(String alunoId) {

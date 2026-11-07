@@ -35,15 +35,19 @@
             <section class="listagem">
 
                 <div class="listagem-toolbar">
-                    <div class="busca">
-                        <input
-                            type="text"
-                            id="busca"
-                            placeholder="Buscar por aluno ou profissional responsável"
-                            aria-label="Buscar estudos de caso"
-                        />
-                    </div>
-                </div>
+    <div class="busca">
+        <input
+            type="text"
+            id="busca"
+            placeholder="Buscar por aluno ou profissional responsável"
+            aria-label="Buscar estudos de caso"
+        />
+    </div>
+
+    <a th:href="@{/estudos-de-caso/novo}" class="btn-cadastrar">
+        + Cadastrar estudo de caso
+    </a>
+</div>
 
                 <div class="estudos-grid" th:if="${!#lists.isEmpty(estudos)}">
 
