@@ -170,7 +170,7 @@
                     <div id="lista-datas" class="lista-dinamica">
 
                         <div class="item-dinamico"
-                             th:each="data, stat : *{datasAtendimentoAnamnese}">
+                             th:each="data, stat : ${estudo.datasAtendimentoAnamnese}">
 
                             <input type="date"
                                    th:field="*{datasAtendimentoAnamnese[__${stat.index}__]}">

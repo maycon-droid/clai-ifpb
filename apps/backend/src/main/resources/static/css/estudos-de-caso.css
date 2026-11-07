@@ -364,3 +364,8 @@ body {
     height: auto;
     overflow: visible;
 }
+
+/* Ações dos detalhes */
+.detalhe-acoes {
+    gap: 12px;
+}
