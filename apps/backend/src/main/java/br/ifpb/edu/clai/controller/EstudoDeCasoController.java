@@ -42,7 +42,7 @@ public class EstudoDeCasoController {
 
         model.addAttribute("estudos", estudoService.listarTodos());
         model.addAttribute("nomesAlunos", nomesAlunos);
-        return "estudos-de-caso/lista";
+        return "estudos-de-caso/consulta-estudos-de-caso";
     }
 
     @GetMapping("/{id}")
@@ -51,7 +51,7 @@ public class EstudoDeCasoController {
 
         model.addAttribute("estudo", estudo);
         model.addAttribute("aluno", buscarAluno(estudo.getAlunoId()));
-        return "estudos-de-caso/detalhe";
+        return "estudos-de-caso/detalhes-estudo-de-caso";
     }
 
     @GetMapping("/novo")
