@@ -51,7 +51,7 @@ public class EstudoDeCasoController {
 
         model.addAttribute("estudo", estudo);
         model.addAttribute("aluno", buscarAluno(estudo.getAlunoId()));
-        return "estudos-de-caso/detalhe";
+        return "estudos-de-caso/detalhes-estudo-de-caso";
     }
 
     @GetMapping("/novo")

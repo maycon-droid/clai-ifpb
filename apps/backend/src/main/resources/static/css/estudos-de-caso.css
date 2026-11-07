@@ -188,3 +188,127 @@
         padding: 16px;
     }
 }
+/* DETALHES DO ESTUDO DE CASO */
+
+.detalhe-acoes {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #e2e8f0;
+    color: #334155;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-voltar:hover {
+    background: #cbd5e1;
+}
+
+.detalhe-secao {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.detalhe-secao-header {
+    padding: 17px 22px;
+    background: #eff6ff;
+    border-bottom: 1px solid #dbeafe;
+}
+
+.detalhe-secao-header h2 {
+    color: #1e40af;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.detalhe-conteudo {
+    padding: 22px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.detalhe-campo {
+    min-width: 0;
+}
+
+.detalhe-campo span {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.detalhe-campo strong {
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.detalhe-campo p {
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+.campo-completo {
+    grid-column: 1 / -1;
+}
+
+.lista-detalhe {
+    padding-left: 20px;
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.valor-vazio {
+    color: #94a3b8 !important;
+    font-style: italic;
+}
+
+.barreira-card {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+@media (max-width: 700px) {
+    .detalhe-conteudo {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .campo-completo {
+        grid-column: auto;
+    }
+
+    .barreira-card {
+        grid-template-columns: 1fr;
+    }
+
+    .detalhe-acoes {
+        justify-content: flex-start;
+    }
+}
