@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
 import br.ifpb.edu.clai.model.Aluno;
@@ -55,73 +54,72 @@ public class EstudoDeCasoController {
     }
 
     @GetMapping("/novo")
-    public String exibirFormularioNovo(
-            @RequestParam(required = false) String alunoId,
-            Model model) {
+public String exibirFormularioNovo(Model model) {
 
-        if (alunoId == null || alunoId.isBlank()) {
-            return "redirect:/alunos";
-        }
+    EstudoDeCaso estudo = new EstudoDeCaso();
+    inicializarAninhados(estudo);
 
-        EstudoDeCaso estudo = new EstudoDeCaso();
-        estudo.setAlunoId(alunoId);
-        inicializarAninhados(estudo);
+    model.addAttribute("estudo", estudo);
+    model.addAttribute("alunos", alunoService.listarTodos());
 
-        model.addAttribute("estudo", estudo);
-        model.addAttribute("aluno", buscarAluno(alunoId));
-        return "estudos-de-caso/form";
-    }
+    return "estudos-de-caso/form";
+}
 
     @PostMapping("/salvar")
-    public String salvar(
-            @Valid @ModelAttribute("estudo") EstudoDeCaso estudo,
-            BindingResult resultado,
-            Model model) {
+public String salvar(
+        @Valid @ModelAttribute("estudo") EstudoDeCaso estudo,
+        BindingResult resultado,
+        Model model) {
 
-        if (resultado.hasErrors()) {
-            // sem aluno vinculado não há como reexibir o formulário
-            if (estudo.getAlunoId() == null || estudo.getAlunoId().isBlank()) {
-                return "redirect:/alunos";
-            }
-            inicializarAninhados(estudo);
-            model.addAttribute("aluno", buscarAluno(estudo.getAlunoId()));
-            return "estudos-de-caso/form";
-        }
-
-        estudoService.criar(estudo.getAlunoId(), estudo);
-        return "redirect:/estudos-de-caso";
-    }
-
-    @GetMapping("/{id}/editar")
-    public String exibirFormularioEdicao(@PathVariable String id, Model model) {
-        EstudoDeCaso estudo = estudoService.buscarPorId(id);
+    if (resultado.hasErrors()) {
         inicializarAninhados(estudo);
-
-        model.addAttribute("estudo", estudo);
-        model.addAttribute("aluno", buscarAluno(estudo.getAlunoId()));
+        model.addAttribute("alunos", alunoService.listarTodos());
         return "estudos-de-caso/form";
     }
 
+    estudoService.criar(estudo.getAlunoId(), estudo);
+    return "redirect:/estudos-de-caso";
+}
+
+    @GetMapping("/{id}/editar")
+public String exibirFormularioEdicao(
+        @PathVariable String id,
+        Model model) {
+
+    EstudoDeCaso estudo = estudoService.buscarPorId(id);
+    inicializarAninhados(estudo);
+
+    Aluno aluno = buscarAluno(estudo.getAlunoId());
+
+    model.addAttribute("estudo", estudo);
+    model.addAttribute("aluno", aluno);
+
+    return "estudos-de-caso/form";
+}
+
     @PostMapping("/{id}/editar")
-    public String atualizar(
-            @PathVariable String id,
-            @Valid @ModelAttribute("estudo") EstudoDeCaso estudo,
-            BindingResult resultado,
-            Model model) {
+public String atualizar(
+        @PathVariable String id,
+        @Valid @ModelAttribute("estudo") EstudoDeCaso estudo,
+        BindingResult resultado,
+        Model model) {
 
-        estudo.setId(id);
+    estudo.setId(id);
 
-        if (resultado.hasErrors()) {
-            String alunoIdOriginal = estudoService.buscarPorId(id).getAlunoId();
-            estudo.setAlunoId(alunoIdOriginal);
-            inicializarAninhados(estudo);
-            model.addAttribute("aluno", buscarAluno(alunoIdOriginal));
-            return "estudos-de-caso/form";
-        }
+    if (resultado.hasErrors()) {
+        String alunoIdOriginal = estudoService.buscarPorId(id).getAlunoId();
 
-        estudoService.atualizar(id, estudo);
-        return "redirect:/estudos-de-caso";
+        estudo.setAlunoId(alunoIdOriginal);
+        inicializarAninhados(estudo);
+
+        model.addAttribute("aluno", buscarAluno(alunoIdOriginal));
+
+        return "estudos-de-caso/form";
     }
+
+    estudoService.atualizar(id, estudo);
+    return "redirect:/estudos-de-caso";
+}
 
     private Aluno buscarAluno(String alunoId) {
         return alunoService.buscarPorId(alunoId)
