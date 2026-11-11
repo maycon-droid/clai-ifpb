@@ -19,7 +19,8 @@ public class AlunoService {
     }
 
     public Aluno salvar(Aluno aluno) {
-        if (aluno.getMatricula() == null || aluno.getMatricula().getNumeroMatricula() == null || aluno.getMatricula().getNumeroMatricula().isBlank()) {
+        if (aluno.getMatricula() == null || aluno.getMatricula().getNumeroMatricula() == null
+                || aluno.getMatricula().getNumeroMatricula().isBlank()) {
             throw new IllegalArgumentException("A matrícula do aluno é obrigatória.");
         }
 
@@ -47,15 +48,20 @@ public class AlunoService {
                 .orElseThrow(() -> new AlunoNaoEncontradoException("Aluno não encontrado para o ID: " + id));
 
         // pra valida se a nova matrícula já está em uso por outro aluno
-        String novaMatricula = dadosAtualizados.getMatricula() != null ? dadosAtualizados.getMatricula().getNumeroMatricula() : null;
+        String novaMatricula = dadosAtualizados.getMatricula() != null
+                ? dadosAtualizados.getMatricula().getNumeroMatricula()
+                : null;
 
-        //Correção da validação da matrícula para verificar se é nula ou em branco(change request)
-        if(novaMatricula == null || novaMatricula.isBlank()) {
+        // Correção da validação da matrícula para verificar se é nula ou em
+        // branco(change request)
+        if (novaMatricula == null || novaMatricula.isBlank()) {
             throw new IllegalArgumentException("A nova matrícula informada é inválida.");
         }
-            String matriculaAtual = alunoExistente.getMatricula() != null ? alunoExistente.getMatricula().getNumeroMatricula() : null;
+        String matriculaAtual = alunoExistente.getMatricula() != null
+                ? alunoExistente.getMatricula().getNumeroMatricula()
+                : null;
 
-        if (novaMatricula != null && !novaMatricula.equals(matriculaAtual)) {
+        if (!novaMatricula.equals(matriculaAtual)) {
             if (alunoRepository.existsByMatriculaNumeroMatricula(novaMatricula)) {
                 throw new MatriculaDuplicadaException("A nova matrícula informada já está em uso.");
             }
@@ -63,9 +69,10 @@ public class AlunoService {
 
         alunoExistente.setNome(dadosAtualizados.getNome());
         alunoExistente.setCpf(dadosAtualizados.getCpf());
-        alunoExistente.setEmail(dadosAtualizados.getEmail());
+        alunoExistente.setContatoAluno(dadosAtualizados.getContatoAluno());
         alunoExistente.setMatricula(dadosAtualizados.getMatricula());
-        alunoExistente.setTipoAluno(dadosAtualizados.getTipoAluno());
+        alunoExistente.setDadosResponsavel(dadosAtualizados.getDadosResponsavel());
+        alunoExistente.setDataNascimento(dadosAtualizados.getDataNascimento());
 
         return alunoRepository.save(alunoExistente);
     }

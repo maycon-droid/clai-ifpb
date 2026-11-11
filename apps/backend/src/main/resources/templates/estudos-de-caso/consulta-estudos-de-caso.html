@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Estudos de Caso | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/estudos-de-caso.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <main class="container">
+
+            <section class="page-header">
+                <h1>Estudos de Caso</h1>
+                <p>Consulte e acompanhe os estudos de caso dos alunos.</p>
+            </section>
+
+            <section class="resumo">
+                <div>
+                    <p>Total de estudos cadastrados</p>
+                    <strong th:text="${#lists.size(estudos)}">0</strong>
+                </div>
+            </section>
+
+            <section class="listagem">
+
+                <div class="listagem-toolbar">
+    <div class="busca">
+        <input
+            type="text"
+            id="busca"
+            placeholder="Buscar por aluno ou profissional responsável"
+            aria-label="Buscar estudos de caso"
+        />
+    </div>
+
+    <a th:href="@{/estudos-de-caso/novo}" class="btn-cadastrar">
+        + Cadastrar estudo de caso
+    </a>
+</div>
+
+                <div class="estudos-grid" th:if="${!#lists.isEmpty(estudos)}">
+
+                    <article
+                        class="estudo-card"
+                        th:each="estudo : ${estudos}"
+                    >
+
+                        <div class="estudo-card-header">
+                            <span class="estudo-identificador">
+                                Estudo de Caso
+                            </span>
+                        </div>
+
+                        <div class="estudo-card-content">
+
+                            <div class="informacao">
+                                <span>Aluno vinculado</span>
+                                <strong
+                                    th:text="${nomesAlunos[estudo.alunoId] != null ? nomesAlunos[estudo.alunoId] : 'Aluno não identificado'}"
+                                >
+                                    Nome do aluno
+                                </strong>
+                            </div>
+
+                            <div class="informacao">
+                                <span>Profissional responsável</span>
+                                <strong
+                                    th:text="${estudo.profissionalResponsavel != null ? estudo.profissionalResponsavel : 'Não informado'}"
+                                >
+                                    Profissional
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <div class="estudo-card-footer">
+                            <a
+                                th:href="@{/estudos-de-caso/{id}(id=${estudo.id})}"
+                                class="btn-visualizar"
+                            >
+                                Visualizar estudo
+                            </a>
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div
+                    class="estado-vazio"
+                    th:if="${#lists.isEmpty(estudos)}"
+                >
+                    <h2>Nenhum estudo de caso cadastrado</h2>
+                    <p>
+                        Ainda não existem estudos de caso registrados no sistema.
+                    </p>
+                </div>
+
+                <p id="sem-resultados" class="sem-resultados" hidden>
+                    Nenhum estudo de caso corresponde à sua busca.
+                </p>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script th:src="@{/js/estudos-de-caso.js}"></script>
+
+</body>
+</html>

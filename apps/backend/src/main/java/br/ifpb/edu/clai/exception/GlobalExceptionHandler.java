@@ -24,4 +24,14 @@ public class GlobalExceptionHandler {
         model.addAttribute("mensagemErro", exception.getMessage());
         return "erro/erro-negocio";
     }
+
+    @ExceptionHandler(EstudoDeCasoNaoEncontradoException.class)
+    public String tratarEstudoDeCasoNaoEncontrado(
+            EstudoDeCasoNaoEncontradoException exception,
+            Model model) {
+
+        model.addAttribute("mensagemErro", exception.getMessage());
+        return "erro/erro-negocio";
+    }
+
 }

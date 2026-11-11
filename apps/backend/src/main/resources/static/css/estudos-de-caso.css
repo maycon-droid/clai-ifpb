@@ -1,0 +1,371 @@
+/* Cabeçalho */
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    color: #1e293b;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: #64748b;
+    font-size: 15px;
+}
+
+/* Resumo */
+
+.resumo {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.resumo p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.resumo strong {
+    color: #2563eb;
+    font-size: 28px;
+}
+
+/* Listagem */
+
+.listagem {
+    width: 100%;
+}
+
+.listagem-toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.busca {
+    width: 100%;
+    max-width: 480px;
+}
+
+.busca input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.busca input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Cards */
+
+.estudos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.estudo-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.estudo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.estudo-card-header {
+    padding: 16px 20px;
+    background: #eff6ff;
+    border-bottom: 1px solid #dbeafe;
+}
+
+.estudo-identificador {
+    color: #1d4ed8;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.estudo-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.informacao {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.informacao span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.informacao strong {
+    color: #1e293b;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.estudo-card-footer {
+    padding: 0 20px 20px;
+}
+
+.btn-visualizar {
+    display: inline-block;
+    width: 100%;
+    padding: 11px;
+    background: #2563eb;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-visualizar:hover {
+    background: #1d4ed8;
+}
+
+/* Estados vazios */
+
+.estado-vazio {
+    background: #ffffff;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 12px;
+    border: 1px dashed #cbd5e1;
+}
+
+.estado-vazio h2 {
+    color: #334155;
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.estado-vazio p,
+.sem-resultados {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.sem-resultados {
+    margin-top: 20px;
+}
+
+/* Responsividade */
+
+@media (max-width: 600px) {
+    .page-header h1 {
+        font-size: 23px;
+    }
+
+    .estudos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resumo {
+        padding: 16px;
+    }
+}
+/* DETALHES DO ESTUDO DE CASO */
+
+.detalhe-acoes {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #e2e8f0;
+    color: #334155;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-voltar:hover {
+    background: #cbd5e1;
+}
+
+.detalhe-secao {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.detalhe-secao-header {
+    padding: 17px 22px;
+    background: #eff6ff;
+    border-bottom: 1px solid #dbeafe;
+}
+
+.detalhe-secao-header h2 {
+    color: #1e40af;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.detalhe-conteudo {
+    padding: 22px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.detalhe-campo {
+    min-width: 0;
+}
+
+.detalhe-campo span {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.detalhe-campo strong {
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.detalhe-campo p {
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+.campo-completo {
+    grid-column: 1 / -1;
+}
+
+.lista-detalhe {
+    padding-left: 20px;
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.valor-vazio {
+    color: #94a3b8 !important;
+    font-style: italic;
+}
+
+.barreira-card {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+@media (max-width: 700px) {
+    .detalhe-conteudo {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .campo-completo {
+        grid-column: auto;
+    }
+
+    .barreira-card {
+        grid-template-columns: 1fr;
+    }
+
+    .detalhe-acoes {
+        justify-content: flex-start;
+    }
+}
+/* Botão de cadastro */
+
+.btn-cadastrar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cadastrar:hover {
+    background-color: #1d4ed8;
+}
+
+@media (max-width: 700px) {
+    .listagem-toolbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .busca {
+        max-width: 100%;
+    }
+
+    .btn-cadastrar {
+        width: 100%;
+    }
+}
+
+/* Ajuste da rolagem da listagem */
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.app-layout {
+    height: auto;
+    min-height: 100vh;
+}
+
+.app-layout > .container {
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+}
+
+/* Ações dos detalhes */
+.detalhe-acoes {
+    gap: 12px;
+}

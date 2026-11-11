@@ -26,7 +26,8 @@ public class AlunoController {
     @GetMapping
     public String listarAlunos(Model model) {
         model.addAttribute("alunos", alunoService.listarTodos());
-        return "alunos/lista";
+        model.addAttribute("aluno", new Aluno());
+        return "alunos/alunos";
     }
 
     @GetMapping("/novo")

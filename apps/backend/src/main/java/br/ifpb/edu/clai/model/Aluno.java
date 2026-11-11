@@ -9,6 +9,11 @@ import jakarta.validation.Valid;
 
 import lombok.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import org.hibernate.validator.constraints.br.CPF;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,23 +28,30 @@ public class Aluno {
     private String nome;
 
     @NotBlank(message = "O CPF do aluno é obrigatório")
-    @Pattern(regexp = "[0-9]{11}", message = "O CPF deve conter exatamente 11 dígitos")
-    private String cpf;
-
-    @Email(message = "O email do aluno deve ser válido")
     @Pattern(
-        regexp = "^$|^[^@\\s]+@[^@.\\s]+(\\.[^@.\\s]+)+$",
-        message = "O email deve possuir um domínio válido, como aluno@email.com"
+    regexp = "[0-9]{11}",
+    message = "O CPF deve conter exatamente 11 dígitos"
     )
-    private String email;
+    @CPF(message = "O CPF informado é inválido")
+    private String cpf;
 
     @NotNull(message = "A matrícula do aluno é obrigatória")
     @Valid
     private DadosMatricula matricula;
 
-    @NotBlank(message = "O tipo do aluno é obrigatório")
-    private String tipoAluno;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Past(message = "A data de nascimento deve ser anterior à data atual")
+    private LocalDate dataNascimento;
 
+    @Valid
+    @NotNull
+    private Contato contatoAluno;
+
+    @Valid
+    @NotNull
+    private DadosResponsavel dadosResponsavel;
+
+    //classes auxiliares
     @Getter
     @Setter
     @NoArgsConstructor
@@ -50,32 +62,52 @@ public class Aluno {
         @NotBlank(message = "A matrícula do aluno é obrigatória")
         private String numeroMatricula; // renomeado pra evitar erro com AlunoRepository
 
+        private String curso;
+
+
         @NotBlank(message = "O período de ingresso do aluno é obrigatório")
         private String periodoIngresso;
 
-        private String status = "Ativo";
+        @NotBlank(message = "O período letivo do aluno é obrigatório")
+        private String periodoLetivo;
     }
 
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CursoInfo {
+    public static class Contato {
 
-        @NotBlank(message = "O nome do curso é obrigatório")
-        private String nomeCurso;
+    @NotBlank(message = "O telefone é obrigatório")
+    @Pattern(
+        regexp = "\\d{10,11}",
+        message = "O telefone deve conter 10 ou 11 dígitos, incluindo o DDD"
+    )
+    private String telefone;
 
-        @NotBlank(message = "O código do curso é obrigatório")
-        private String codigoCurso;
-
-        @NotBlank(message = "O nível de ensino do curso é obrigatório")
-        private String nivelEnsino;
-
-        @NotBlank(message = "O eixo tecnológico do curso é obrigatório")
-        private String eixoTecnologico;
+        @Email(message = "O email deve ser válido")
+        @Pattern(
+            regexp = "^$|^[^@\\s]+@[^@.\\s]+(\\.[^@.\\s]+)+$",
+            message = "O email deve possuir um domínio válido, como aluno@email.com"
+        )
+        private String email;
     }
 
-    public static class SerieInfo {
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DadosResponsavel {
 
+        @NotBlank(message = "O nome do responsável é obrigatório")
+        private String nome;
+
+        @NotBlank(message = "O parentesco é obrigatório")
+        private String parentesco;
+
+        @Valid
+        @NotNull(message = "O contato do responsável é obrigatório")
+        private Contato contatoDoResponsavel;
     }
+
 }

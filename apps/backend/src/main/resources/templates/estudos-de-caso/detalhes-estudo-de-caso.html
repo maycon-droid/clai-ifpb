@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Detalhes do Estudo de Caso | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/estudos-de-caso.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+
+        <section class="page-header">
+            <h1>Detalhes do Estudo de Caso</h1>
+            <p>Visualização completa das informações registradas.</p>
+        </section>
+
+        <div class="detalhe-acoes">
+            <a th:href="@{/estudos-de-caso}" class="btn-voltar">
+                Voltar para listagem
+            </a>
+
+            <a th:href="@{/estudos-de-caso/{id}/editar(id=${estudo.id})}"
+               class="btn-cadastrar">
+                Editar estudo de caso
+            </a>
+        </div>
+
+        <!-- IDENTIFICAÇÃO DO ALUNO -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Identificação do aluno</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+                <div class="detalhe-campo">
+                    <span>Nome completo</span>
+                    <strong th:text="${aluno.nome}">Nome do aluno</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Matrícula</span>
+                    <strong th:text="${aluno.matricula.numeroMatricula}">000000</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Curso</span>
+                    <strong th:text="${aluno.matricula.curso ?: 'Não informado'}">Curso</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Período de ingresso</span>
+                    <strong th:text="${aluno.matricula.periodoIngresso}">2025.1</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Período letivo</span>
+                    <strong th:text="${aluno.matricula.periodoLetivo}">2026.2</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- DADOS DO ATENDIMENTO -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Dados do atendimento</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Profissional responsável</span>
+                    <strong th:text="${estudo.profissionalResponsavel ?: 'Não informado'}">
+                        Profissional
+                    </strong>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Datas dos atendimentos e anamnese</span>
+
+                    <ul class="lista-detalhe"
+                        th:if="${estudo.datasAtendimentoAnamnese != null and !#lists.isEmpty(estudo.datasAtendimentoAnamnese)}">
+
+                        <li th:each="data : ${estudo.datasAtendimentoAnamnese}"
+                            th:text="${#temporals.format(data, 'dd/MM/yyyy')}">
+                            01/01/2026
+                        </li>
+                    </ul>
+
+                    <p class="valor-vazio"
+                       th:if="${estudo.datasAtendimentoAnamnese == null or #lists.isEmpty(estudo.datasAtendimentoAnamnese)}">
+                        Não informado
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ENCAMINHAMENTO E DEMANDA -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Encaminhamento e demanda</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Origem do encaminhamento</span>
+                    <p th:text="${estudo.encaminhamento?.origemEncaminhamento ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Outra origem</span>
+                    <p th:text="${estudo.encaminhamento?.outraOrigem ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Motivo principal</span>
+                    <p th:text="${estudo.encaminhamento?.motivoPrincipal ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Demanda do estudante</span>
+                    <p th:text="${estudo.encaminhamento?.demandaEstudante ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Demanda da família</span>
+                    <p th:text="${estudo.encaminhamento?.demandaFamilia ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Demanda da equipe escolar</span>
+                    <p th:text="${estudo.encaminhamento?.demandaEquipeEscolar ?: 'Não informado'}"></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- NECESSIDADE DE DOCUMENTAÇÃO -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Necessidade e documentação</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Necessidade específica informada</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.necessidadeEspecificaInformada ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Diagnósticos</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.diagnosticos ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Documentos comprobatórios apresentados</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.documentosComprobatoriosApresentados == null ? 'Não informado' : (estudo.necessidadeDocumentacao.documentosComprobatoriosApresentados ? 'Sim' : 'Não')}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Descrição dos documentos</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.descricaoDocumentos ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Data e profissional dos documentos</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.dataProfissionalDocumentos ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Possui comorbidades</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.possuiComorbidades == null ? 'Não informado' : (estudo.necessidadeDocumentacao.possuiComorbidades ? 'Sim' : 'Não')}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Descrição das comorbidades</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.descricaoComorbidades ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Utiliza medicação contínua</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.utilizaMedicacaoContinua == null ? 'Não informado' : (estudo.necessidadeDocumentacao.utilizaMedicacaoContinua ? 'Sim' : 'Não')}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Descrição da medicação</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.descricaoMedicacaoContinua ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Encaminhamentos anteriores</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.encaminhamentosAnteriores ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Serviços de apoio anteriores</span>
+                    <p th:text="${estudo.necessidadeDocumentacao?.servicosApoioAnteriores ?: 'Não informado'}"></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- HISTÓRICO ESCOLAR -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Histórico de vida escolar</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Histórico escolar</span>
+                    <p th:text="${estudo.historicoVidaEscolar?.historicoEscolar ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Experiências escolares positivas</span>
+                    <p th:text="${estudo.historicoVidaEscolar?.experienciasEscolaresPositivas ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Experiências escolares negativas</span>
+                    <p th:text="${estudo.historicoVidaEscolar?.experienciasEscolaresNegativas ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Adaptações e recursos utilizados</span>
+                    <p th:text="${estudo.historicoVidaEscolar?.adaptacoesRecursosUtilizados ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Objetivos e conhecimentos consolidados</span>
+                    <p th:text="${estudo.historicoVidaEscolar?.objetivosConhecimentosConsolidados ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Áreas de maior facilidade</span>
+                    <p th:text="${estudo.historicoVidaEscolar?.areasMaiorFacilidade ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Áreas de maior dificuldade</span>
+                    <p th:text="${estudo.historicoVidaEscolar?.areasMaiorDificuldade ?: 'Não informado'}"></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PERFIL DE APRENDIZAGEM -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Perfil de aprendizagem</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Comunicação e orientações</span>
+                    <p th:text="${estudo.perfilAprendizagem?.comunicacaoOrientacoes ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Leitura, escrita e linguagem</span>
+                    <p th:text="${estudo.perfilAprendizagem?.leituraEscritaLinguagem ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Raciocínio lógico-matemático</span>
+                    <p th:text="${estudo.perfilAprendizagem?.raciocinioLogicoMatematico ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Atenção, memória e funções executivas</span>
+                    <p th:text="${estudo.perfilAprendizagem?.atencaoMemoriaFuncoesExecutivas ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Organização, planejamento e tarefas</span>
+                    <p th:text="${estudo.perfilAprendizagem?.organizacaoPlanejamentoTarefas ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Interação social e participação</span>
+                    <p th:text="${estudo.perfilAprendizagem?.interacaoSocialParticipacao ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Aspectos sensoriais</span>
+                    <p th:text="${estudo.perfilAprendizagem?.aspectosSensoriais ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Mobilidade e acesso a tecnologias</span>
+                    <p th:text="${estudo.perfilAprendizagem?.mobilidadeAcessoTecnologias ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Autonomia familiar</span>
+                    <p th:text="${estudo.perfilAprendizagem?.autonomiaFamiliar ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Autonomia escolar</span>
+                    <p th:text="${estudo.perfilAprendizagem?.autonomiaEscolar ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Estratégias favoráveis à aprendizagem</span>
+                    <p th:text="${estudo.perfilAprendizagem?.estrategiasFavoraveisAprendizagem ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Situações que dificultam a aprendizagem</span>
+                    <p th:text="${estudo.perfilAprendizagem?.situacoesQueDificultamAprendizagem ?: 'Não informado'}"></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTEXTO PSICOSSOCIAL -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Contexto psicossocial</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Relação com o curso e expectativas</span>
+                    <p th:text="${estudo.contextoPsicossocial?.relacaoCursoExpectativas ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Rede de apoio familiar e social</span>
+                    <p th:text="${estudo.contextoPsicossocial?.redeApoioFamiliarSocial ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Fatores psicossociais</span>
+                    <p th:text="${estudo.contextoPsicossocial?.fatoresPsicossociais ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Frequência, rotina e permanência</span>
+                    <p th:text="${estudo.contextoPsicossocial?.frequenciaRotinaPermanencia ?: 'Não informado'}"></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- POTENCIALIDADES E INTERESSES -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Potencialidades e interesses</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Potencialidades acadêmicas</span>
+                    <p th:text="${estudo.potencialidadesInteresses?.potencialidadesAcademicas ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Interesses e habilidades</span>
+                    <p th:text="${estudo.potencialidadesInteresses?.interessesHabilidades ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Formas preferenciais de aprendizagem</span>
+                    <p th:text="${estudo.potencialidadesInteresses?.formasPreferenciaisAprendizagem ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Recursos que favorecem o desempenho</span>
+                    <p th:text="${estudo.potencialidadesInteresses?.recursosQueFavorecemDesempenho ?: 'Não informado'}"></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BARREIRAS EDUCACIONAIS -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Barreiras educacionais</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div
+                    class="barreira-card"
+                    th:each="barreira : ${estudo.barreirasEducacionais}"
+                    th:if="${estudo.barreirasEducacionais != null and !#lists.isEmpty(estudo.barreirasEducacionais)}"
+                >
+                    <div class="detalhe-campo">
+                        <span>Dimensão</span>
+                        <strong th:text="${barreira.dimensao ?: 'Não informado'}"></strong>
+                    </div>
+
+                    <div class="detalhe-campo">
+                        <span>Prioridade</span>
+                        <strong th:text="${barreira.prioridade ?: 'Não informado'}"></strong>
+                    </div>
+
+                    <div class="detalhe-campo campo-completo">
+                        <span>Barreira ou necessidade identificada</span>
+                        <p th:text="${barreira.barreiraNecessidadeIdentificada ?: 'Não informado'}"></p>
+                    </div>
+
+                    <div class="detalhe-campo campo-completo">
+                        <span>Evidências e impactos na aprendizagem</span>
+                        <p th:text="${barreira.evidenciasImpactosAprendizagem ?: 'Não informado'}"></p>
+                    </div>
+                </div>
+
+                <p class="valor-vazio"
+                   th:if="${estudo.barreirasEducacionais == null or #lists.isEmpty(estudo.barreirasEducacionais)}">
+                    Nenhuma barreira educacional registrada.
+                </p>
+
+            </div>
+        </section>
+
+        <!-- SÍNTESE PSICOPEDAGÓGICA -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Síntese psicopedagógica</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Necessidades específicas</span>
+                    <p th:text="${estudo.sintesePsicopedagogica?.necessidadesEspecificas ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Avanços e objetivos alcançados</span>
+                    <p th:text="${estudo.sintesePsicopedagogica?.avancosObjetivosAlcancados ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Dificuldades e barreiras educacionais</span>
+                    <p th:text="${estudo.sintesePsicopedagogica?.dificuldadesBarreirasEducacionais ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Potencialidades e condições facilitadoras</span>
+                    <p th:text="${estudo.sintesePsicopedagogica?.potencialidadesCondicoesFacilitadoras ?: 'Não informado'}"></p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Principais demandas</span>
+                    <p th:text="${estudo.sintesePsicopedagogica?.principaisDemandas ?: 'Não informado'}"></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- APOIOS E ADAPTAÇÕES -->
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>Apoios e adaptações</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Acessibilidade do ambiente</span>
+                    <ul class="lista-detalhe"
+                        th:if="${estudo.apoiosAdaptacoes?.acessibilidadeAmbiente != null and !#lists.isEmpty(estudo.apoiosAdaptacoes.acessibilidadeAmbiente)}">
+                        <li th:each="item : ${estudo.apoiosAdaptacoes.acessibilidadeAmbiente}"
+                            th:text="${item}"></li>
+                    </ul>
+                    <p class="valor-vazio"
+                       th:if="${estudo.apoiosAdaptacoes?.acessibilidadeAmbiente == null or #lists.isEmpty(estudo.apoiosAdaptacoes.acessibilidadeAmbiente)}">
+                        Não informado
+                    </p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Comunicação e materiais</span>
+                    <ul class="lista-detalhe"
+                        th:if="${estudo.apoiosAdaptacoes?.comunicacaoMateriais != null and !#lists.isEmpty(estudo.apoiosAdaptacoes.comunicacaoMateriais)}">
+                        <li th:each="item : ${estudo.apoiosAdaptacoes.comunicacaoMateriais}"
+                            th:text="${item}"></li>
+                    </ul>
+                    <p class="valor-vazio"
+                       th:if="${estudo.apoiosAdaptacoes?.comunicacaoMateriais == null or #lists.isEmpty(estudo.apoiosAdaptacoes.comunicacaoMateriais)}">
+                        Não informado
+                    </p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Metodologia</span>
+                    <ul class="lista-detalhe"
+                        th:if="${estudo.apoiosAdaptacoes?.metodologia != null and !#lists.isEmpty(estudo.apoiosAdaptacoes.metodologia)}">
+                        <li th:each="item : ${estudo.apoiosAdaptacoes.metodologia}"
+                            th:text="${item}"></li>
+                    </ul>
+                    <p class="valor-vazio"
+                       th:if="${estudo.apoiosAdaptacoes?.metodologia == null or #lists.isEmpty(estudo.apoiosAdaptacoes.metodologia)}">
+                        Não informado
+                    </p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Avaliação</span>
+                    <ul class="lista-detalhe"
+                        th:if="${estudo.apoiosAdaptacoes?.avaliacao != null and !#lists.isEmpty(estudo.apoiosAdaptacoes.avaliacao)}">
+                        <li th:each="item : ${estudo.apoiosAdaptacoes.avaliacao}"
+                            th:text="${item}"></li>
+                    </ul>
+                    <p class="valor-vazio"
+                       th:if="${estudo.apoiosAdaptacoes?.avaliacao == null or #lists.isEmpty(estudo.apoiosAdaptacoes.avaliacao)}">
+                        Não informado
+                    </p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Currículo</span>
+                    <ul class="lista-detalhe"
+                        th:if="${estudo.apoiosAdaptacoes?.curriculo != null and !#lists.isEmpty(estudo.apoiosAdaptacoes.curriculo)}">
+                        <li th:each="item : ${estudo.apoiosAdaptacoes.curriculo}"
+                            th:text="${item}"></li>
+                    </ul>
+                    <p class="valor-vazio"
+                       th:if="${estudo.apoiosAdaptacoes?.curriculo == null or #lists.isEmpty(estudo.apoiosAdaptacoes.curriculo)}">
+                        Não informado
+                    </p>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Apoios institucionais</span>
+                    <ul class="lista-detalhe"
+                        th:if="${estudo.apoiosAdaptacoes?.apoiosInstitucionais != null and !#lists.isEmpty(estudo.apoiosAdaptacoes.apoiosInstitucionais)}">
+                        <li th:each="item : ${estudo.apoiosAdaptacoes.apoiosInstitucionais}"
+                            th:text="${item}"></li>
+                    </ul>
+                    <p class="valor-vazio"
+                       th:if="${estudo.apoiosAdaptacoes?.apoiosInstitucionais == null or #lists.isEmpty(estudo.apoiosAdaptacoes.apoiosInstitucionais)}">
+                        Não informado
+                    </p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Apoios externos e encaminhamentos</span>
+                    <p th:text="${estudo.apoiosAdaptacoes?.apoiosExternosEncaminhamentos ?: 'Não informado'}"></p>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="detalhe-acoes">
+            <a th:href="@{/estudos-de-caso}" class="btn-voltar">
+                Voltar para listagem
+            </a>
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
