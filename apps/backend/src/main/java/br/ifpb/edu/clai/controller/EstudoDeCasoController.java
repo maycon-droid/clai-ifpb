@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
 import br.ifpb.edu.clai.model.Aluno;
@@ -55,73 +56,99 @@ public class EstudoDeCasoController {
     }
 
     @GetMapping("/novo")
-    public String exibirFormularioNovo(
-            @RequestParam(required = false) String alunoId,
-            Model model) {
+public String exibirFormularioNovo(Model model) {
 
-        if (alunoId == null || alunoId.isBlank()) {
-            return "redirect:/alunos";
-        }
+    EstudoDeCaso estudo = new EstudoDeCaso();
+    inicializarAninhados(estudo);
 
-        EstudoDeCaso estudo = new EstudoDeCaso();
-        estudo.setAlunoId(alunoId);
-        inicializarAninhados(estudo);
+    model.addAttribute("estudo", estudo);
+    model.addAttribute("alunos", listarAlunosParaFormulario());
 
-        model.addAttribute("estudo", estudo);
-        model.addAttribute("aluno", buscarAluno(alunoId));
-        return "estudos-de-caso/form";
-    }
+    return "estudos-de-caso/formulario_estudo_de_caso";
+}
 
     @PostMapping("/salvar")
-    public String salvar(
-            @Valid @ModelAttribute("estudo") EstudoDeCaso estudo,
-            BindingResult resultado,
-            Model model) {
+public String salvar(
+        @Valid @ModelAttribute("estudo") EstudoDeCaso estudo,
+        BindingResult resultado,
+        Model model) {
 
-        if (resultado.hasErrors()) {
-            // sem aluno vinculado não há como reexibir o formulário
-            if (estudo.getAlunoId() == null || estudo.getAlunoId().isBlank()) {
-                return "redirect:/alunos";
-            }
-            inicializarAninhados(estudo);
-            model.addAttribute("aluno", buscarAluno(estudo.getAlunoId()));
-            return "estudos-de-caso/form";
-        }
-
-        estudoService.criar(estudo.getAlunoId(), estudo);
-        return "redirect:/estudos-de-caso";
+    if (resultado.hasErrors()) {
+        inicializarAninhados(estudo);
+        model.addAttribute("alunos", listarAlunosParaFormulario());
+        return "estudos-de-caso/formulario_estudo_de_caso";
     }
+
+    estudoService.criar(estudo.getAlunoId(), estudo);
+    return "redirect:/estudos-de-caso";
+}
 
     @GetMapping("/{id}/editar")
-    public String exibirFormularioEdicao(@PathVariable String id, Model model) {
-        EstudoDeCaso estudo = estudoService.buscarPorId(id);
-        inicializarAninhados(estudo);
+public String exibirFormularioEdicao(
+        @PathVariable String id,
+        Model model) {
 
-        model.addAttribute("estudo", estudo);
-        model.addAttribute("aluno", buscarAluno(estudo.getAlunoId()));
-        return "estudos-de-caso/form";
-    }
+    EstudoDeCaso estudo = estudoService.buscarPorId(id);
+    inicializarAninhados(estudo);
+
+    Aluno aluno = buscarAluno(estudo.getAlunoId());
+
+    model.addAttribute("estudo", estudo);
+    model.addAttribute("aluno", aluno);
+
+    return "estudos-de-caso/formulario_estudo_de_caso";
+}
 
     @PostMapping("/{id}/editar")
-    public String atualizar(
-            @PathVariable String id,
-            @Valid @ModelAttribute("estudo") EstudoDeCaso estudo,
-            BindingResult resultado,
-            Model model) {
+public String atualizar(
+        @PathVariable String id,
+        @Valid @ModelAttribute("estudo") EstudoDeCaso estudo,
+        BindingResult resultado,
+        Model model) {
 
-        estudo.setId(id);
+    estudo.setId(id);
 
-        if (resultado.hasErrors()) {
-            String alunoIdOriginal = estudoService.buscarPorId(id).getAlunoId();
-            estudo.setAlunoId(alunoIdOriginal);
-            inicializarAninhados(estudo);
-            model.addAttribute("aluno", buscarAluno(alunoIdOriginal));
-            return "estudos-de-caso/form";
+    if (resultado.hasErrors()) {
+        String alunoIdOriginal = estudoService.buscarPorId(id).getAlunoId();
+
+        estudo.setAlunoId(alunoIdOriginal);
+        inicializarAninhados(estudo);
+
+        model.addAttribute("aluno", buscarAluno(alunoIdOriginal));
+
+        return "estudos-de-caso/formulario_estudo_de_caso";
+    }
+
+    estudoService.atualizar(id, estudo);
+    return "redirect:/estudos-de-caso";
+}
+   private List<Map<String, Object>> listarAlunosParaFormulario() {
+    List<Map<String, Object>> resultado = new ArrayList<>();
+
+    for (Aluno aluno : alunoService.listarTodos()) {
+        Map<String, Object> matricula = new HashMap<>();
+
+        if (aluno.getMatricula() != null) {
+            matricula.put("numeroMatricula",
+                    aluno.getMatricula().getNumeroMatricula());
+            matricula.put("curso", aluno.getMatricula().getCurso());
+            matricula.put("periodoIngresso",
+                    aluno.getMatricula().getPeriodoIngresso());
+            matricula.put("periodoLetivo",
+                    aluno.getMatricula().getPeriodoLetivo());
         }
 
-        estudoService.atualizar(id, estudo);
-        return "redirect:/estudos-de-caso";
+        Map<String, Object> dados = new HashMap<>();
+        dados.put("id", aluno.getId());
+        dados.put("nome", aluno.getNome());
+        dados.put("cpf", aluno.getCpf());
+        dados.put("matricula", matricula);
+
+        resultado.add(dados);
     }
+
+    return resultado;
+}
 
     private Aluno buscarAluno(String alunoId) {
         return alunoService.buscarPorId(alunoId)

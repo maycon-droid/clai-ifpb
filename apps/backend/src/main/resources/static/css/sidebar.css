@@ -76,3 +76,46 @@
   color: white;
   font-size: 20px;
 }
+
+/* Layout global com menu fixo */
+.sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    flex: none;
+}
+
+.app-layout {
+    display: block;
+    min-height: 100vh;
+}
+
+.app-layout > .container {
+    box-sizing: border-box;
+    margin: 0 0 0 250px;
+    width: calc(100% - 250px);
+    max-width: none;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+}
+
+/* Ajuste quando o menu estiver recolhido */
+body:has(.sidebar.recolhida) .app-layout > .container {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+}
+
+/* A listagem de alunos acompanha a rolagem da página */
+.alunos-lista {
+    flex: none !important;
+    min-height: auto !important;
+    overflow: visible !important;
+}
+
+.listagem {
+    flex: none !important;
+    min-height: auto !important;
+}

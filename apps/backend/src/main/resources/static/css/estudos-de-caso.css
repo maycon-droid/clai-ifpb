@@ -312,3 +312,60 @@
         justify-content: flex-start;
     }
 }
+/* Botão de cadastro */
+
+.btn-cadastrar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cadastrar:hover {
+    background-color: #1d4ed8;
+}
+
+@media (max-width: 700px) {
+    .listagem-toolbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .busca {
+        max-width: 100%;
+    }
+
+    .btn-cadastrar {
+        width: 100%;
+    }
+}
+
+/* Ajuste da rolagem da listagem */
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.app-layout {
+    height: auto;
+    min-height: 100vh;
+}
+
+.app-layout > .container {
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+}
+
+/* Ações dos detalhes */
+.detalhe-acoes {
+    gap: 12px;
+}

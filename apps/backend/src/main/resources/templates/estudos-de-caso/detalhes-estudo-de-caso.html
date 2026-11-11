@@ -29,6 +29,11 @@
             <a th:href="@{/estudos-de-caso}" class="btn-voltar">
                 Voltar para listagem
             </a>
+
+            <a th:href="@{/estudos-de-caso/{id}/editar(id=${estudo.id})}"
+               class="btn-cadastrar">
+                Editar estudo de caso
+            </a>
         </div>
 
         <!-- IDENTIFICAÇÃO DO ALUNO -->
