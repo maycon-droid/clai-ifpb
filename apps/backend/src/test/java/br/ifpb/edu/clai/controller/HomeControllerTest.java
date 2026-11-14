@@ -1,24 +1,44 @@
 package br.ifpb.edu.clai.controller;
 
+import br.ifpb.edu.clai.repository.AlunoRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 class HomeControllerTest {
 
+    private AlunoRepository alunoRepository;
+    private Model model;
+    private HomeController controller;
+
+    @BeforeEach
+    void setUp() {
+        alunoRepository = mock(AlunoRepository.class);
+        model = mock(Model.class);
+        controller = new HomeController(alunoRepository);
+    }
+
     @Test
-    void deveRedirecionarRaizParaAlunos() throws Exception {
+    void deveExibirDashboardComTotalDeAlunos() {
+        when(alunoRepository.count()).thenReturn(5L);
 
-        MockMvc mockMvc = MockMvcBuilders
-                .standaloneSetup(new HomeController())
-                .build();
+        String view = controller.inicio(model);
 
-        mockMvc.perform(get("/"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/alunos"));
+        assertEquals("home", view);
+        verify(model).addAttribute("totalAlunos", 5L);
+        verify(alunoRepository).count();
+    }
+
+    @Test
+    void deveExibirZeroQuandoNaoExistiremAlunos() {
+        when(alunoRepository.count()).thenReturn(0L);
+
+        String view = controller.inicio(model);
+
+        assertEquals("home", view);
+        verify(model).addAttribute("totalAlunos", 0L);
     }
 }
