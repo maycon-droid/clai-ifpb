@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Início | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+      <main class="container home">
+        <header class="page-header home-header">
+          <div>
+            <h1>Visão geral</h1>
+            <p>Acompanhe as principais informações da CLAI.</p>
+          </div>
+        </header>
+
+        <section class="home-section" aria-labelledby="titulo-indicadores">
+          <h2 id="titulo-indicadores">Indicadores gerais</h2>
+
+          <div class="indicadores-grid">
+            <article class="indicador-card">
+              <div class="indicador-topo">
+                <span>Alunos cadastrados</span>
+                <span class="indicador-icone" aria-hidden="true">👥</span>
+              </div>
+
+              <strong class="indicador-valor" th:text="${totalAlunos}"
+                >0</strong
+              >
+              <a class="indicador-link" th:href="@{/alunos}">
+                Visualizar alunos
+              </a>
+            </article>
+
+            <article class="indicador-card">
+              <div class="indicador-topo">
+                <span>Atendimentos pendentes</span>
+                <span class="indicador-icone" aria-hidden="true">◷</span>
+              </div>
+
+              <strong class="indicador-valor">—</strong>
+              <span class="indicador-status">Aguardando integração</span>
+            </article>
+
+            <article class="indicador-card">
+              <div class="indicador-topo">
+                <span>Atendimentos concluídos</span>
+                <span class="indicador-icone" aria-hidden="true">✓</span>
+              </div>
+
+              <strong class="indicador-valor">—</strong>
+              <span class="indicador-status">Aguardando integração</span>
+            </article>
+
+            <article class="indicador-card">
+              <div class="indicador-topo">
+                <span>Atendimentos cancelados</span>
+                <span class="indicador-icone" aria-hidden="true">×</span>
+              </div>
+
+              <strong class="indicador-valor">—</strong>
+              <span class="indicador-status">Aguardando integração</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="home-section" aria-labelledby="titulo-acessos">
+          <h2 id="titulo-acessos">Acesso rápido</h2>
+
+          <div class="acessos-grid">
+            <a class="acesso-card" th:href="@{/alunos}">
+              <span class="acesso-icone" aria-hidden="true">👥</span>
+              <span class="acesso-conteudo">
+                <strong>Alunos</strong>
+                <small>Consultar e gerenciar alunos cadastrados</small>
+              </span>
+              <span class="acesso-seta" aria-hidden="true">→</span>
+            </a>
+
+            <a class="acesso-card" th:href="@{/estudos-de-caso}">
+              <span class="acesso-icone" aria-hidden="true">▤</span>
+              <span class="acesso-conteudo">
+                <strong>Estudos de Caso</strong>
+                <small>Consultar os registros de acompanhamento</small>
+              </span>
+              <span class="acesso-seta" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
