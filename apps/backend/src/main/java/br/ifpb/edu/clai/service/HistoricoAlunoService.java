@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 import br.ifpb.edu.clai.dto.EventoHistorico;
 import br.ifpb.edu.clai.model.EstudoDeCaso;
-
+import br.ifpb.edu.clai.exception.AlunoNaoEncontradoException;
+//1
 @Service
 public class HistoricoAlunoService {
     private final EstudoDeCasoService estudoDeCasoService;
@@ -26,7 +27,7 @@ public class HistoricoAlunoService {
         List<EventoHistorico> historico = new ArrayList<>();
 
         alunoService.buscarPorId(alunoId)
-                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+                .orElseThrow(() -> new AlunoNaoEncontradoException("Aluno não encontrado"));
 
         var estudosDeCaso = estudoDeCasoService.listarPorAluno(alunoId);
         for (EstudoDeCaso estudo : estudosDeCaso) {
@@ -45,6 +46,9 @@ public class HistoricoAlunoService {
 
         var relatorios = relatorioAtendimentoService.listarPorAluno(alunoId);
         for (var relatorio : relatorios) {
+            if(relatorio.getAlunoId() == null || !relatorio.getAlunoId().equals(alunoId)) {
+                continue; // Ignora relatórios que não pertencem ao aluno
+            }
             EventoHistorico evento = new EventoHistorico();
             evento.setData(relatorio.getDataAtendimento());
             evento.setTipo("Relatório de Atendimento");
