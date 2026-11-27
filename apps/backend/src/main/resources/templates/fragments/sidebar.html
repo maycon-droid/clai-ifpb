@@ -1,99 +1,123 @@
 <aside class="sidebar" th:fragment="sidebar">
-  <div class="sidebar-header">
-    <h2>CLAI</h2>
-    <button type="button" class="sidebar-toggle" aria-label="Recolher menu">
-      ☰
-    </button>
-  </div>
-  <nav>
-    <a href="/" th:href="@{/}">
-      <img
-        src="../../static/icons/house.svg"
-        th:src="@{/icons/house.svg}"
-        alt="house icon"
-        width="24"
-        height="24"
-      />
-      <span class="menu-texto">Início</span>
-    </a>
-    <a href="/alunos" th:href="@{/alunos}">
-      <img
-        src="../../static/icons/users.svg"
-        th:src="@{/icons/users.svg}"
-        alt="users icon"
-        width="24"
-        height="24"
-      />
-      <span class="menu-texto">Alunos</span>
-    </a>
-    <a href="/estudos-de-caso" th:href="@{/estudos-de-caso}">
-      <img
-        src="../../static/icons/clipboard-list.svg"
-        th:src="@{/icons/clipboard-list.svg}"
-        alt="clipboard-list icon"
-        width="24"
-        height="24"
-      />
-      <span class="menu-texto">Estudos de caso</span>
-    </a>
-  
-        <a href="/relatorios-atendimento" th:href="@{/relatorios-atendimento}">
-            <img
-                src="../../static/icons/file-chart.svg"
-                th:src="@{/icons/file-chart.svg}"
-                alt="Relatórios de atendimento"
-                width="24"
-                height="24"
-            />
-            <span class="menu-texto">Relatórios de atendimento</span>
+
+    <div class="sidebar-header">
+        <h2>CLAI</h2>
+
+        <button type="button"
+                class="sidebar-toggle"
+                aria-label="Recolher menu"
+                aria-expanded="true">
+            ☰
+        </button>
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <a class="sidebar-link em-desenvolvimento"
+           href="#"
+           aria-disabled="true"
+           title="Início">
+            <img th:src="@{/icons/house.svg}" alt="" width="24" height="24">
+            <span class="menu-texto">Início</span>
         </a>
-    <a href="/peis" th:href="@{/peis}">
-      <img
-        src="../../static/icons/clipboard-list.svg"
-        th:src="@{/icons/clipboard-list.svg}"
-        alt="clipboard-list icon"
-        width="24"
-        height="24"
-      />
-      <span class="menu-texto">PEIs</span>
-    </a>
-    <a href="/planos-acao" th:href="@{/planos-acao}">
-      <img
-        src="../../static/icons/clipboard-list.svg"
-        th:src="@{/icons/clipboard-list.svg}"
-        alt="clipboard-list icon"
-        width="24"
-        height="24"
-      />
-      <span class="menu-texto">Planos de Ação</span>
-    </a>
-    <a href="/relatorios-observacao" th:href="@{/relatorios-observacao}">
-      <img
-        src="../../static/icons/clipboard-list.svg"
-        th:src="@{/icons/clipboard-list.svg}"
-        alt="clipboard-list icon"
-        width="24"
-        height="24"
-      />
-      <span class="menu-texto">Relatórios de observação</span>
-    </a>
-</nav>
-  <script th:src="@{/js/sidebar.js}"></script>
 
-  <form class="sidebar-logout"
-        th:action="@{/logout}"
-        method="post">
+        <a class="sidebar-link"
+           th:href="@{/}"
+           title="Visão Geral">
+            <img th:src="@{/icons/file-chart.svg}" alt="" width="24" height="24">
+            <span class="menu-texto">Visão Geral</span>
+        </a>
 
-      <button type="submit"
-              class="sidebar-logout-botao"
-              aria-label="Sair da conta">
+        <a class="sidebar-link"
+           th:href="@{/alunos}"
+           title="Alunos">
+            <img th:src="@{/icons/users.svg}" alt="" width="24" height="24">
+            <span class="menu-texto">Alunos</span>
+        </a>
 
-          <span class="sidebar-logout-icone"
-                aria-hidden="true">↪</span>
+        <a class="sidebar-link em-desenvolvimento"
+           href="#"
+           aria-disabled="true"
+           title="Atendimentos">
+            <img th:src="@{/icons/calendar-clock.svg}" alt="" width="24" height="24">
+            <span class="menu-texto">Atendimentos</span>
+        </a>
 
-          <span class="menu-texto">Sair</span>
+        <div class="sidebar-grupo">
 
-      </button>
-  </form>
+            <button type="button"
+                    class="sidebar-link documentos-toggle sidebar-botao"
+                    aria-expanded="true"
+                    aria-controls="menu-documentos">
+                <img class="documentos-icone-aberto" th:src="@{/icons/folder-open.svg}" alt="" width="24" height="24"><img class="documentos-icone-fechado" th:src="@{/icons/folder.svg}" alt="" width="24" height="24">
+                <span class="menu-texto">Documentos</span>
+                <span class="documentos-seta" aria-hidden="true">⌄</span>
+            </button>
+
+            <div class="sidebar-submenu" id="menu-documentos">
+
+                <a class="sidebar-link"
+                   th:href="@{/estudos-de-caso}"
+                   title="Estudo de Caso">
+                    <img th:src="@{/icons/clipboard-list.svg}" alt="" width="24" height="24">
+                    <span class="menu-texto">Estudo de Caso</span>
+                </a>
+
+                <a class="sidebar-link"
+                   th:href="@{/peis}"
+                   title="PEI">
+                    <img th:src="@{/icons/target.svg}" alt="" width="24" height="24">
+                    <span class="menu-texto">PEI</span>
+                </a>
+
+                <a class="sidebar-link em-desenvolvimento"
+                   href="#"
+                   aria-disabled="true"
+                   title="PEA">
+                    <img th:src="@{/icons/list-checks.svg}" alt="" width="24" height="24">
+                    <span class="menu-texto">PEA</span>
+                </a>
+
+                <a class="sidebar-link em-desenvolvimento"
+                   href="#"
+                   aria-disabled="true"
+                   title="RAI">
+                    <img th:src="@{/icons/file-pen-line.svg}" alt="" width="24" height="24">
+                    <span class="menu-texto">RAI</span>
+                </a>
+
+                <a class="sidebar-link"
+                   th:href="@{/planos-acao}"
+                   title="Plano de Ação">
+                    <img th:src="@{/icons/route.svg}" alt="" width="24" height="24">
+                    <span class="menu-texto">Plano de Ação</span>
+                </a>
+
+                <a class="sidebar-link"
+                   th:href="@{/relatorios-observacao}"
+                   title="Relatório de Observação">
+                    <img th:src="@{/icons/eye.svg}" alt="" width="24" height="24">
+                    <span class="menu-texto">Relatório de Observação</span>
+                </a>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <form class="sidebar-logout"
+          th:action="@{/logout}"
+          method="post">
+
+        <button type="submit"
+                class="sidebar-logout-botao sidebar-botao"
+                aria-label="Sair da conta">
+            <img th:src="@{/icons/log-out.svg}" alt="" width="24" height="24">
+            <span class="menu-texto">Sair</span>
+        </button>
+
+    </form>
+
+    <script th:src="@{/js/sidebar.js}"></script>
 
 </aside>
