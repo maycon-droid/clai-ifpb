@@ -23,7 +23,9 @@
 
         <div class="detalhe-acoes">
           <div th:if="${voltarHistorico}">
-            <a th:href="@{/historico/{id}(id=${aluno.id})}">Voltar para o histórico</a>
+            <a th:href="@{/historico/{id}(id=${aluno.id})}" class="btn-voltar">
+              Voltar para o histórico
+            </a>
           </div>
           <a th:href="@{/estudos-de-caso}" class="btn-voltar">
             Voltar para listagem

@@ -6,6 +6,8 @@
     <title>Histórico do Aluno | CLAI</title>
 
     <link rel="stylesheet" th:href="@{/css/alunos.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
 
     <style>
       .historico-container {
@@ -112,18 +114,19 @@
   </head>
 
   <body>
-    <!-- Conteúdo principal -->
-    <main class="historico-container">
-      <div class="historico-header">
-        <div>
-          <h1>Histórico do Aluno</h1>
+    <div class="app-layout">
+      <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+      <main class="container">
+        <div class="historico-header">
+          <div>
+            <h1>Histórico do Aluno</h1>
           <p>Acompanhamentos e registros do aluno.</p>
         </div>
 
         <a th:href="@{/alunos}" class="btn-voltar"> Voltar para alunos </a>
       </div>
 
-      <!-- Informações do aluno -->
       <section class="aluno-info">
         <h2>Informações do aluno</h2>
 
@@ -137,9 +140,6 @@
           <span th:text="${matriculaAluno}">000000</span>
         </p>
       </section>
-
-      <!-- Linha do tempo -->
-
       <section class="timeline">
         <h2>Registros de acompanhamento</h2>
 
