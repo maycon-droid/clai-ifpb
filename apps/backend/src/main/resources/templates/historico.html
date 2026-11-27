@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórico do Aluno | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/alunos.css}" />
+
+    <style>
+      .historico-container {
+        padding: 30px;
+      }
+
+      .historico-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .historico-header h1 {
+        margin-bottom: 8px;
+      }
+
+      .aluno-info {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .aluno-info p {
+        margin: 8px 0;
+        color: #555;
+      }
+
+      .timeline {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .timeline-item {
+        position: relative;
+        padding: 0 0 25px 25px;
+        border-left: 2px solid #dce4ec;
+        margin-left: 8px;
+      }
+
+      .timeline-item:last-child {
+        border-left: none;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -7px;
+        top: 0;
+        width: 12px;
+        height: 12px;
+        background: #3478a8;
+        border-radius: 50%;
+      }
+
+      .registro-card {
+        background: #f8fafc;
+        padding: 18px;
+        border-radius: 8px;
+      }
+
+      .registro-data {
+        color: #3478a8;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      .registro-card h3 {
+        margin-bottom: 10px;
+      }
+
+      .registro-card p {
+        color: #555;
+        line-height: 1.6;
+      }
+
+      .registro-responsavel {
+        margin-top: 12px;
+        font-size: 13px;
+        color: #777;
+      }
+
+      .btn-voltar {
+        text-decoration: none;
+        padding: 10px 16px;
+        background: #e9eef3;
+        color: #333;
+        border-radius: 8px;
+      }
+
+      .historico-vazio {
+        text-align: center;
+        padding: 35px;
+        color: #777;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Conteúdo principal -->
+    <main class="historico-container">
+      <div class="historico-header">
+        <div>
+          <h1>Histórico do Aluno</h1>
+          <p>Acompanhamentos e registros do aluno.</p>
+        </div>
+
+        <a th:href="@{/alunos}" class="btn-voltar"> Voltar para alunos </a>
+      </div>
+
+      <!-- Informações do aluno -->
+      <section class="aluno-info">
+        <h2>Informações do aluno</h2>
+
+        <p>
+          <strong>Nome:</strong>
+          <span th:text="${nomeAluno}">Nome do aluno</span>
+        </p>
+
+        <p>
+          <strong>Matrícula:</strong>
+          <span th:text="${matriculaAluno}">000000</span>
+        </p>
+      </section>
+
+      <!-- Linha do tempo -->
+
+      <section class="timeline">
+        <h2>Registros de acompanhamento</h2>
+
+        <div
+          th:if="${historico != null and !historico.isEmpty()}"
+          th:each="registro : ${historico}"
+          class="timeline-item"
+        >
+          <div class="registro-card">
+            <div
+              class="registro-data"
+              th:text="${#temporals.format(registro.data, 'dd/MM/yyyy')}"
+            >
+              27/11/2026
+            </div>
+            <h3 th:text="${registro.titulo}">Atendimento inicial</h3>
+
+            <p th:text="${registro.descricao}">Descrição do acompanhamento.</p>
+
+            <div class="registro-responsavel">
+              Responsável:
+              <strong th:text="${registro.responsavel}"> Responsável </strong>
+            </div>
+
+            <small
+              th:if="${registro.origemId != null and !#strings.isEmpty(registro.tipo)}"
+            >
+              <a
+                th:href="@{/{tipo}/{id}(tipo=${#strings.toLowerCase(registro.tipo)}, id=${registro.origemId}, origem='historico')}"
+              >
+                Ver detalhes
+              </a>
+            </small>
+          </div>
+        </div>
+
+        <div
+          th:if="${historico == null or historico.isEmpty()}"
+          class="historico-vazio"
+        >
+          <h3>Nenhum registro encontrado</h3>
+          <p>Este aluno ainda não possui registros de acompanhamento.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
