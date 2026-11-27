@@ -14,5 +14,5 @@ public class EventoHistorico {
     private String titulo;
     private String descricao;
     private String origemId;
-
+    private String responsavel;
 }
