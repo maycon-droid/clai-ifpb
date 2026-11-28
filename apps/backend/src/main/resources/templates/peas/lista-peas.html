@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Planos de Ensino Adaptados | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/estudos-de-caso.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+</head>
+
+<body>
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+        <section class="page-header">
+            <div>
+                <h1>Planos de Ensino Adaptados</h1>
+                <p>Consulte e acompanhe os planos pedagógicos adaptados dos estudantes.</p>
+            </div>
+        </section>
+
+        <section class="resumo">
+            <div>
+                <p>Total de PEAs cadastrados</p>
+                <strong th:text="${#lists.size(peas)}">0</strong>
+            </div>
+        </section>
+
+        <section class="listagem">
+            <div class="listagem-toolbar">
+                <div class="busca">
+                    <input type="text" id="busca"
+                           placeholder="Buscar por estudante ou componente curricular"
+                           aria-label="Buscar Planos de Ensino Adaptados" />
+                </div>
+
+                <a th:if="${podeEditar}" th:href="@{/peas/novo}"
+                   class="btn-cadastrar">
+                    + Cadastrar PEA
+                </a>
+            </div>
+
+            <div class="estudos-grid" th:if="${!#lists.isEmpty(peas)}">
+                <article class="estudo-card" th:each="pea : ${peas}">
+                    <div class="estudo-card-header">
+                        <span class="estudo-identificador">Plano de Ensino Adaptado</span>
+                    </div>
+
+                    <div class="estudo-card-content">
+                        <div class="informacao">
+                            <span>Estudante</span>
+                            <strong th:text="${alunosPorPei[pea.peiId] != null ? alunosPorPei[pea.peiId].nome : 'Aluno não identificado'}">
+                                Nome do estudante
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Matrícula</span>
+                            <strong th:text="${alunosPorPei[pea.peiId] != null and alunosPorPei[pea.peiId].matricula != null ? alunosPorPei[pea.peiId].matricula.numeroMatricula : 'Não informada'}">
+                                Matrícula
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Curso</span>
+                            <strong th:text="${peisPorId[pea.peiId] != null ? peisPorId[pea.peiId].dadosAcademicos.curso : 'Não informado'}">
+                                Curso
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Componente curricular</span>
+                            <strong th:text="${pea.componenteCurricular}">
+                                Componente curricular
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Semestre/Ano</span>
+                            <strong th:text="${pea.semestreAno}">
+                                Semestre/Ano
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Docente responsável</span>
+                            <strong th:text="${pea.docente}">
+                                Docente
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="estudo-card-footer">
+                        <a th:href="@{/peas/{id}(id=${pea.id})}"
+                           class="btn-visualizar">
+                            Visualizar PEA
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="estado-vazio" th:if="${#lists.isEmpty(peas)}">
+                <h2>Nenhum PEA cadastrado</h2>
+                <p>Ainda não existem Planos de Ensino Adaptados registrados no sistema.</p>
+            </div>
+
+            <p id="sem-resultados" class="sem-resultados" hidden>
+                Nenhum PEA corresponde à sua busca.
+            </p>
+        </section>
+    </main>
+</div>
+
+<script th:src="@{/js/estudos-de-caso.js}"></script>
+</body>
+</html>
