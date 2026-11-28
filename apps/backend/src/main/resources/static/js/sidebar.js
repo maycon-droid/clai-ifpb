@@ -1,7 +1,9 @@
-document.addEventListener("DOMContentLoaded", function () {
+function iniciarSidebar() {
     const sideBar = document.querySelector(".sidebar");
 
-    if (!sideBar) return;
+    if (!sideBar || sideBar.dataset.inicializada === "true") return;
+
+    sideBar.dataset.inicializada = "true";
 
     const toggleButton = sideBar.querySelector(".sidebar-toggle");
     const documentosButton = sideBar.querySelector(".documentos-toggle");
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Abrir e fechar o grupo Documentos
+    // Abrir e fechar Documentos
     if (documentosButton && documentosMenu) {
         documentosButton.addEventListener("click", function () {
             if (sideBar.classList.contains("recolhida")) return;
@@ -35,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Identificar e destacar a página atual
     const caminhoAtual = window.location.pathname.replace(/\/+$/, "") || "/";
-
     const links = sideBar.querySelectorAll("a.sidebar-link:not(.em-desenvolvimento)");
 
     links.forEach(function (link) {
@@ -46,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
             link.classList.add("ativo");
             link.setAttribute("aria-current", "page");
 
-            // Se for um documento, manter o grupo aberto
             if (documentosMenu && documentosMenu.contains(link)) {
                 documentosMenu.classList.remove("fechado");
 
@@ -56,4 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
-});
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciarSidebar);
+} else {
+    iniciarSidebar();
+}

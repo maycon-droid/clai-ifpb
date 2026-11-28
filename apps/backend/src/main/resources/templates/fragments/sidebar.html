@@ -35,9 +35,8 @@
             <span class="menu-texto">Alunos</span>
         </a>
 
-        <a class="sidebar-link em-desenvolvimento"
-           href="#"
-           aria-disabled="true"
+        <a class="sidebar-link"
+           th:href="@{/atendimentos}"
            title="Atendimentos">
             <img th:src="@{/icons/calendar-clock.svg}" alt="" width="24" height="24">
             <span class="menu-texto">Atendimentos</span>
@@ -46,10 +45,10 @@
         <div class="sidebar-grupo">
 
             <button type="button"
-                    class="sidebar-link documentos-toggle sidebar-botao"
+                    class="sidebar-link documentos-toggle"
                     aria-expanded="true"
                     aria-controls="menu-documentos">
-                <img class="documentos-icone-aberto" th:src="@{/icons/folder-open.svg}" alt="" width="24" height="24"><img class="documentos-icone-fechado" th:src="@{/icons/folder.svg}" alt="" width="24" height="24">
+                <img th:src="@{/icons/folder-open.svg}" alt="" width="24" height="24">
                 <span class="menu-texto">Documentos</span>
                 <span class="documentos-seta" aria-hidden="true">⌄</span>
             </button>
@@ -89,7 +88,7 @@
                 <a class="sidebar-link"
                    th:href="@{/planos-acao}"
                    title="Plano de Ação">
-                    <img th:src="@{/icons/route.svg}" alt="" width="24" height="24">
+                    <img th:src="@{/icons/file-chart.svg}" alt="" width="24" height="24">
                     <span class="menu-texto">Plano de Ação</span>
                 </a>
 

@@ -48,7 +48,10 @@ public class SegurancaConfig {
                     "/planos-acao/novo",
                     "/planos-acao/{id}/editar",
                     "/relatorios-observacao/novo",
-                    "/relatorios-observacao/{id}/editar"
+                    "/relatorios-observacao/{id}/editar",
+                    "/agendamentos/novo",
+                    "/agendamentos/{id}/editar",
+                    "/agendamentos/{id}/finalizar"
                 ).hasRole("EDICAO")
 
                 .requestMatchers(
@@ -57,7 +60,8 @@ public class SegurancaConfig {
                     "/estudos-de-caso/**",
                     "/peis/**",
                     "/planos-acao/**",
-                    "/relatorios-observacao/**"
+                    "/relatorios-observacao/**",
+                    "/agendamentos/**"
                 ).hasRole("EDICAO")
 
                 .requestMatchers(
@@ -66,8 +70,8 @@ public class SegurancaConfig {
                     "/estudos-de-caso/**",
                     "/peis/**",
                     "/planos-acao/**",
-                    "/relatorios-observacao/**"
-                ).hasRole("EDICAO")
+                    "/relatorios-observacao/**",
+                    "/agendamentos/**").hasRole("EDICAO")
 
                 .requestMatchers(
                     HttpMethod.PATCH,
@@ -75,8 +79,8 @@ public class SegurancaConfig {
                     "/estudos-de-caso/**",
                     "/peis/**",
                     "/planos-acao/**",
-                    "/relatorios-observacao/**"
-                ).hasRole("EDICAO")
+                    "/relatorios-observacao/**",
+                    "/agendamentos/**").hasRole("EDICAO")
 
                 .requestMatchers(
                     HttpMethod.DELETE,
@@ -84,8 +88,8 @@ public class SegurancaConfig {
                     "/estudos-de-caso/**",
                     "/peis/**",
                     "/planos-acao/**",
-                    "/relatorios-observacao/**"
-                ).hasRole("EDICAO")
+                    "/relatorios-observacao/**",
+                    "/agendamentos/**").hasRole("EDICAO")
 
                 .anyRequest().authenticated()
             )
