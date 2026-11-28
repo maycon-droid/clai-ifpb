@@ -91,6 +91,24 @@
     font-weight: 600;
 }
 
+.campo label:has(input[type="checkbox"]) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.campo input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+    accent-color: #2563eb;
+}
+
+
 .campo input,
 .campo select,
 .campo textarea {
@@ -397,4 +415,28 @@ body {
     min-height: 100vh;
     height: auto;
     overflow: visible;
+}
+
+/* Alinhamento das opções de checkbox */
+.campo label:has(> input[type="checkbox"]) {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    line-height: 1.4;
+    vertical-align: middle;
+}
+
+.campo label > input[type="checkbox"] {
+    appearance: auto;
+    -webkit-appearance: checkbox;
+    display: inline-block;
+    width: 16px !important;
+    min-width: 16px;
+    height: 16px;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 0 16px;
+    vertical-align: middle;
 }

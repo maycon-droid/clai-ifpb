@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Detalhes do PEA | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/estudos-de-caso.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+</head>
+
+<body>
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+        <section class="page-header">
+            <h1>Plano de Ensino Adaptado</h1>
+            <p>Visualização do planejamento pedagógico adaptado do componente curricular.</p>
+        </section>
+
+        <div class="detalhe-acoes">
+            <a th:href="@{/peas}" class="btn-voltar">Voltar para listagem</a>
+
+            <a th:if="${podeEditar}"
+               th:href="@{/peas/{id}/editar(id=${pea.id})}"
+               class="btn-cadastrar">
+                Editar PEA
+            </a>
+        </div>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>1. Identificação do estudante e do PEI</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+                <div class="detalhe-campo">
+                    <span>Nome completo</span>
+                    <strong th:text="${aluno.nome}">Nome do estudante</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Matrícula</span>
+                    <strong th:text="${aluno.matricula?.numeroMatricula ?: 'Não informada'}">000000</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Curso</span>
+                    <strong th:text="${pei.dadosAcademicos.curso ?: 'Não informado'}">Curso</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Período letivo do PEI</span>
+                    <strong th:text="${pei.dadosAcademicos.periodoLetivo ?: 'Não informado'}">Período</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>2. Identificação do componente curricular</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+                <div class="detalhe-campo">
+                    <span>Componente curricular</span>
+                    <strong th:text="${pea.componenteCurricular}">Disciplina</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Semestre/Ano</span>
+                    <strong th:text="${pea.semestreAno}">Semestre/Ano</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Docente responsável</span>
+                    <strong th:text="${pea.docente}">Docente</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>3. Planejamento pedagógico</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+                <div class="detalhe-campo campo-completo">
+                    <span>Objetivo Geral do Componente Curricular</span>
+                    <p th:text="${pea.objetivoGeral}">Objetivo geral</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Objetivos Específicos</span>
+                    <p th:text="${pea.objetivosEspecificos}">Objetivos específicos</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Conteúdos Programáticos</span>
+                    <p th:text="${pea.conteudosProgramaticos}">Conteúdos programáticos</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>4. Estratégias de ensino e avaliação</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+                <div class="detalhe-campo campo-completo">
+                    <span>Metodologia</span>
+                    <p th:text="${pea.metodologia}">Metodologia</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Avaliação</span>
+                    <p th:text="${pea.avaliacao}">Avaliação</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>5. Referências e assinatura</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+                <div class="detalhe-campo campo-completo">
+                    <span>Bibliografia Básica</span>
+                    <p th:text="${pea.bibliografiaBasica ?: 'Não informada'}">Bibliografia básica</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Bibliografia Complementar</span>
+                    <p th:text="${pea.bibliografiaComplementar ?: 'Não informada'}">Bibliografia complementar</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Assinatura do(a) Docente</span>
+                    <p th:text="${pea.assinaturaDocente ?: 'Não informada'}">Assinatura</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

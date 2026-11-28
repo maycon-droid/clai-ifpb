@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Relatórios de Acompanhamento Individualizado | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/estudos-de-caso.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+</head>
+
+<body>
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+
+        <section class="page-header">
+            <div>
+                <h1>Relatórios de Acompanhamento Individualizado</h1>
+                <p>Consulte e acompanhe o desenvolvimento individual dos estudantes.</p>
+            </div>
+        </section>
+
+        <section class="resumo">
+            <div>
+                <p>Total de RAIs cadastrados</p>
+                <strong th:text="${#lists.size(rais)}">0</strong>
+            </div>
+        </section>
+
+        <section class="listagem">
+
+            <div class="listagem-toolbar">
+                <div class="busca">
+                    <input type="text"
+                           id="busca"
+                           placeholder="Buscar por estudante ou componente curricular"
+                           aria-label="Buscar Relatórios de Acompanhamento Individualizado" />
+                </div>
+
+                <a th:if="${podeEditar}"
+                   th:href="@{/rais/novo}"
+                   class="btn-cadastrar">
+                    + Cadastrar RAI
+                </a>
+            </div>
+
+            <div class="estudos-grid" th:if="${!#lists.isEmpty(rais)}">
+
+                <article class="estudo-card" th:each="rai : ${rais}">
+
+                    <div class="estudo-card-header">
+                        <span class="estudo-identificador">
+                            Relatório de Acompanhamento Individualizado
+                        </span>
+                    </div>
+
+                    <div class="estudo-card-content">
+
+                        <div class="informacao">
+                            <span>Estudante</span>
+                            <strong th:text="${alunosPorRai[rai.id] != null ? alunosPorRai[rai.id].nome : 'Aluno não identificado'}">
+                                Nome do estudante
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Matrícula</span>
+                            <strong th:text="${alunosPorRai[rai.id] != null and alunosPorRai[rai.id].matricula != null ? alunosPorRai[rai.id].matricula.numeroMatricula : 'Não informada'}">
+                                Matrícula
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Curso</span>
+                            <strong th:text="${peisPorRai[rai.id] != null ? peisPorRai[rai.id].dadosAcademicos.curso : 'Não informado'}">
+                                Curso
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Componente curricular</span>
+                            <strong th:text="${peasPorRai[rai.id] != null ? peasPorRai[rai.id].componenteCurricular : 'Não informado'}">
+                                Componente curricular
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Semestre/Ano</span>
+                            <strong th:text="${peasPorRai[rai.id] != null ? peasPorRai[rai.id].semestreAno : 'Não informado'}">
+                                Semestre/Ano
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Docente responsável</span>
+                            <strong th:text="${peasPorRai[rai.id] != null ? peasPorRai[rai.id].docente : 'Não informado'}">
+                                Docente
+                            </strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>Data do relatório</span>
+                            <strong th:text="${rai.dataRelatorio != null ? #temporals.format(rai.dataRelatorio, 'dd/MM/yyyy') : 'Não informada'}">
+                                Data
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="estudo-card-footer">
+                        <a th:href="@{/rais/{id}(id=${rai.id})}"
+                           class="btn-visualizar">
+                            Visualizar RAI
+                        </a>
+                    </div>
+
+                </article>
+
+            </div>
+
+            <div class="estado-vazio" th:if="${#lists.isEmpty(rais)}">
+                <h2>Nenhum RAI cadastrado</h2>
+                <p>Ainda não existem Relatórios de Acompanhamento Individualizado registrados no sistema.</p>
+            </div>
+
+            <p id="sem-resultados" class="sem-resultados" hidden>
+                Nenhum RAI corresponde à sua busca.
+            </p>
+
+        </section>
+
+    </main>
+</div>
+
+<script th:src="@{/js/estudos-de-caso.js}"></script>
+
+</body>
+</html>

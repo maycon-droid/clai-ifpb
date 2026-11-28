@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Detalhes do RAI | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/estudos-de-caso.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+</head>
+
+<body>
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+
+        <section class="page-header">
+            <h1>Relatório de Acompanhamento Individualizado</h1>
+            <p>Visualização do acompanhamento e desenvolvimento individual do estudante.</p>
+        </section>
+
+        <div class="detalhe-acoes">
+            <a th:href="@{/rais}" class="btn-voltar">Voltar para listagem</a>
+
+            <a th:if="${podeEditar}"
+               th:href="@{/rais/{id}/editar(id=${rai.id})}"
+               class="btn-cadastrar">
+                Editar RAI
+            </a>
+        </div>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>1. Identificação do estudante e do componente curricular</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo">
+                    <span>Nome completo</span>
+                    <strong th:text="${aluno.nome}">Nome do estudante</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Matrícula</span>
+                    <strong th:text="${aluno.matricula?.numeroMatricula ?: 'Não informada'}">Matrícula</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Curso</span>
+                    <strong th:text="${pei.dadosAcademicos.curso ?: 'Não informado'}">Curso</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Componente curricular</span>
+                    <strong th:text="${pea.componenteCurricular}">Componente curricular</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Semestre/Ano</span>
+                    <strong th:text="${pea.semestreAno}">Semestre/Ano</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Docente responsável</span>
+                    <strong th:text="${pea.docente}">Docente</strong>
+                </div>
+
+                <div class="detalhe-campo">
+                    <span>Data do relatório</span>
+                    <strong th:text="${rai.dataRelatorio != null ? #temporals.format(rai.dataRelatorio, 'dd/MM/yyyy') : 'Não informada'}">Data</strong>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>2. Aspectos observados</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Relacionamento</span>
+
+                    <p th:if="${#lists.isEmpty(rai.relacionamento)}">Não informado</p>
+
+                    <ul th:unless="${#lists.isEmpty(rai.relacionamento)}">
+                        <li th:each="item : ${rai.relacionamento}" th:text="${item}">Aspecto</li>
+                    </ul>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Outros aspectos de relacionamento</span>
+                    <p th:text="${rai.outrosRelacionamento ?: 'Não informado'}">Outros</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Comentários sobre relacionamento</span>
+                    <p th:text="${rai.comentarioRelacionamento ?: 'Não informado'}">Comentários</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Principais habilidades cognitivas</span>
+
+                    <p th:if="${#lists.isEmpty(rai.habilidadesCognitivas)}">Não informado</p>
+
+                    <ul th:unless="${#lists.isEmpty(rai.habilidadesCognitivas)}">
+                        <li th:each="item : ${rai.habilidadesCognitivas}" th:text="${item}">Habilidade</li>
+                    </ul>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Outras habilidades cognitivas</span>
+                    <p th:text="${rai.outrasHabilidadesCognitivas ?: 'Não informado'}">Outras</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Comentários sobre habilidades cognitivas</span>
+                    <p th:text="${rai.comentarioHabilidadesCognitivas ?: 'Não informado'}">Comentários</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Principais habilidades socioemocionais</span>
+
+                    <p th:if="${#lists.isEmpty(rai.habilidadesSocioemocionais)}">Não informado</p>
+
+                    <ul th:unless="${#lists.isEmpty(rai.habilidadesSocioemocionais)}">
+                        <li th:each="item : ${rai.habilidadesSocioemocionais}" th:text="${item}">Habilidade</li>
+                    </ul>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Outras habilidades socioemocionais</span>
+                    <p th:text="${rai.outrasHabilidadesSocioemocionais ?: 'Não informado'}">Outras</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Comentários sobre habilidades socioemocionais</span>
+                    <p th:text="${rai.comentarioHabilidadesSocioemocionais ?: 'Não informado'}">Comentários</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>3. Acompanhamento geral no período</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Avanços gerais</span>
+                    <p th:text="${rai.avancosGerais ?: 'Não informado'}">Avanços gerais</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Dificuldades de aprendizagem observadas</span>
+                    <p th:text="${rai.dificuldadesAprendizagem ?: 'Não informado'}">Dificuldades</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Fatores externos que influenciam o processo escolar</span>
+                    <p th:text="${rai.fatoresExternos ?: 'Não informado'}">Fatores externos</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>4. Habilidades e competências desenvolvidas</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo campo-completo"
+                     th:if="${#lists.isEmpty(rai.habilidadesDesenvolvidas)}">
+                    <p>Nenhuma habilidade registrada.</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo"
+                     th:each="habilidade, iter : ${rai.habilidadesDesenvolvidas}">
+
+                    <strong th:text="${'Habilidade ' + (iter.index + 1)}">Habilidade</strong>
+
+                    <span>Descrição</span>
+                    <p th:text="${habilidade.habilidade}">Descrição da habilidade</p>
+
+                    <span>Nível de aprendizado</span>
+                    <p th:text="${habilidade.nivelAprendizado}">Nível</p>
+
+                    <span>Observações</span>
+                    <p th:text="${habilidade.observacoes ?: 'Não informadas'}">Observações</p>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="detalhe-secao">
+            <div class="detalhe-secao-header">
+                <h2>5. Parecer e finalização</h2>
+            </div>
+
+            <div class="detalhe-conteudo">
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Parecer</span>
+                    <p th:text="${rai.parecer ?: 'Não informado'}">Parecer</p>
+                </div>
+
+                <div class="detalhe-campo campo-completo">
+                    <span>Assinatura do(a) docente</span>
+                    <p th:text="${rai.assinaturaDocente ?: 'Não informada'}">Assinatura</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</div>
+</body>
+</html>

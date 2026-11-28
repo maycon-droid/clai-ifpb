@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${pea.id == null ? 'Cadastrar PEA | CLAI' : 'Editar PEA | CLAI'}">PEA | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/formulario_estudo_de_caso.css}">
+</head>
+
+<body>
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <h1 th:text="${pea.id == null ? 'Cadastrar Plano de Ensino Adaptado' : 'Editar Plano de Ensino Adaptado'}">
+                    Plano de Ensino Adaptado
+                </h1>
+                <p>Planejamento pedagógico das adaptações curriculares do estudante.</p>
+            </div>
+
+            <a th:href="@{/peas}" class="btn-voltar">Voltar</a>
+        </header>
+
+        <form id="formulario-estudo"
+              th:object="${pea}"
+              th:action="${pea.id == null} ? @{/peas/salvar} : @{/peas/{id}/editar(id=${pea.id})}"
+              method="post">
+
+            <section class="form-section" th:if="${#fields.hasErrors('*')}">
+                <p class="mensagem-erro"
+                   th:each="erro : ${#fields.errors('*')}"
+                   th:text="${erro}"></p>
+            </section>
+
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>1. Identificação do estudante e do PEI</h2>
+                    <p>Vincule este PEA ao Plano Educacional Individualizado correspondente.</p>
+                </div>
+
+                <div class="campo" th:if="${pea.id == null}">
+                    <label for="pei-id">Plano Educacional Individualizado *</label>
+                    <select th:field="*{peiId}" id="pei-id" required>
+                        <option value="">Selecione o PEI</option>
+                        <option th:each="p : ${peis}"
+                                th:value="${p.id}"
+                                th:text="${alunosPorPei[p.id].nome + ' — Matrícula: ' + alunosPorPei[p.id].matricula.numeroMatricula + ' — ' + p.dadosAcademicos.curso + ' — PEI: ' + p.dadosAcademicos.periodoLetivo}">
+                            Estudante — Matrícula — Curso — Período
+                        </option>
+                    </select>
+                </div>
+
+                <input type="hidden" th:if="${pea.id != null}" th:field="*{peiId}">
+
+                <div class="campo" th:if="${pea.id != null}">
+                    <label>Estudante</label>
+                    <input type="text" th:value="${aluno.nome}" readonly>
+                </div>
+
+                <div class="campo" th:if="${pea.id != null}">
+                    <label>Matrícula</label>
+                    <input type="text" th:value="${aluno.matricula.numeroMatricula}" readonly>
+                </div>
+
+                <div class="campo" th:if="${pea.id != null}">
+                    <label>Curso</label>
+                    <input type="text" th:value="${pei.dadosAcademicos.curso}" readonly>
+                </div>
+
+                <div class="campo" th:if="${pea.id != null}">
+                    <label>Período letivo do PEI</label>
+                    <input type="text" th:value="${pei.dadosAcademicos.periodoLetivo}" readonly>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>2. Identificação do componente curricular</h2>
+                    <p>Informe os dados da disciplina que receberá adaptações.</p>
+                </div>
+
+                <div class="campo">
+                    <label for="componente-curricular">Componente Curricular *</label>
+                    <input type="text" id="componente-curricular"
+                           th:field="*{componenteCurricular}" maxlength="255" required>
+                </div>
+
+                <div class="campo">
+                    <label for="semestre-ano">Semestre/Ano *</label>
+                    <input type="text" id="semestre-ano"
+                           th:field="*{semestreAno}" maxlength="50"
+                           placeholder="Ex.: 2026.2" required>
+                </div>
+
+                <div class="campo">
+                    <label for="docente">Docente responsável *</label>
+                    <input type="text" id="docente"
+                           th:field="*{docente}" maxlength="255" required>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>3. Planejamento pedagógico</h2>
+                    <p>Descreva os objetivos e os conteúdos previstos para o componente curricular.</p>
+                </div>
+
+                <div class="campo">
+                    <label for="objetivo-geral">Objetivo Geral do Componente Curricular *</label>
+                    <textarea id="objetivo-geral" th:field="*{objetivoGeral}"
+                              maxlength="5000" required></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="objetivos-especificos">Objetivos Específicos *</label>
+                    <textarea id="objetivos-especificos" th:field="*{objetivosEspecificos}"
+                              maxlength="5000" required></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="conteudos-programaticos">Conteúdos Programáticos *</label>
+                    <textarea id="conteudos-programaticos" th:field="*{conteudosProgramaticos}"
+                              maxlength="5000" required></textarea>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>4. Estratégias de ensino e avaliação</h2>
+                    <p>Registre como o planejamento será desenvolvido e acompanhado.</p>
+                </div>
+
+                <div class="campo">
+                    <label for="metodologia">Metodologia *</label>
+                    <textarea id="metodologia" th:field="*{metodologia}"
+                              maxlength="5000" required></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="avaliacao">Avaliação *</label>
+                    <textarea id="avaliacao" th:field="*{avaliacao}"
+                              maxlength="5000" required></textarea>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>5. Referências e assinatura</h2>
+                    <p>Informe as referências utilizadas e a identificação do docente.</p>
+                </div>
+
+                <div class="campo">
+                    <label for="bibliografia-basica">Bibliografia Básica</label>
+                    <textarea id="bibliografia-basica" th:field="*{bibliografiaBasica}"
+                              maxlength="5000"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="bibliografia-complementar">Bibliografia Complementar</label>
+                    <textarea id="bibliografia-complementar" th:field="*{bibliografiaComplementar}"
+                              maxlength="5000"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="assinatura-docente">Assinatura do(a) Docente</label>
+                    <input type="text" id="assinatura-docente"
+                           th:field="*{assinaturaDocente}" maxlength="255">
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <a th:href="@{/peas}" class="btn-cancelar">Cancelar</a>
+                <button type="submit" class="btn-salvar"
+                        th:text="${pea.id == null ? 'Salvar PEA' : 'Atualizar PEA'}">
+                    Salvar PEA
+                </button>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

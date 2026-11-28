@@ -45,10 +45,17 @@ public class SegurancaConfig {
                     "/estudos-de-caso/{id}/editar",
                     "/peis/novo",
                     "/peis/{id}/editar",
+                    "/peas/novo",
+                    "/peas/{id}/editar",
+                    "/rais/novo",
+                    "/rais/{id}/editar",
                     "/planos-acao/novo",
                     "/planos-acao/{id}/editar",
                     "/relatorios-observacao/novo",
-                    "/relatorios-observacao/{id}/editar"
+                    "/relatorios-observacao/{id}/editar",
+                    "/agendamentos/novo",
+                    "/agendamentos/{id}/editar",
+                    "/agendamentos/{id}/finalizar"
                 ).hasRole("EDICAO")
 
                 .requestMatchers(
@@ -56,8 +63,11 @@ public class SegurancaConfig {
                     "/alunos/**",
                     "/estudos-de-caso/**",
                     "/peis/**",
+                    "/peas/**",
+                    "/rais/**",
                     "/planos-acao/**",
-                    "/relatorios-observacao/**"
+                    "/relatorios-observacao/**",
+                    "/agendamentos/**"
                 ).hasRole("EDICAO")
 
                 .requestMatchers(
@@ -65,27 +75,33 @@ public class SegurancaConfig {
                     "/alunos/**",
                     "/estudos-de-caso/**",
                     "/peis/**",
+                    "/peas/**",
+                    "/rais/**",
                     "/planos-acao/**",
-                    "/relatorios-observacao/**"
-                ).hasRole("EDICAO")
+                    "/relatorios-observacao/**",
+                    "/agendamentos/**").hasRole("EDICAO")
 
                 .requestMatchers(
                     HttpMethod.PATCH,
                     "/alunos/**",
                     "/estudos-de-caso/**",
                     "/peis/**",
+                    "/peas/**",
+                    "/rais/**",
                     "/planos-acao/**",
-                    "/relatorios-observacao/**"
-                ).hasRole("EDICAO")
+                    "/relatorios-observacao/**",
+                    "/agendamentos/**").hasRole("EDICAO")
 
                 .requestMatchers(
                     HttpMethod.DELETE,
                     "/alunos/**",
                     "/estudos-de-caso/**",
                     "/peis/**",
+                    "/peas/**",
+                    "/rais/**",
                     "/planos-acao/**",
-                    "/relatorios-observacao/**"
-                ).hasRole("EDICAO")
+                    "/relatorios-observacao/**",
+                    "/agendamentos/**").hasRole("EDICAO")
 
                 .anyRequest().authenticated()
             )
