@@ -47,6 +47,8 @@ public class SegurancaConfig {
                     "/peis/{id}/editar",
                     "/peas/novo",
                     "/peas/{id}/editar",
+                    "/rais/novo",
+                    "/rais/{id}/editar",
                     "/planos-acao/novo",
                     "/planos-acao/{id}/editar",
                     "/relatorios-observacao/novo",
@@ -62,6 +64,7 @@ public class SegurancaConfig {
                     "/estudos-de-caso/**",
                     "/peis/**",
                     "/peas/**",
+                    "/rais/**",
                     "/planos-acao/**",
                     "/relatorios-observacao/**",
                     "/agendamentos/**"
@@ -73,6 +76,7 @@ public class SegurancaConfig {
                     "/estudos-de-caso/**",
                     "/peis/**",
                     "/peas/**",
+                    "/rais/**",
                     "/planos-acao/**",
                     "/relatorios-observacao/**",
                     "/agendamentos/**").hasRole("EDICAO")
@@ -83,6 +87,7 @@ public class SegurancaConfig {
                     "/estudos-de-caso/**",
                     "/peis/**",
                     "/peas/**",
+                    "/rais/**",
                     "/planos-acao/**",
                     "/relatorios-observacao/**",
                     "/agendamentos/**").hasRole("EDICAO")
@@ -93,6 +98,7 @@ public class SegurancaConfig {
                     "/estudos-de-caso/**",
                     "/peis/**",
                     "/peas/**",
+                    "/rais/**",
                     "/planos-acao/**",
                     "/relatorios-observacao/**",
                     "/agendamentos/**").hasRole("EDICAO")
