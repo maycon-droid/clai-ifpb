@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${rai.id == null ? 'Cadastrar RAI | CLAI' : 'Editar RAI | CLAI'}">RAI | CLAI</title>
+
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/formulario_estudo_de_caso.css}">
+</head>
+
+<body>
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+
+        <header class="page-header">
+            <div>
+                <h1 th:text="${rai.id == null ? 'Cadastrar Relatório de Acompanhamento Individualizado' : 'Editar Relatório de Acompanhamento Individualizado'}">
+                    Relatório de Acompanhamento Individualizado
+                </h1>
+                <p>Registro dos avanços, habilidades e necessidades do estudante.</p>
+            </div>
+
+            <a th:href="@{/rais}" class="btn-voltar">Voltar</a>
+        </header>
+
+        <form id="formulario-estudo"
+              th:object="${rai}"
+              th:action="${rai.id == null}
+                  ? @{/rais/salvar}
+                  : @{/rais/{id}/editar(id=${rai.id})}"
+              method="post">
+
+            <section class="form-section" th:if="${#fields.hasErrors('*')}">
+                <p class="mensagem-erro"
+                   th:each="erro : ${#fields.errors('*')}"
+                   th:text="${erro}">
+                </p>
+            </section>
+
+            <!-- 1. Identificação -->
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>1. Identificação do estudante e do PEA</h2>
+                    <p>Vincule o relatório ao Plano de Ensino Adaptado correspondente.</p>
+                </div>
+
+                <div class="campo" th:if="${rai.id == null}">
+                    <label for="pea-id">Plano de Ensino Adaptado *</label>
+
+                    <select th:field="*{peaId}" id="pea-id" required>
+                        <option value="">Selecione o PEA</option>
+
+                        <option th:each="p : ${peas}"
+                                th:value="${p.id}"
+                                th:text="${alunosPorPea[p.id].nome
+                                    + ' — Matrícula: '
+                                    + (alunosPorPea[p.id].matricula != null
+                                        ? alunosPorPea[p.id].matricula.numeroMatricula
+                                        : 'Não informada')
+                                    + ' — '
+                                    + p.componenteCurricular
+                                    + ' — '
+                                    + p.semestreAno}">
+                            Estudante — Matrícula — Componente — Período
+                        </option>
+                    </select>
+                </div>
+
+                <input type="hidden"
+                       th:if="${rai.id != null}"
+                       th:field="*{peaId}">
+
+                <div th:if="${pea != null}">
+                    <div class="campo">
+                        <label>Estudante</label>
+                        <input type="text" th:value="${aluno.nome}" readonly>
+                    </div>
+
+                    <div class="campo">
+                        <label>Matrícula</label>
+                        <input type="text"
+                               th:value="${aluno.matricula != null
+                                   ? aluno.matricula.numeroMatricula
+                                   : 'Não informada'}"
+                               readonly>
+                    </div>
+
+                    <div class="campo">
+                        <label>Curso</label>
+                        <input type="text" th:value="${pei.dadosAcademicos.curso}" readonly>
+                    </div>
+
+                    <div class="campo">
+                        <label>Componente curricular</label>
+                        <input type="text" th:value="${pea.componenteCurricular}" readonly>
+                    </div>
+
+                    <div class="campo">
+                        <label>Semestre/Ano</label>
+                        <input type="text" th:value="${pea.semestreAno}" readonly>
+                    </div>
+
+                    <div class="campo">
+                        <label>Docente responsável</label>
+                        <input type="text" th:value="${pea.docente}" readonly>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Relacionamento -->
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>2. Aspectos observados — Relacionamento</h2>
+                    <p>Assinale as características observadas no período.</p>
+                </div>
+
+                <div class="campo">
+                    <label>Relacionamento</label>
+
+                    <div>
+                        <label><input type="checkbox" th:field="*{relacionamento}" value="Afetivo"> Afetivo</label>
+                        <label><input type="checkbox" th:field="*{relacionamento}" value="Agressivo"> Agressivo</label>
+                        <label><input type="checkbox" th:field="*{relacionamento}" value="Socializado"> Socializado</label>
+                        <label><input type="checkbox" th:field="*{relacionamento}" value="Antissocial"> Antissocial</label>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="outros-relacionamento">Outros</label>
+                    <input type="text" id="outros-relacionamento"
+                           th:field="*{outrosRelacionamento}" maxlength="500">
+                </div>
+
+                <div class="campo">
+                    <label for="comentario-relacionamento">Comentários</label>
+                    <textarea id="comentario-relacionamento"
+                              th:field="*{comentarioRelacionamento}"
+                              maxlength="5000"></textarea>
+                </div>
+            </section>
+
+            <!-- 3. Habilidades cognitivas e socioemocionais -->
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>3. Habilidades cognitivas</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Principais habilidades cognitivas observadas</label>
+
+                    <div>
+                        <label><input type="checkbox" th:field="*{habilidadesCognitivas}" value="Foco"> Foco</label>
+                        <label><input type="checkbox" th:field="*{habilidadesCognitivas}" value="Memória"> Memória</label>
+                        <label><input type="checkbox" th:field="*{habilidadesCognitivas}" value="Atenção"> Atenção</label>
+                        <label><input type="checkbox" th:field="*{habilidadesCognitivas}" value="Compreensão geral"> Compreensão geral</label>
+                        <label><input type="checkbox" th:field="*{habilidadesCognitivas}" value="Criatividade"> Criatividade</label>
+                        <label><input type="checkbox" th:field="*{habilidadesCognitivas}" value="Responsabilidades sociais"> Responsabilidades sociais</label>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="outras-cognitivas">Outras habilidades cognitivas</label>
+                    <input type="text" id="outras-cognitivas"
+                           th:field="*{outrasHabilidadesCognitivas}" maxlength="500">
+                </div>
+
+                <div class="campo">
+                    <label for="comentario-cognitivas">Comentários</label>
+                    <textarea id="comentario-cognitivas"
+                              th:field="*{comentarioHabilidadesCognitivas}"
+                              maxlength="5000"></textarea>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>4. Habilidades socioemocionais</h2>
+                </div>
+
+                <div class="campo">
+                    <label>Principais habilidades socioemocionais observadas</label>
+
+                    <div>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Empatia"> Empatia</label>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Autoestima"> Autoestima</label>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Ética"> Ética</label>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Autoconhecimento"> Autoconhecimento</label>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Confiança"> Confiança</label>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Compromisso"> Compromisso</label>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Autonomia"> Autonomia</label>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Criatividade"> Criatividade</label>
+                        <label><input type="checkbox" th:field="*{habilidadesSocioemocionais}" value="Paciência"> Paciência</label>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="outras-socioemocionais">Outras habilidades socioemocionais</label>
+                    <input type="text" id="outras-socioemocionais"
+                           th:field="*{outrasHabilidadesSocioemocionais}" maxlength="500">
+                </div>
+
+                <div class="campo">
+                    <label for="comentario-socioemocionais">Comentários</label>
+                    <textarea id="comentario-socioemocionais"
+                              th:field="*{comentarioHabilidadesSocioemocionais}"
+                              maxlength="5000"></textarea>
+                </div>
+            </section>
+
+            <!-- 5. Acompanhamento geral -->
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>5. Acompanhamento geral</h2>
+                    <p>Registre os aspectos observados no processo de aprendizagem.</p>
+                </div>
+
+                <div class="campo">
+                    <label for="avancos-gerais">Avanços gerais no período</label>
+                    <textarea id="avancos-gerais"
+                              th:field="*{avancosGerais}"
+                              maxlength="5000"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="dificuldades">Dificuldades de aprendizagem observadas</label>
+                    <textarea id="dificuldades"
+                              th:field="*{dificuldadesAprendizagem}"
+                              maxlength="5000"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="fatores-externos">Fatores externos que influenciam o processo escolar</label>
+                    <textarea id="fatores-externos"
+                              th:field="*{fatoresExternos}"
+                              maxlength="5000"></textarea>
+                </div>
+            </section>
+
+            <!-- 6. Habilidades desenvolvidas -->
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>6. Habilidades e competências desenvolvidas</h2>
+                    <p>Adicione até sete habilidades, informando o nível de aprendizagem e as observações.</p>
+                </div>
+
+                <div id="lista-habilidades">
+                    <div class="habilidade-item"
+                         th:each="habilidade, iter : ${rai.habilidadesDesenvolvidas}">
+
+                        <div class="campo">
+                            <label>Habilidade desenvolvida</label>
+                            <input type="text"
+                                   th:field="*{habilidadesDesenvolvidas[__${iter.index}__].habilidade}"
+                                   maxlength="1000"
+                                   required>
+                        </div>
+
+                        <div class="campo">
+                            <label>Nível de aprendizagem</label>
+                            <select th:field="*{habilidadesDesenvolvidas[__${iter.index}__].nivelAprendizado}"
+                                    required>
+                                <option value="">Selecione</option>
+                                <option value="Satisfatório">Satisfatório</option>
+                                <option value="Bom">Bom</option>
+                                <option value="Ótimo">Ótimo</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label>Observações</label>
+                            <textarea th:field="*{habilidadesDesenvolvidas[__${iter.index}__].observacoes}"
+                                      maxlength="5000"></textarea>
+                        </div>
+
+                        <button type="button" class="btn-cancelar remover-habilidade">
+                            Remover habilidade
+                        </button>
+                    </div>
+                </div>
+
+                <button type="button" id="adicionar-habilidade" class="btn-voltar">
+                    + Adicionar habilidade
+                </button>
+
+                <p id="limite-habilidades" class="mensagem-erro" hidden>
+                    O limite de sete habilidades foi atingido.
+                </p>
+            </section>
+
+            <!-- 7. Parecer e finalização -->
+            <section class="form-section">
+                <div class="section-header">
+                    <h2>7. Parecer e finalização</h2>
+                    <p>Registre a avaliação do desenvolvimento do estudante em relação ao PEA.</p>
+                </div>
+
+                <div class="campo">
+                    <label for="parecer">Parecer</label>
+                    <textarea id="parecer"
+                              th:field="*{parecer}"
+                              maxlength="10000"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="data-relatorio">Data do relatório *</label>
+                    <input type="date"
+                           id="data-relatorio"
+                           th:field="*{dataRelatorio}"
+                           required>
+                </div>
+
+                <div class="campo">
+                    <label for="assinatura-docente">Assinatura do(a) docente</label>
+                    <input type="text"
+                           id="assinatura-docente"
+                           th:field="*{assinaturaDocente}"
+                           maxlength="255">
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <a th:href="@{/rais}" class="btn-cancelar">Cancelar</a>
+
+                <button type="submit" class="btn-salvar"
+                        th:text="${rai.id == null ? 'Salvar RAI' : 'Atualizar RAI'}">
+                    Salvar RAI
+                </button>
+            </div>
+        </form>
+    </main>
+</div>
+
+<script>
+    const listaHabilidades = document.getElementById("lista-habilidades");
+    const botaoAdicionar = document.getElementById("adicionar-habilidade");
+    const avisoLimite = document.getElementById("limite-habilidades");
+
+    function atualizarIndices() {
+        const itens = listaHabilidades.querySelectorAll(".habilidade-item");
+
+        itens.forEach((item, index) => {
+            const campos = item.querySelectorAll("input, select, textarea");
+
+            campos[0].name = `habilidadesDesenvolvidas[${index}].habilidade`;
+            campos[1].name = `habilidadesDesenvolvidas[${index}].nivelAprendizado`;
+            campos[2].name = `habilidadesDesenvolvidas[${index}].observacoes`;
+        });
+
+        botaoAdicionar.disabled = itens.length >= 7;
+        avisoLimite.hidden = itens.length < 7;
+    }
+
+    function adicionarHabilidade() {
+        const quantidade = listaHabilidades.querySelectorAll(".habilidade-item").length;
+
+        if (quantidade >= 7) {
+            atualizarIndices();
+            return;
+        }
+
+        const item = document.createElement("div");
+        item.className = "habilidade-item";
+
+        item.innerHTML = `
+            <div class="campo">
+                <label>Habilidade desenvolvida</label>
+                <input type="text" maxlength="1000" required>
+            </div>
+
+            <div class="campo">
+                <label>Nível de aprendizagem</label>
+                <select required>
+                    <option value="">Selecione</option>
+                    <option value="Satisfatório">Satisfatório</option>
+                    <option value="Bom">Bom</option>
+                    <option value="Ótimo">Ótimo</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label>Observações</label>
+                <textarea maxlength="5000"></textarea>
+            </div>
+
+            <button type="button" class="btn-cancelar remover-habilidade">
+                Remover habilidade
+            </button>
+        `;
+
+        listaHabilidades.appendChild(item);
+        atualizarIndices();
+    }
+
+    botaoAdicionar.addEventListener("click", adicionarHabilidade);
+
+    listaHabilidades.addEventListener("click", function(event) {
+        if (event.target.classList.contains("remover-habilidade")) {
+            event.target.closest(".habilidade-item").remove();
+            atualizarIndices();
+        }
+    });
+
+    atualizarIndices();
+</script>
+
+</body>
+</html>
