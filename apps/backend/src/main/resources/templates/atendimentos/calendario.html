@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atendimentos | CLAI</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+    <link rel="stylesheet" th:href="@{/css/atendimentos.css}" />
+</head>
+<body>
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="container">
+        <section class="page-header">
+            <h1>Central de Atendimentos</h1>
+            <p>Organize os agendamentos e acompanhe os atendimentos dos alunos.</p>
+        </section>
+
+        <section class="atendimentos-indicadores">
+            <article class="indicador-card indicador-agendados">
+                <span>Agendados</span>
+                <strong th:text="${totalAgendados}">0</strong>
+            </article>
+            <article class="indicador-card indicador-realizados">
+                <span>Realizados</span>
+                <strong th:text="${totalRealizados}">0</strong>
+            </article>
+            <article class="indicador-card indicador-pendentes">
+                <span>Pendentes</span>
+                <strong th:text="${totalPendentes}">0</strong>
+            </article>
+            <article class="indicador-card indicador-cancelados">
+                <span>Cancelados</span>
+                <strong th:text="${totalCancelados}">0</strong>
+            </article>
+        </section>
+
+        <section class="atendimentos-paineis">
+
+            <div class="calendario-painel">
+                <div class="calendario-cabecalho">
+                    <div>
+                        <h2>Agenda mensal</h2>
+                        <p class="calendario-mes"
+                           th:text="${#temporals.format(mesAtual.atDay(1), 'MMMM yyyy')}">
+                            novembro 2026
+                        </p>
+                    </div>
+
+                    <div class="calendario-acoes">
+                        <a class="botao-secundario"
+                           th:href="@{/atendimentos(mes=${mesAnterior})}"
+                           aria-label="Mês anterior">‹</a>
+
+                        <a class="botao-secundario" th:href="@{/atendimentos}">Hoje</a>
+
+                        <a class="botao-secundario"
+                           th:href="@{/atendimentos(mes=${mesSeguinte})}"
+                           aria-label="Próximo mês">›</a>
+
+                        <a class="botao-principal" th:href="@{/agendamentos/novo}">
+                            + Novo agendamento
+                        </a>
+                    </div>
+                </div>
+
+                <div class="calendario-grade">
+                    <div class="calendario-dia-semana">Seg</div>
+                    <div class="calendario-dia-semana">Ter</div>
+                    <div class="calendario-dia-semana">Qua</div>
+                    <div class="calendario-dia-semana">Qui</div>
+                    <div class="calendario-dia-semana">Sex</div>
+                    <div class="calendario-dia-semana">Sáb</div>
+                    <div class="calendario-dia-semana">Dom</div>
+
+                    <article class="calendario-dia"
+                             th:each="dia : ${diasCalendario}"
+                             th:classappend="${dia.monthValue != mesAtual.monthValue} ? ' dia-fora-mes' : (${dia.equals(T(java.time.LocalDate).now())} ? ' dia-hoje' : '')">
+
+                        <span class="calendario-numero-dia"
+                              th:text="${dia.dayOfMonth}">1</span>
+
+                        <div class="calendario-eventos">
+                            <a class="calendario-evento"
+                               th:each="agendamento : ${agendamentos}"
+                               th:if="${agendamento.data.equals(dia)}"
+                               th:href="@{/agendamentos/{id}(id=${agendamento.id})}"
+                               th:style="|border-left: 4px solid ${agendamento.cor};|">
+
+                                <strong th:text="${#temporals.format(agendamento.horaInicio, 'HH:mm')}">09:00</strong>
+                                <span th:text="${nomesAlunos[agendamento.alunoId] != null ? nomesAlunos[agendamento.alunoId] : 'Aluno não identificado'}">Nome do aluno</span>
+                                <small th:text="${agendamento.status}">AGENDADO</small>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="calendario-legenda">
+                    A faixa colorida representa a cor personalizada do agendamento.
+                </p>
+            </div>
+
+            <aside class="agenda-hoje-painel">
+                <div class="agenda-hoje-cabecalho">
+                    <div>
+                        <h2>Agenda de hoje</h2>
+                        <p th:text="${#temporals.format(hoje, 'dd/MM/yyyy')}">28/11/2026</p>
+                    </div>
+
+                    <span class="agenda-hoje-total"
+                          th:text="${#lists.size(agendaHoje)}">0</span>
+                </div>
+
+                <div class="agenda-hoje-lista"
+                     th:if="${!#lists.isEmpty(agendaHoje)}">
+
+                    <a class="agenda-hoje-item"
+                       th:each="agendamento : ${agendaHoje}"
+                       th:classappend="${agendamento.status.name() == 'REALIZADO'} ? ' agenda-hoje-realizado' : (${agendamento.status.name() == 'CANCELADO'} ? ' agenda-hoje-cancelado' : '')"
+                       th:href="@{/agendamentos/{id}(id=${agendamento.id})}"
+                       th:style="|border-left: 4px solid ${agendamento.cor};|">
+
+                        <strong class="agenda-hoje-horario"
+                                th:text="${#temporals.format(agendamento.horaInicio, 'HH:mm')}">
+                            09:00
+                        </strong>
+
+                        <span class="agenda-hoje-aluno"
+                              th:text="${nomesAlunos[agendamento.alunoId] != null ? nomesAlunos[agendamento.alunoId] : 'Aluno não identificado'}">
+                            Nome do aluno
+                        </span>
+
+                        <span class="agenda-hoje-profissional"
+                              th:text="${agendamento.profissionalResponsavel}">
+                            Profissional responsável
+                        </span>
+
+                        <small class="agenda-hoje-status"
+                               th:text="${agendamento.status}">
+                            AGENDADO
+                        </small>
+                    </a>
+                </div>
+
+                <div class="agenda-hoje-vazia"
+                     th:if="${#lists.isEmpty(agendaHoje)}">
+                    <p>Nenhum atendimento agendado para hoje.</p>
+                    <span>Aproveite para organizar os próximos atendimentos.</span>
+                </div>
+            </aside>
+
+        </section>
+
+        <section class="atalhos-atendimentos">
+            <div>
+                <h2>Relatórios de atendimento</h2>
+                <p>Consulte os registros e o histórico dos atendimentos realizados.</p>
+            </div>
+            <a class="botao-secundario" th:href="@{/relatorios-atendimento}">
+                Acessar relatórios
+            </a>
+        </section>
+    </main>
+</div>
+</body>
+</html>

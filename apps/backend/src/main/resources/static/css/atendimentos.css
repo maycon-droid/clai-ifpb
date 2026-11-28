@@ -1,0 +1,467 @@
+/* Cabeçalho */
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    color: #1e293b;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: #64748b;
+    font-size: 15px;
+}
+
+/* Indicadores */
+.atendimentos-indicadores {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.indicador-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.indicador-card span {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.indicador-card strong {
+    font-size: 28px;
+    color: #1e293b;
+}
+
+.indicador-agendados strong { color: #2563eb; }
+.indicador-realizados strong { color: #15803d; }
+.indicador-pendentes strong { color: #d97706; }
+.indicador-cancelados strong { color: #dc2626; }
+
+/* Painel do calendário */
+.calendario-painel {
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.calendario-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.calendario-cabecalho h2,
+.atalhos-atendimentos h2 {
+    margin: 0 0 7px;
+    color: #1e293b;
+    font-size: 19px;
+}
+
+.calendario-mes {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+.calendario-acoes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.botao-principal,
+.botao-secundario {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.botao-principal {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.botao-principal:hover {
+    background: #1d4ed8;
+}
+
+.botao-secundario {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.botao-secundario:hover {
+    background: #cbd5e1;
+}
+
+/* Grade mensal */
+.calendario-grade {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    border-top: 1px solid #e2e8f0;
+    border-left: 1px solid #e2e8f0;
+}
+
+.calendario-dia-semana {
+    padding: 12px 4px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.calendario-dia {
+    min-width: 0;
+    min-height: 125px;
+    padding: 8px;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.calendario-numero-dia {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 27px;
+    height: 27px;
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: 13px;
+    border-radius: 50%;
+}
+
+.dia-fora-mes {
+    background: #f8fafc;
+}
+
+.dia-fora-mes .calendario-numero-dia {
+    color: #94a3b8;
+}
+
+.dia-hoje .calendario-numero-dia {
+    background: #2563eb;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Eventos */
+.calendario-eventos {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.calendario-evento {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    padding: 6px;
+    border-radius: 5px;
+    background: #eff6ff;
+    color: #334155;
+    text-decoration: none;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+.calendario-evento:hover {
+    background: #dbeafe;
+}
+
+.calendario-evento strong {
+    color: #1e40af;
+    font-size: 11px;
+}
+
+.calendario-evento span {
+    font-weight: 600;
+}
+
+.calendario-evento small {
+    color: #64748b;
+    font-size: 9px;
+}
+
+.calendario-legenda {
+    margin: 15px 0 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* Atalho para relatórios */
+.atalhos-atendimentos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+.atalhos-atendimentos p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .atendimentos-indicadores {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .calendario-dia {
+        min-height: 110px;
+        padding: 5px;
+    }
+}
+
+@media (max-width: 600px) {
+    .page-header h1 {
+        font-size: 23px;
+    }
+
+    .calendario-painel {
+        padding: 12px;
+    }
+
+    .calendario-cabecalho {
+        align-items: stretch;
+    }
+
+    .calendario-acoes {
+        width: 100%;
+    }
+
+    .calendario-acoes .botao-principal {
+        flex: 1;
+    }
+
+    .calendario-grade {
+        min-width: 620px;
+    }
+
+    .calendario-painel {
+        overflow-x: auto;
+    }
+
+    .calendario-dia {
+        min-height: 95px;
+    }
+
+    .calendario-evento {
+        padding: 4px;
+        font-size: 10px;
+    }
+
+    .atalhos-atendimentos {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .atalhos-atendimentos .botao-secundario {
+        width: 100%;
+    }
+}
+
+/* Painéis: calendário e agenda diária */
+.atendimentos-paineis {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.8fr);
+    align-items: start;
+    gap: 20px;
+}
+
+.calendario-painel {
+    min-width: 0;
+}
+
+/* Agenda de hoje */
+.agenda-hoje-painel {
+    min-width: 0;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.agenda-hoje-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.agenda-hoje-cabecalho h2 {
+    margin: 0 0 6px;
+    color: #1e293b;
+    font-size: 19px;
+}
+
+.agenda-hoje-cabecalho p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.agenda-hoje-total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.agenda-hoje-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.agenda-hoje-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.agenda-hoje-item:hover {
+    background: #eff6ff;
+}
+
+.agenda-hoje-horario {
+    color: #2563eb;
+    font-size: 14px;
+}
+
+.agenda-hoje-aluno {
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.agenda-hoje-profissional {
+    color: #64748b;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.agenda-hoje-status {
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.agenda-hoje-vazia {
+    padding: 24px 12px;
+    text-align: center;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.agenda-hoje-vazia p {
+    margin: 0 0 8px;
+    color: #334155;
+    font-weight: 600;
+}
+
+.agenda-hoje-vazia span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* Responsividade dos painéis */
+@media (max-width: 1100px) {
+    .atendimentos-paineis {
+        grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
+        gap: 14px;
+    }
+
+    .calendario-painel,
+    .agenda-hoje-painel {
+        padding: 14px;
+    }
+}
+
+@media (max-width: 850px) {
+    .atendimentos-paineis {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Status dos atendimentos na agenda de hoje */
+
+/* REALIZADO - verde */
+.agenda-hoje-item.agenda-hoje-realizado {
+    background: #f0fdf4;
+    border-left-color: #16a34a !important;
+}
+
+.agenda-hoje-realizado .agenda-hoje-horario,
+.agenda-hoje-realizado .agenda-hoje-aluno,
+.agenda-hoje-realizado .agenda-hoje-profissional,
+.agenda-hoje-realizado .agenda-hoje-status {
+    color: #15803d;
+    text-decoration: line-through;
+}
+
+/* CANCELADO - vermelho */
+.agenda-hoje-item.agenda-hoje-cancelado {
+    background: #fef2f2;
+    border-left-color: #dc2626 !important;
+}
+
+.agenda-hoje-cancelado .agenda-hoje-horario,
+.agenda-hoje-cancelado .agenda-hoje-aluno,
+.agenda-hoje-cancelado .agenda-hoje-profissional,
+.agenda-hoje-cancelado .agenda-hoje-status {
+    color: #b91c1c;
+    text-decoration: line-through;
+}
