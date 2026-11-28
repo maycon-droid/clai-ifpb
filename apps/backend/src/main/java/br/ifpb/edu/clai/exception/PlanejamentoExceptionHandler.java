@@ -11,6 +11,7 @@ public class PlanejamentoExceptionHandler {
 
     @ExceptionHandler({
             PlanoAcaoNaoEncontradaException.class,
+            PeaNaoEncontradoException.class,
             PlanoAcaoDuplicadoException.class,
             RelatorioObservacaoNaoEncontradoException.class
     })
